@@ -169,6 +169,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
     });
 }
 
+
 - (void)putInputStream:(NSInputStream *)inputStream
               sourceId:(NSString *)sourceId
                   size:(long long)size
@@ -183,18 +184,19 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
     }
 
     @autoreleasepool {
-        QNUploadSourceStream *source = [QNUploadSourceStream stream:inputStream sourceId:sourceId size:size fileName:fileName];
-        [self putInternal:source key:key token:token complete:completionHandler option:option];
+        //QNUploadSourceStream *source = [QNUploadSourceStream stream:inputStream sourceId:sourceId size:size fileName:fileName];
+        //[self putInternal:source key:key token:token complete:completionHandler option:option];
     }
 }
-
 - (void)putFile:(NSString *)filePath
+         bucket:(NSString *)bucket
             key:(NSString *)key
-          token:(NSString *)token
+      accessKey:(NSString *)accessKey
+signatureHanlder:(QNUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(QNUploadOption *)option {
     
-    if ([QNUploadManager checkAndNotifyError:key token:token input:filePath complete:completionHandler]) {
+    if ([QNUploadManager checkAndNotifyError:key token:@"" input:filePath complete:completionHandler]) {
         return;
     }
 
@@ -203,7 +205,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
         __block QNFile *file = [[QNFile alloc] init:filePath error:&error];
         if (error) {
             QNResponseInfo *info = [QNResponseInfo responseInfoWithFileError:error];
-            [QNUploadManager complete:token
+            [QNUploadManager complete:@""
                                   key:key
                                source:nil
                          responseInfo:info
@@ -212,7 +214,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        [self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        [self putFileInternal:file key:key bucket:bucket accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
     }
 }
 
@@ -242,7 +244,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        [self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
     }
 #endif
 }
@@ -273,7 +275,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        [self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
     }
 #endif
 }
@@ -302,33 +304,50 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        [self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
     }
 #endif
 }
 
 - (void)putFileInternal:(id<QNFileDelegate>)file
                     key:(NSString *)key
-                  token:(NSString *)token
+                 bucket:(NSString *)bucket
+              accessKey:(NSString *)accessKey
+        signatureHanlder:(QNUpSignatureHandler)signatureHandler
                complete:(QNUpCompletionHandler)completionHandler
                  option:(QNUploadOption *)option {
     [self putInternal:[QNUploadSourceFile file:file]
-                  key:key token:token
+                  key:key
+               bucket:bucket
+            accessKey:accessKey
+     signatureHanlder:signatureHandler
              complete:completionHandler
                option:option];
 }
 
 - (void)putInternal:(id<QNUploadSource>)source
                 key:(NSString *)key
-              token:(NSString *)token
+             bucket:(NSString *)bucket
+          accessKey:(NSString *)accessKey
+    signatureHanlder:(QNUpSignatureHandler)signatureHandler
            complete:(QNUpCompletionHandler)completionHandler
              option:(QNUploadOption *)option {
     
     @autoreleasepool {
-        QNUpToken *t = [QNUpToken parse:token];
+        
+        long deadLine = [[NSDate date] timeIntervalSince1970] + self.config.signatureTimeoutInterval;
+        QNUpToken *t = [[QNUpToken alloc] initBucket:bucket
+                                            deadLine:deadLine
+                                           accessKey:accessKey];
+        t.signatureHandler = ^(NSString *contentNeedSignature, QNUpTokenSignatureResultHandler result) {
+            signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
+                result(signature, error);
+            });
+        };
+        
         if (t == nil || ![t isValid]) {
             QNResponseInfo *info = [QNResponseInfo responseInfoWithInvalidToken:@"invalid token"];
-            [QNUploadManager complete:token
+            [QNUploadManager complete:[t toString]
                                   key:key
                                source:source
                          responseInfo:info
@@ -340,7 +359,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
 
 
         QNUpTaskCompletionHandler complete = ^(QNResponseInfo *info, NSString *key, QNUploadTaskMetrics *metrics, NSDictionary *resp) {
-            [QNUploadManager complete:token
+            [QNUploadManager complete:[t toString]
                                   key:key
                                source:source
                          responseInfo:info
@@ -349,8 +368,8 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                              complete:completionHandler];
         };
 
-        QNServerConfigMonitor.token = token;
-        [[QNTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
+        //QNServerConfigMonitor.token = [t toString];
+        //[[QNTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
 
         long long sourceSize = [source getSize];
         if (sourceSize > 0 && sourceSize <= self.config.putThreshold) {
@@ -359,7 +378,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
             [source close];
             if (error) {
                 QNResponseInfo *info = [QNResponseInfo responseInfoWithFileError:error];
-                [QNUploadManager complete:token
+                [QNUploadManager complete:[t toString]
                                       key:key
                                    source:source
                              responseInfo:info
@@ -466,7 +485,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
      taskMetrics:(QNUploadTaskMetrics *)taskMetrics
         complete:(QNUpCompletionHandler)completionHandler {
     
-    [QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
+    //[QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
     
     QNAsyncRunInMain(^{
         if (completionHandler) {

@@ -72,7 +72,7 @@ typedef BOOL (^QNUpCancellationSignal)(void);
 /**
  *    中途取消函数
  */
-@property (copy, readonly) QNUpCancellationSignal cancellationSignal;
+@property (copy, readwrite) QNUpCancellationSignal cancellationSignal;
 
 /**
  *    可选参数的初始化方法

@@ -79,4 +79,9 @@
                                 response:(NSHTTPURLResponse *)response
                                     body:(NSData *)body
                                    error:(NSError *)error;
+
+- (instancetype)initWithResponse:(NSHTTPURLResponse *)response
+                            body:(NSData *)body
+                           error:(NSError *)error;
+
 @end

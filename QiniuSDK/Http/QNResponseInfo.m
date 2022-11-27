@@ -9,6 +9,7 @@
 #import "QNResponseInfo.h"
 #import "QNUserAgent.h"
 #import "QNUtils.h"
+#import "XMLReader.h"
 
 static NSString *kQNErrorDomain = @"qiniu.com";
 
@@ -197,6 +198,48 @@ static NSString *kQNErrorDomain = @"qiniu.com";
     return self;
 }
 
+- (instancetype)initWithResponse:(NSHTTPURLResponse *)response
+                            body:(NSData *)body
+                           error:(NSError *)error {
+    self = [super init];
+    if (self) {
+        if (response) {
+            int statusCode = (int)[response statusCode];
+            NSDictionary *headers = [response allHeaderFields];
+            _responseHeader = [headers copy];
+            _statusCode = statusCode;
+            if (error) {
+                _error = error;
+                _statusCode = (int)error.code;
+                _message = [NSString stringWithFormat:@"%@", error];
+                _responseDictionary = nil;
+            } else if (statusCode >= 200 && statusCode < 300) {
+                _error = nil;
+                _message = @"ok";
+                _responseDictionary = [self parseXML:body];
+            } else {
+                //todo
+            }
+        }
+        else if (error) {
+            _error = error;
+            _statusCode = (int)error.code;
+            _message = [NSString stringWithFormat:@"%@", error];
+            _responseDictionary = nil;
+        } else {
+            _statusCode = kQNUnexpectedSysCallError;
+            _message = @"no response";
+        }
+    }
+    return self;
+}
+
+- (NSDictionary *)parseXML:(NSData *)data {
+    NSError *error = nil;
+    NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
+    return dictionary;
+}
+
 - (BOOL)isCancelled {
     return _statusCode == kQNRequestCancelled || _statusCode == -999;
 }
@@ -222,7 +265,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 }
 
 - (BOOL)isOK {
-    return (_statusCode >= 200 && _statusCode < 300) && _error == nil && (_reqId != nil || _xlog != nil);
+    return (_statusCode >= 200 && _statusCode < 300) && _error == nil;
 }
 
 - (BOOL)couldRetry {
@@ -249,9 +292,11 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 }
 
 - (BOOL)couldRegionRetry{
+    /*
     if (![self isQiniu]) {
         return YES;
     }
+    */
     
     if (self.isCancelled
         || _statusCode == 100

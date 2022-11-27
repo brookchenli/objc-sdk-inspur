@@ -67,6 +67,7 @@ connectionProxy:(NSDictionary *)connectionProxy
 }
 
 - (void)cancel{
+    NSLog(@"cancel self.uploadTask:%@", self.uploadTask);
     [self.uploadTask cancel];
 }
 
@@ -140,7 +141,7 @@ connectionProxy:(NSDictionary *)connectionProxy
              didSendBodyData:(int64_t)bytesSent
               totalBytesSent:(int64_t)totalBytesSent
     totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
-    
+    NSLog(@"didSendBodyData self.uploadTask:%@ task:%@", self.uploadTask, task);
     self.requestMetrics.countOfRequestBodyBytesSent = totalBytesSent;
     if (self.progress) {
         self.progress(totalBytesSent, totalBytesExpectedToSend);

@@ -44,8 +44,8 @@
         kQNStrongSelf;
         kQNStrongObj(transaction);
                 
-        NSString *uploadId = response[@"uploadId"];
-        NSNumber *expireAt = response[@"expireAt"];
+        NSString *uploadId = response[@"InitiateMultipartUploadResult"][@"UploadId"][@"text"];
+        NSNumber *expireAt = @(self.token.deadline);
         if (responseInfo.isOK && uploadId && expireAt) {
             uploadInfo.uploadId = uploadId;
             uploadInfo.expireAt = expireAt;
@@ -107,9 +107,9 @@
         kQNStrongSelf;
         kQNStrongObj(transaction);
 
-        NSString *etag = response[@"etag"];
-        NSString *md5 = response[@"md5"];
-        if (responseInfo.isOK && etag && md5) {
+        NSString *etag = responseInfo.responseHeader[@"etag"];
+        etag = [etag stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        if (responseInfo.isOK && etag) {
             data.etag = etag;
             data.state = QNUploadStateComplete;
             [self recordUploadInfo];

@@ -130,16 +130,25 @@
         }
         
         NSDictionary *responseDic = nil;
+        /*
         if (responseData) {
             responseDic = [NSJSONSerialization JSONObjectWithData:responseData
                                                           options:NSJSONReadingMutableLeaves
                                                             error:nil];
         }
+       
         
         responseInfo = [[QNResponseInfo alloc] initWithResponseInfoHost:request.qn_domain
                                                                response:(NSHTTPURLResponse *)response
                                                                    body:responseData
                                                                   error:error];
+         
+         */
+        
+        responseInfo = [[QNResponseInfo alloc] initWithResponse:(NSHTTPURLResponse *)response body:responseData error:error];
+        responseDic = responseInfo.responseDictionary;
+        
+        /*
         BOOL isSafeDnsSource = kQNIsDnsSourceCustom(server.source) || kQNIsDnsSourceDoh(server.source) || kQNIsDnsSourceDnsPod(server.source);
         BOOL hijacked = responseInfo.isNotQiniu && !isSafeDnsSource;
         if (hijacked) {
@@ -148,7 +157,9 @@
             metrics.syncDnsSource = [kQNDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
             metrics.syncDnsError = err;
         }
+        */
         
+        /*
         if (!hijacked && [self shouldCheckConnect:responseInfo]) {
             // 网络状态检测
             QNUploadSingleRequestMetrics *connectCheckMetrics = [QNConnectChecker check];
@@ -165,11 +176,11 @@
         }
         
         [self reportRequest:responseInfo server:server requestMetrics:metrics];
+        */
         
         QNLogInfo(@"key:%@ response:%@", self.requestInfo.key, responseInfo);
         if (shouldRetry(responseInfo, responseDic)
-            && self.currentRetryTime < self.config.retryMax
-            && responseInfo.couldHostRetry) {
+            && self.currentRetryTime < self.config.retryMax) {
             self.currentRetryTime += 1;
             QNAsyncRunAfter(self.config.retryInterval, kQNBackgroundQueue, ^{
                 [self retryRequest:request server:server shouldRetry:shouldRetry progress:progress complete:complete];

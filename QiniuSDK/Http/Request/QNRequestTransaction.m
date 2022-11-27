@@ -362,30 +362,37 @@
     
     self.requestInfo.requestType = QNUploadRequestTypeInitParts;
     
-    NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
+    NSMutableString *action = [NSMutableString stringWithFormat:@"/%@", self.token.bucket];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    header[@"Authorization"] = token;
-    header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
-
-    NSString *buckets = [[NSString alloc] initWithFormat:@"/buckets/%@", self.token.bucket];
-    NSString *objects = [[NSString alloc] initWithFormat:@"/objects/%@", [self resumeV2EncodeKey:self.key]];;
-    NSString *action  = [[NSString alloc] initWithFormat:@"%@%@/uploads", buckets, objects];
-
+    if (self.key) {
+        [action appendFormat:@"/%@", self.key];
+    } else {
+       
+    }
+    [action appendFormat:@"?uploads&AccessKeyId=%@&Expires=%@", self.token.access, @(self.token.deadline)];
+    NSString *contentNeedSignature = [self.signatureContentGenerator partInit];
+    
     BOOL (^shouldRetry)(QNResponseInfo *, NSDictionary *) = ^(QNResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)(!responseInfo.isOK);
     };
     
-    [self.regionRequest post:action
-                     headers:header
-                        body:nil
-                 shouldRetry:shouldRetry
-                    progress:nil
-                    complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    kQNWeakSelf;
+    self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
+        [action appendFormat:@"&Signature=%@", signature ?: @""];
+        kQNStrongSelf;
+        [self.regionRequest post:action
+                         headers:header
+                            body:nil
+                     shouldRetry:shouldRetry
+                        progress:nil
+                        complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
-        complete(responseInfo, metrics, response);
-    }];
+            complete(responseInfo, metrics, response);
+        }];
+    });
 }
+
+
 
 - (void)uploadPart:(NSString *)uploadId
          partIndex:(NSInteger)partIndex
@@ -394,9 +401,9 @@
           complete:(QNRequestTransactionCompleteHandler)complete{
     
     self.requestInfo.requestType = QNUploadRequestTypeUploadPart;
-    
-    NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
+    /*
+    NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/octet-stream";
     header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
@@ -411,21 +418,32 @@
     NSString *uploads = [[NSString alloc] initWithFormat:@"/uploads/%@", uploadId];
     NSString *partNumber = [[NSString alloc] initWithFormat:@"/%ld", (long)partIndex];
     NSString *action = [[NSString alloc] initWithFormat:@"%@%@%@%@", buckets, objects, uploads, partNumber];
+     */
+    NSString *partNumber = [[NSString alloc] initWithFormat:@"%ld", (long)partIndex];
+    NSString *action = [NSString stringWithFormat:@"/%@/%@?partNumber=%@&uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, self.key, @(partIndex), uploadId, self.token.access, @(self.token.deadline)];
+   
     BOOL (^shouldRetry)(QNResponseInfo *, NSDictionary *) = ^(QNResponseInfo * responseInfo, NSDictionary * response){
-        NSString *etag = [NSString stringWithFormat:@"%@", response[@"etag"]];
-        NSString *serverMD5 = [NSString stringWithFormat:@"%@", response[@"md5"]];
-        return (BOOL)(!responseInfo.isOK || !etag || !serverMD5);
+        //NSString *etag = [NSString stringWithFormat:@"%@", response[@"etag"]];
+        //NSString *serverMD5 = [NSString stringWithFormat:@"%@", response[@"md5"]];
+        //return (BOOL)(!responseInfo.isOK || !etag || !serverMD5);
+        return (BOOL)(!responseInfo.isOK );
     };
-    
-    [self.regionRequest put:action
-                    headers:header
-                       body:partData
-                shouldRetry:shouldRetry
-                   progress:progress
-                   complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    NSString *contentNeedSignature = [self.signatureContentGenerator partUpload:uploadId partIndex:partNumber];
+    kQNWeakSelf;
+    self.token.signatureHandler(contentNeedSignature, ^(NSString *signture, NSError * _Nullable error) {
+        kQNStrongSelf;
+        [self.regionRequest put:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
+                        headers:header
+                           body:partData
+                    shouldRetry:shouldRetry
+                       progress:progress
+                       complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
-        complete(responseInfo, metrics, response);
-    }];
+            complete(responseInfo, metrics, response);
+        }];
+    });
+    
+    ;
 }
 
 - (void)completeParts:(NSString *)fileName
@@ -442,61 +460,46 @@
         }
         return;
     }
-    
-    NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
+    //NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    header[@"Authorization"] = token;
-    header[@"Content-Type"] = @"application/json";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    //header[@"Authorization"] = token;
+    header[@"Content-Type"] = @"text/plain";
+    //header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
     
-    NSString *buckets = [[NSString alloc] initWithFormat:@"/buckets/%@", self.token.bucket];
-    NSString *objects = [[NSString alloc] initWithFormat:@"/objects/%@", [self resumeV2EncodeKey:self.key]];
-    NSString *uploads = [[NSString alloc] initWithFormat:@"/uploads/%@", uploadId];
+    //NSString *buckets = [[NSString alloc] initWithFormat:@"/buckets/%@", self.token.bucket];
+    //NSString *objects = [[NSString alloc] initWithFormat:@"/objects/%@", [self resumeV2EncodeKey:self.key]];
+    //NSString *uploads = [[NSString alloc] initWithFormat:@"/uploads/%@", uploadId];
+    NSLog(@"infoArray:%@", partInfoArray);
     
-    NSString *action = [[NSString alloc] initWithFormat:@"%@%@%@", buckets, objects, uploads];
+    NSString *action = [NSString stringWithFormat:@"/%@/%@?uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, self.key, uploadId, self.token.access, @(self.token.deadline)];
 
-    NSMutableDictionary *bodyDictionary = [NSMutableDictionary dictionary];
-    if (partInfoArray) {
-        bodyDictionary[@"parts"] = partInfoArray;
-    }
-    if (fileName) {
-        bodyDictionary[@"fname"] = fileName;
-    }
-    if (self.uploadOption.mimeType) {
-        bodyDictionary[@"mimeType"] = self.uploadOption.mimeType;
-    }
-    if (self.uploadOption.params) {
-        bodyDictionary[@"customVars"] = self.uploadOption.params;
-    }
-    if (self.uploadOption.metaDataParam) {
-        bodyDictionary[@"metaData"] = self.uploadOption.metaDataParam;
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *value in partInfoArray) {
+        NSString *partNumber = [NSString stringWithFormat:@"%@", [value objectForKey:@"partNumber"]];
+        NSString *ETag = [NSString stringWithFormat:@"%@", [value objectForKey:@"etag"]];
+        [array addObject:[NSString stringWithFormat:@"<Part><PartNumber>%@</PartNumber><ETag>%@</ETag></Part>", partNumber, ETag]];
     }
     
-    NSError *error = nil;
-    NSData *body = [NSJSONSerialization dataWithJSONObject:bodyDictionary
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    if (error) {
-        QNResponseInfo *responseInfo = [QNResponseInfo responseInfoWithLocalIOError:error.description];
-        if (complete) {
-            complete(responseInfo, nil, responseInfo.responseDictionary);
-        }
-        return;
-    }
-    
+    NSString *bodySting = [NSString stringWithFormat:@"<CompleteMultipartUpload>%@</CompleteMultipartUpload>", [array componentsJoinedByString:@""]];
+    NSData *body = [bodySting dataUsingEncoding:NSUTF8StringEncoding];
     BOOL (^shouldRetry)(QNResponseInfo *, NSDictionary *) = ^(QNResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)(!responseInfo.isOK);
     };
     
-    [self.regionRequest post:action
-                     headers:header
-                        body:body
-                 shouldRetry:shouldRetry
-                    progress:nil
-                    complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-
-        complete(responseInfo, metrics, response);
-    }];
+    NSString *contentNeedSignatue = [self.signatureContentGenerator completeUpload:uploadId];
+    kQNWeakSelf;
+    self.token.signatureHandler(contentNeedSignatue, ^(NSString *signture, NSError * _Nullable error) {
+        kQNStrongSelf;
+        
+        [self.regionRequest post:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
+                         headers:header
+                            body:body
+                     shouldRetry:shouldRetry
+                        progress:nil
+                        complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+            complete(responseInfo, metrics, response);
+        }];
+    });
 }
 
 - (void)reportLog:(NSData *)logData

@@ -137,6 +137,14 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(QNUploadOption *)option;
 
+- (void)putFile:(NSString *)filePath
+         bucket:(NSString *)bucket
+            key:(NSString *)key
+      accessKey:(NSString *)accessKey
+signatureHanlder:(QNUpSignatureHandler)signatureHandler
+       complete:(QNUpCompletionHandler)completionHandler
+         option:(QNUploadOption *)option;
+
 #if !TARGET_OS_MACCATALYST
 /**
  *    上传ALAsset文件
