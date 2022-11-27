@@ -39,6 +39,11 @@ typedef void(^QNRequestTransactionCompleteHandler)(QNResponseInfo * _Nullable re
 
 - (void)queryUploadHosts:(QNRequestTransactionCompleteHandler)complete;
 
+- (void)putData:(NSData *)data
+       fileName:(NSString *)fileName
+       progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
+       complete:(QNRequestTransactionCompleteHandler)complete;
+
 - (void)uploadFormData:(NSData *)data
               fileName:(NSString *)fileName
               progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress

@@ -24,6 +24,7 @@
 
 #import "QNUploadDomainRegion.h"
 #import "QNHttpRegionRequest.h"
+#import "QNSignatureContentGenerator.h"
 
 @interface QNRequestTransaction()
 
@@ -35,6 +36,7 @@
 @property(nonatomic, strong)QNUploadRequestInfo *requestInfo;
 @property(nonatomic, strong)QNUploadRequestState *requestState;
 @property(nonatomic, strong)QNHttpRegionRequest *regionRequest;
+@property(nonatomic, strong)QNSignatureContentGenerator *signatureContentGenerator;
 
 @end
 @implementation QNRequestTransaction
@@ -90,8 +92,18 @@
                                                               region:currentRegion
                                                          requestInfo:_requestInfo
                                                         requestState:_requestState];
+        [self setupSignatureInfo];
     }
     return self;
+}
+
+- (void)setupSignatureInfo {
+    QNSignatureContentGenerator *generator = [[QNSignatureContentGenerator alloc] init];
+    generator.bucket = self.token.bucket;
+    generator.key = _key;
+    generator.deadLine = self.token.deadline;
+    generator.accessKey = self.token.access;
+    self.signatureContentGenerator = generator;
 }
 
 //MARK: -- uc query
@@ -110,6 +122,41 @@
                 shouldRetry:shouldRetry
                    complete:complete];
 }
+
+- (void)putData:(NSData *)data
+       fileName:(NSString *)fileName
+       progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
+       complete:(QNRequestTransactionCompleteHandler)complete {
+    NSMutableString *action = [NSMutableString stringWithFormat:@"/%@", self.token.bucket];
+    NSMutableDictionary *header = [NSMutableDictionary dictionary];
+    if (self.key) {
+        [action appendFormat:@"/%@", self.key];
+    } else {
+        [action appendFormat:@"/"];
+        header[@"random-object-name"] = @"true";
+    }
+    [action appendFormat:@"?AccessKeyId=%@&Expires=%@", self.token.access, @(self.token.deadline)];
+    
+    BOOL (^shouldRetry)(QNResponseInfo *, NSDictionary *) = ^(QNResponseInfo * responseInfo, NSDictionary * response){
+        return (BOOL)!responseInfo.isOK;
+    };
+    
+    kQNWeakSelf;
+    NSString *contentNeedSignature = [self.signatureContentGenerator putData];
+    self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
+        kQNStrongSelf;
+        [action appendFormat:@"&Signature=%@", signature ?: @""];
+        [self.regionRequest put:action
+                        headers:header
+                           body:data
+                    shouldRetry:shouldRetry
+                       progress:progress
+                       complete:complete];
+    });
+}
+
+
+
 
 //MARK: -- upload form
 - (void)uploadFormData:(NSData *)data

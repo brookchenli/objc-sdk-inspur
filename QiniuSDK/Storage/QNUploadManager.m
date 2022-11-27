@@ -102,29 +102,40 @@
 }
 
 - (void)putData:(NSData *)data
+         bucket:(NSString *)bucket
             key:(NSString *)key
-          token:(NSString *)token
+        accessKey:(NSString *)accessKey
+signatureHanlder:(QNUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(QNUploadOption *)option {
-    
-    [self putData:data fileName:nil key:key token:token complete:completionHandler option:option];
+    [self putData:data bucket:bucket fileName:nil key:key accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
 }
 
 - (void)putData:(NSData *)data
+         bucket:(NSString *)bucket
        fileName:(NSString *)fileName
             key:(NSString *)key
-          token:(NSString *)token
+      accessKey:(NSString *)accessKey
+signatureHanlder:(QNUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(QNUploadOption *)option {
 
-    if ([QNUploadManager checkAndNotifyError:key token:token input:data complete:completionHandler]) {
+    if ([QNUploadManager checkAndNotifyError:key token:@"" input:data complete:completionHandler]) {
         return;
     }
-
-    QNUpToken *t = [QNUpToken parse:token];
+    long deadLine = [[NSDate date] timeIntervalSince1970] + self.config.signatureTimeoutInterval;
+    QNUpToken *t = [[QNUpToken alloc] initBucket:bucket
+                                        deadLine:deadLine
+                                       accessKey:accessKey];
+    t.signatureHandler = ^(NSString *contentNeedSignature, QNUpTokenSignatureResultHandler result) {
+        signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
+            result(signature, error);
+        });
+    };
+    
     if (t == nil || ![t isValid]) {
         QNResponseInfo *info = [QNResponseInfo responseInfoWithInvalidToken:@"invalid token"];
-        [QNUploadManager complete:token
+        [QNUploadManager complete:[t toString]
                               key:key
                            source:data
                      responseInfo:info
@@ -134,11 +145,11 @@
         return;
     }
     
-    QNServerConfigMonitor.token = token;
+    QNServerConfigMonitor.token = [t toString];
     [[QNTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
     
     QNUpTaskCompletionHandler complete = ^(QNResponseInfo *info, NSString *key, QNUploadTaskMetrics *metrics, NSDictionary *resp) {
-        [QNUploadManager complete:token
+        [QNUploadManager complete:[t toString]
                               key:key
                            source:data
                      responseInfo:info
@@ -357,13 +368,22 @@
                                  complete:completionHandler];
                 return;
             }
-            
+            [self putData:data
+                   bucket:@""
+                 fileName:[source getFileName]
+                      key:key
+                accessKey:@""
+         signatureHanlder:nil
+                 complete:completionHandler
+                   option:option];
+            /*
             [self putData:data
                  fileName:[source getFileName]
                       key:key
                     token:token
                  complete:completionHandler
                    option:option];
+             */
             return;
         }
 
@@ -418,9 +438,12 @@
         info = [QNResponseInfo responseInfoOfZeroData:@"no input data"];
     } else if ([input isKindOfClass:[NSData class]] && [(NSData *)input length] == 0) {
         info = [QNResponseInfo responseInfoOfZeroData:@"no input data"];
-    } else if (token == nil || [token isEqual:[NSNull null]] || [token isEqualToString:@""]) {
+    }
+    /*
+    else if (token == nil || [token isEqual:[NSNull null]] || [token isEqualToString:@""]) {
         info = [QNResponseInfo responseInfoWithInvalidToken:@"no token"];
     }
+     */
     if (info != nil) {
         [QNUploadManager complete:token
                               key:key

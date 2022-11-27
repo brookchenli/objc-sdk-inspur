@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)zone0;
 
++ (instancetype)north3;
+
 /**
  *    zoneCnEast2 华东-浙江2
  *

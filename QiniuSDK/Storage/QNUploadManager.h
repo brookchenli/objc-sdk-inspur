@@ -29,6 +29,10 @@
  */
 typedef void (^QNUpCompletionHandler)(QNResponseInfo *info, NSString *key, NSDictionary *resp);
 
+typedef void (^QNUpSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
+typedef void (^QNUpSignatureHandler)(NSString *contentNeedSignature, QNUpSignatureResultHandler result);
+
+
 /**
  管理上传的类，可以生成一次，持续使用，不必反复创建。
  */
@@ -89,8 +93,10 @@ typedef void (^QNUpCompletionHandler)(QNResponseInfo *info, NSString *key, NSDic
  *    @param option            上传时传入的可选参数
  */
 - (void)putData:(NSData *)data
+        bucket:(NSString *)bucket
             key:(NSString *)key
-          token:(NSString *)token
+      accessKey:(NSString *)accessKey
+signatureHanlder:(QNUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(QNUploadOption *)option;
 

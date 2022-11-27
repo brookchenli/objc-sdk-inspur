@@ -28,6 +28,17 @@
     return z0;
 }
 
++ (instancetype)north3 {
+    static QNFixedZone *north3 = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        north3 = [[QNFixedZone alloc] initWithUpDomainList:@[@"inspurcloudoss.com"]
+                                             oldUpList:@[@"inspurcloudoss.com"]
+                                              regionId:@"oss.cn-north-3"];
+    });
+    return north3;
+}
+
 + (instancetype)zoneCnEast2 {
     static QNFixedZone *zoneCnEast2 = nil;
     static dispatch_once_t onceToken;

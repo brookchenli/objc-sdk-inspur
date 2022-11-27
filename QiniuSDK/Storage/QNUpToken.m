@@ -26,6 +26,18 @@
     return token;
 }
 
+- (instancetype)initBucket:(NSString *)bucket
+                  deadLine:(long)deadLine
+                 accessKey:(NSString *)accessKey {
+    if (self = [super init]) {
+        _token = [NSString stringWithFormat:@"%@:%@:%@", bucket, accessKey,@(deadLine)];
+        _access = accessKey;
+        _bucket = bucket;
+        _deadline = deadLine;
+    }
+    return self;
+}
+
 - (instancetype)init:(NSDictionary *)policy token:(NSString *)token {
     if (self = [super init]) {
         _token = token;
@@ -39,7 +51,7 @@
 }
 
 - (NSString *)getAccess {
-
+    
     NSRange range = [_token rangeOfString:@":" options:NSCaseInsensitiveSearch];
     return [_token substringToIndex:range.location];
 }
@@ -57,6 +69,22 @@
     }
     return [scope substringToIndex:range.location];
 }
+
++ (instancetype)parseInspur:(NSString *)token {
+    if (token == nil) {
+        return nil;
+    }
+    NSArray *array = [token componentsSeparatedByString:@":"];
+    if (array == nil || array.count != 3) {
+        return nil;
+    }
+    //bucket, accessKey,@(deadLine)
+    NSString *bucket = array[0];
+    NSString *accessKey = array[1];
+    long deadLine = [array[2] longValue];
+    return [[QNUpToken alloc] initBucket:bucket deadLine:deadLine accessKey:accessKey];
+}
+
 
 + (instancetype)parse:(NSString *)token {
     if (token == nil) {
@@ -99,5 +127,10 @@
     }
     return [date timeIntervalSince1970] < self.deadline;
 }
+
+- (NSString *)toString {
+    return _token;
+}
+
 
 @end

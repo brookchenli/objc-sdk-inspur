@@ -39,7 +39,27 @@
         kQNStrongSelf;
         [self.progress progress:self.key uploadBytes:totalBytesWritten totalBytes:totalBytesExpectedToWrite];
     };
- 
+    
+    [self.uploadTransaction putData:self.data
+                           fileName:self.fileName
+                           progress:progressHandler
+                           complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+        kQNStrongSelf;
+        
+        [self addRegionRequestMetricsOfOneFlow:metrics];
+        
+        if (!responseInfo.isOK) {
+            if (![self switchRegionAndUploadIfNeededWithErrorResponse:responseInfo]) {
+                [self complete:responseInfo response:response];
+            }
+            return;
+        }
+        
+        [self.progress notifyDone:self.key totalBytes:self.data.length];
+        [self complete:responseInfo response:response];
+    }];
+    
+    /*
     [self.uploadTransaction uploadFormData:self.data
                                   fileName:self.fileName
                                   progress:progressHandler
@@ -58,6 +78,7 @@
         [self.progress notifyDone:self.key totalBytes:self.data.length];
         [self complete:responseInfo response:response];
     }];
+     */
 }
 
 - (QNUpProgress *)progress {

@@ -126,6 +126,11 @@ typedef void (^QNConfigurationBuilderBlock)(QNConfigurationBuilder *builder);
 @property (nonatomic, readonly) QNUrlConvert converter;
 
 /**
+ *  签名有效时间
+ */
+@property (nonatomic, assign) long signatureTimeoutInterval;
+
+/**
  *  默认配置
  */
 + (instancetype)defaultConfiguration;
@@ -332,5 +337,9 @@ typedef void (^QNConfigurationBuilderBlock)(QNConfigurationBuilder *builder);
  *  上传URL转换，使url转换为用户需要的url
  */
 @property (nonatomic, strong) QNUrlConvert converter;
+/**
+ *  签名有效时间
+ */
+@property (nonatomic, assign) long signatureTimeoutInterval;
 
 @end

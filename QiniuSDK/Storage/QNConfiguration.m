@@ -11,6 +11,7 @@
 #import "QNUpToken.h"
 #import "QNReportConfig.h"
 #import "QNAutoZone.h"
+#import "QNFixedZone.h"
 
 const UInt32 kQNBlockSize = 4 * 1024 * 1024;
 const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
@@ -63,6 +64,8 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
         _useHttps = builder.useHttps;
 
         _allowBackupHost = builder.allowBackupHost;
+        
+        _signatureTimeoutInterval = builder.signatureTimeoutInterval;
 
     }
     return self;
@@ -87,7 +90,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
     return config;
 }
 - (void)setupData{
-    _isDnsOpen = YES;
+    _isDnsOpen = NO;
     _dnsResolveTimeout = 2;
     _dnsCacheDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/Dns"];
     _dnsRepreHostNum = 2;
@@ -105,7 +108,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
     
     _connectCheckEnable = YES;
     _connectCheckTimeout = 2;
-    _connectCheckURLStrings = @[@"https://www.qiniu.com", @"https://www.baidu.com", @"https://www.google.com"];
+    _connectCheckURLStrings = @[@"https://www.baidu.com", @"https://www.google.com"];
 }
 
 - (BOOL)isDohEnable {
@@ -153,9 +156,10 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _zone = [[QNAutoZone alloc] init];
+        //_zone = [[QNAutoZone alloc] init];
+        _zone = [QNFixedZone north3];
         _chunkSize = 2 * 1024 * 1024;
-        _putThreshold = 4 * 1024 * 1024;
+        _putThreshold = 8 * 1024 * 1024;
         _retryMax = 1;
         _timeoutInterval = 90;
         _retryInterval = 0.5;
@@ -169,8 +173,10 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
         _useHttps = YES;
         _allowBackupHost = YES;
         _useConcurrentResumeUpload = NO;
-        _resumeUploadVersion = QNResumeUploadVersionV1;
+        _resumeUploadVersion = QNResumeUploadVersionV2;
         _concurrentTaskCount = 3;
+        
+        _signatureTimeoutInterval = 24*3600;
     }
     return self;
 }

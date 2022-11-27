@@ -48,7 +48,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _enable = true;
+        _enable = false;
         _cache = [[QNServerConfigCache alloc] init];
     }
     return self;

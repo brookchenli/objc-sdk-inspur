@@ -15,6 +15,7 @@
 #import "QNConfiguration.h"
 #import "QNUploadOption.h"
 #import "NSURLRequest+QNRequest.h"
+#import "QNZoneInfo.h"
 
 #import "QNUploadRequestMetrics.h"
 #import "QNResponseInfo.h"
@@ -129,18 +130,18 @@ shouldRetry:(BOOL(^)(QNResponseInfo *responseInfo, NSDictionary *response))shoul
     }
     
     NSString *serverHost = server.host;
-    NSString *serverIP = server.ip;
-    
+    //NSString *serverIP = server.ip;
+    /*
     if (self.config.converter) {
         serverHost = self.config.converter(serverHost);
         serverIP = nil;
     }
-    
+    */
     self.currentServer = server;
     
     NSString *scheme = self.config.useHttps ? @"https://" : @"http://";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@%@", scheme, serverHost, action ?: @""];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@.%@%@", scheme, self.region.zoneInfo.regionId, serverHost, action ?: @""];
     request.URL = [NSURL URLWithString:urlString];
     request.HTTPMethod = method;
     [request setAllHTTPHeaderFields:headers];
@@ -149,6 +150,8 @@ shouldRetry:(BOOL(^)(QNResponseInfo *responseInfo, NSDictionary *response))shoul
     
     QNLogInfo(@"key:%@ url:%@", self.requestInfo.key, request.URL);
     QNLogInfo(@"key:%@ headers:%@", self.requestInfo.key, headers);
+    
+    NSLog(@"key:%@ url:%@", self.requestInfo.key, request.URL);
     
     kQNWeakSelf;
     [self.singleRequest request:request
