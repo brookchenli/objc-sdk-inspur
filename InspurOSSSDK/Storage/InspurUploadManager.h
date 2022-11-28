@@ -27,7 +27,7 @@
  *    @param key  上传时指定的key，原样返回
  *    @param resp 上传成功会返回文件信息，失败为nil; 可以通过此值是否为nil 判断上传结果
  */
-typedef void (^QNUpCompletionHandler)(InspurResponseInfo *info, NSString *key, NSDictionary *resp);
+typedef void (^InspurUpCompletionHandler)(InspurResponseInfo *info, NSString *key, NSDictionary *resp);
 
 typedef void (^InspurUpSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
 typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurUpSignatureResultHandler result);
@@ -97,7 +97,7 @@ typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurU
             key:(NSString *)key
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
 
 
@@ -119,7 +119,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
               fileName:(NSString *)fileName
                    key:(NSString *)key
                  token:(NSString *)token
-              complete:(QNUpCompletionHandler)completionHandler
+              complete:(InspurUpCompletionHandler)completionHandler
                 option:(InspurUploadOption *)option;
 
 /**
@@ -134,7 +134,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putFile:(NSString *)filePath
             key:(NSString *)key
           token:(NSString *)token
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
 
 - (void)putFile:(NSString *)filePath
@@ -142,7 +142,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
             key:(NSString *)key
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
 
 #if !TARGET_OS_MACCATALYST
@@ -158,7 +158,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putALAsset:(ALAsset *)asset
                key:(NSString *)key
              token:(NSString *)token
-          complete:(QNUpCompletionHandler)completionHandler
+          complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option API_UNAVAILABLE(macos, tvos);
 #endif
 
@@ -174,7 +174,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putPHAsset:(PHAsset *)asset
                key:(NSString *)key
              token:(NSString *)token
-          complete:(QNUpCompletionHandler)completionHandler
+          complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option API_AVAILABLE(ios(9.1)) API_UNAVAILABLE(macos, tvos);
 
 /**
@@ -190,7 +190,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putPHAssetResource:(PHAssetResource *)assetResource
                        key:(NSString *)key
                      token:(NSString *)token
-                  complete:(QNUpCompletionHandler)completionHandler
+                  complete:(InspurUpCompletionHandler)completionHandler
                     option:(InspurUploadOption *)option API_AVAILABLE(ios(9)) API_UNAVAILABLE(macos, tvos);
 
 @end

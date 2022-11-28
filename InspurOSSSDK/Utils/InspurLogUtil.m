@@ -9,9 +9,9 @@
 #import "InspurLogUtil.h"
 
 #if DEBUG
-static QNLogLevel _level = QNLogLevelError;
+static InspurLogLevel _level = InspurLogLevelError;
 #else
-static QNLogLevel _level = QNLogLevelNone;
+static InspurLogLevel _level = InspurLogLevelNone;
 #endif
 
 static BOOL _enableDate = false;
@@ -20,7 +20,7 @@ static BOOL _enableFunction = false;
 
 @implementation InspurLogUtil
 
-+ (void)setLogLevel:(QNLogLevel)level {
++ (void)setLogLevel:(InspurLogLevel)level {
     _level = level < 0 ? 0 : level;
 }
 
@@ -35,7 +35,7 @@ static BOOL _enableFunction = false;
 }
 
 
-+ (void)log:(QNLogLevel)level
++ (void)log:(InspurLogLevel)level
        file:(const char *)file
    function:(const char *)function
        line:(NSUInteger)line

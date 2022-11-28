@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
-  s.name         = 'Qiniu'
-  s.version      = '8.5.0'
+  s.name         = 'InspurOSS'
+  s.version      = '1.0.0'
   s.summary      = 'Qiniu Resource Storage SDK for iOS and Mac'
   s.homepage     = 'https://github.com/qiniu/objc-sdk'
   s.social_media_url = 'http://weibo.com/qiniutek'
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '7.0'
   s.osx.deployment_target = '10.9'
 
-  s.source_files = 'QiniuSDK/Image/**/*.{h,m}', 'QiniuSDK/BigData/**/*.{h,m}','QiniuSDK/Collect/**/*.{h,m}','QiniuSDK/Common/**/*.{h,m}','QiniuSDK/Http/**/*.{h,m}','QiniuSDK/Recorder/**/*.{h,m}','QiniuSDK/Storage/**/*.{h,m}','QiniuSDK/Transaction/**/*.{h,m}','QiniuSDK/Utils/**/*.{h,m}','QiniuSDK/QiniuSDK.h'
+  s.source_files = 'InspurOSSSDK/Image/**/*.{h,m}', 'InspurOSSSDK/BigData/**/*.{h,m}','InspurOSSSDK/Collect/**/*.{h,m}','InspurOSSSDK/Common/**/*.{h,m}','InspurOSSSDK/Http/**/*.{h,m}','InspurOSSSDK/Recorder/**/*.{h,m}','InspurOSSSDK/Storage/**/*.{h,m}','InspurOSSSDK/Transaction/**/*.{h,m}','InspurOSSSDK/Utils/**/*.{h,m}','InspurOSSSDK/InspurOSSSDK.h'
   s.requires_arc = true
   s.libraries = 'z'
   s.dependency 'HappyDNS', '~> 1.0.2'

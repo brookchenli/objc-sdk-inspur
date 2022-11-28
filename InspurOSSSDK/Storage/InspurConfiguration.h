@@ -29,9 +29,9 @@ extern const UInt32 kQNDefaultDnsCacheTime;
  */
 typedef NSString * (^InspurUrlConvert)(NSString *url);
 
-typedef NS_ENUM(NSInteger, QNResumeUploadVersion){
-    QNResumeUploadVersionV1, // 分片v1
-    QNResumeUploadVersionV2  // 分片v2
+typedef NS_ENUM(NSInteger, InspurResumeUploadVersion){
+    InspurResumeUploadVersionV1, // 分片v1
+    InspurResumeUploadVersionV2  // 分片v2
 };
 
 @class InspurConfigurationBuilder;
@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, QNResumeUploadVersion){
  *
  *    @param builder builder实例
  */
-typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder);
+typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *builder);
 
 @interface InspurConfiguration : NSObject
 
@@ -93,7 +93,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *   分片上传版本
  */
-@property (nonatomic, assign, readonly) QNResumeUploadVersion resumeUploadVersion;
+@property (nonatomic, assign, readonly) InspurResumeUploadVersion resumeUploadVersion;
 
 /**
  *   并发分片上传的并发任务个数，在concurrentResumeUpload为YES时有效，默认为3个
@@ -139,7 +139,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
  *  使用 QNConfigurationBuilder 进行配置
  *  @param block  配置block
  */
-+ (instancetype)build:(QNConfigurationBuilderBlock)block;
++ (instancetype)build:(InspurConfigurationBuilderBlock)block;
 
 @end
 
@@ -311,7 +311,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *   分片上传版本
  */
-@property (nonatomic, assign) QNResumeUploadVersion resumeUploadVersion;
+@property (nonatomic, assign) InspurResumeUploadVersion resumeUploadVersion;
 
 /**
  *   并发分片上传的并发任务个数，在concurrentResumeUpload为YES时有效，默认为3个

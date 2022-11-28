@@ -24,7 +24,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
     return [[InspurConfiguration alloc] initWithBuilder:builder];
 }
 
-+ (instancetype)build:(QNConfigurationBuilderBlock)block {
++ (instancetype)build:(InspurConfigurationBuilderBlock)block {
     InspurConfigurationBuilder *builder = [[InspurConfigurationBuilder alloc] init];
     block(builder);
     return [[InspurConfiguration alloc] initWithBuilder:builder];
@@ -37,11 +37,11 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
         _concurrentTaskCount = builder.concurrentTaskCount;
         
         _chunkSize = builder.chunkSize;
-        if (builder.resumeUploadVersion == QNResumeUploadVersionV1) {
+        if (builder.resumeUploadVersion == InspurResumeUploadVersionV1) {
             if (_chunkSize < 1024) {
                 _chunkSize = 1024;
             }
-        } else if (builder.resumeUploadVersion == QNResumeUploadVersionV2) {
+        } else if (builder.resumeUploadVersion == InspurResumeUploadVersionV2) {
             if (_chunkSize < 1024 * 1024) {
                 _chunkSize = 1024 * 1024;
             }
@@ -173,7 +173,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
         _useHttps = YES;
         _allowBackupHost = YES;
         _useConcurrentResumeUpload = NO;
-        _resumeUploadVersion = QNResumeUploadVersionV2;
+        _resumeUploadVersion = InspurResumeUploadVersionV2;
         _concurrentTaskCount = 3;
         
         _signatureTimeoutInterval = 24*3600;

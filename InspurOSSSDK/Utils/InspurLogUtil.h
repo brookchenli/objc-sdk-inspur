@@ -10,24 +10,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, QNLogLevel){
-    QNLogLevelNone,
-    QNLogLevelError,
-    QNLogLevelWarn,
-    QNLogLevelInfo,
-    QNLogLevelDebug,
-    QNLogLevelVerbose
+typedef NS_ENUM(NSInteger, InspurLogLevel){
+    InspurLogLevelNone,
+    InspurLogLevelError,
+    InspurLogLevelWarn,
+    InspurLogLevelInfo,
+    InspurLogLevelDebug,
+    InspurLogLevelVerbose
 };
 
 @interface InspurLogUtil : NSObject
 
-+ (void)setLogLevel:(QNLogLevel)level;
++ (void)setLogLevel:(InspurLogLevel)level;
 
 + (void)enableLogDate:(BOOL)enable;
 + (void)enableLogFile:(BOOL)enable;
 + (void)enableLogFunction:(BOOL)enable;
 
-+ (void)log:(QNLogLevel)level
++ (void)log:(InspurLogLevel)level
        file:(const char *)file
    function:(const char *)function
        line:(NSUInteger)line
@@ -43,10 +43,10 @@ typedef NS_ENUM(NSInteger, QNLogLevel){
               line:__LINE__ \
               format:(fmt), ##__VA_ARGS__]
 
-#define QNLogError(format, ...)   QNLog(QNLogLevelError, format, ##__VA_ARGS__)
-#define QNLogWarn(format, ...)    QNLog(QNLogLevelWarn, format, ##__VA_ARGS__)
-#define QNLogInfo(format, ...)    QNLog(QNLogLevelInfo, format, ##__VA_ARGS__)
-#define QNLogDebug(format, ...)   QNLog(QNLogLevelDebug, format, ##__VA_ARGS__)
-#define QNLogVerbose(format, ...) QNLog(QNLogLevelVerbose, format, ##__VA_ARGS__)
+#define QNLogError(format, ...)   QNLog(InspurLogLevelError, format, ##__VA_ARGS__)
+#define QNLogWarn(format, ...)    QNLog(InspurLogLevelWarn, format, ##__VA_ARGS__)
+#define QNLogInfo(format, ...)    QNLog(InspurLogLevelInfo, format, ##__VA_ARGS__)
+#define QNLogDebug(format, ...)   QNLog(InspurLogLevelDebug, format, ##__VA_ARGS__)
+#define QNLogVerbose(format, ...) QNLog(InspurLogLevelVerbose, format, ##__VA_ARGS__)
 
 NS_ASSUME_NONNULL_END

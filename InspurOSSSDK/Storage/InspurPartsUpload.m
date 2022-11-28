@@ -33,7 +33,7 @@
 - (void)initData {
     [super initData];
     // 根据文件从本地恢复上传信息，如果没有则重新构建上传信息
-    if (self.config.resumeUploadVersion == QNResumeUploadVersionV1) {
+    if (self.config.resumeUploadVersion == InspurResumeUploadVersionV1) {
         QNLogInfo(@"key:%@ 分片V1", self.key);
         self.uploadPerformer = [[InspurPartsUploadPerformerV1 alloc] initWithSource:self.uploadSource
                                                                        fileName:self.fileName
@@ -291,7 +291,7 @@
         [item setReportValue:speed forKey:InspurReportBlockKeyPerceptiveSpeed];
     }
 
-    if (self.config.resumeUploadVersion == QNResumeUploadVersionV1) {
+    if (self.config.resumeUploadVersion == InspurResumeUploadVersionV1) {
         [item setReportValue:@(1) forKey:InspurReportBlockKeyUpApiVersion];
     } else {
         [item setReportValue:@(2) forKey:InspurReportBlockKeyUpApiVersion];
@@ -315,7 +315,7 @@
     if ([self.uploadSource respondsToSelector:@selector(sourceType)]) {
         sourceType = [self.uploadSource sourceType];
     }
-    if (self.config.resumeUploadVersion == QNResumeUploadVersionV1) {
+    if (self.config.resumeUploadVersion == InspurResumeUploadVersionV1) {
         return [NSString stringWithFormat:@"%@<%@>",QNUploadUpTypeResumableV1, sourceType];
     } else {
         return [NSString stringWithFormat:@"%@<%@>",QNUploadUpTypeResumableV2, sourceType];

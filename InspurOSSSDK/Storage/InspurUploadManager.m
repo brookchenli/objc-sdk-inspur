@@ -106,7 +106,7 @@
             key:(NSString *)key
         accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
     [self putData:data bucket:bucket fileName:nil key:key accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
 }
@@ -117,7 +117,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
             key:(NSString *)key
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
 
     if ([InspurUploadManager checkAndNotifyError:key token:@"" input:data complete:completionHandler]) {
@@ -176,7 +176,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
               fileName:(NSString *)fileName
                    key:(NSString *)key
                  token:(NSString *)token
-              complete:(QNUpCompletionHandler)completionHandler
+              complete:(InspurUpCompletionHandler)completionHandler
                 option:(InspurUploadOption *)option {
     
     if ([InspurUploadManager checkAndNotifyError:key token:token input:inputStream complete:completionHandler]) {
@@ -193,7 +193,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
             key:(NSString *)key
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-       complete:(QNUpCompletionHandler)completionHandler
+       complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
     
     if ([InspurUploadManager checkAndNotifyError:key token:@"" input:filePath complete:completionHandler]) {
@@ -222,7 +222,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putALAsset:(ALAsset *)asset
                key:(NSString *)key
              token:(NSString *)token
-          complete:(QNUpCompletionHandler)completionHandler
+          complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
     
@@ -253,7 +253,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putPHAsset:(PHAsset *)asset
                key:(NSString *)key
              token:(NSString *)token
-          complete:(QNUpCompletionHandler)completionHandler
+          complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90100)
     
@@ -283,7 +283,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 - (void)putPHAssetResource:(PHAssetResource *)assetResource
                        key:(NSString *)key
                      token:(NSString *)token
-                  complete:(QNUpCompletionHandler)completionHandler
+                  complete:(InspurUpCompletionHandler)completionHandler
                     option:(InspurUploadOption *)option {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000)
     
@@ -314,7 +314,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                  bucket:(NSString *)bucket
               accessKey:(NSString *)accessKey
         signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-               complete:(QNUpCompletionHandler)completionHandler
+               complete:(InspurUpCompletionHandler)completionHandler
                  option:(InspurUploadOption *)option {
     [self putInternal:[InspurUploadSourceFile file:file]
                   key:key
@@ -330,7 +330,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
              bucket:(NSString *)bucket
           accessKey:(NSString *)accessKey
     signatureHanlder:(InspurUpSignatureHandler)signatureHandler
-           complete:(QNUpCompletionHandler)completionHandler
+           complete:(InspurUpCompletionHandler)completionHandler
              option:(InspurUploadOption *)option {
     
     @autoreleasepool {
@@ -444,7 +444,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 + (BOOL)checkAndNotifyError:(NSString *)key
                       token:(NSString *)token
                       input:(NSObject *)input
-                   complete:(QNUpCompletionHandler)completionHandler {
+                   complete:(InspurUpCompletionHandler)completionHandler {
     if (completionHandler == nil) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
                                    reason:@"no completionHandler"
@@ -483,7 +483,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     responseInfo:(InspurResponseInfo *)responseInfo
         response:(NSDictionary *)response
      taskMetrics:(InspurUploadTaskMetrics *)taskMetrics
-        complete:(QNUpCompletionHandler)completionHandler {
+        complete:(InspurUpCompletionHandler)completionHandler {
     
     //[QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
     

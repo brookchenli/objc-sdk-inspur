@@ -111,7 +111,7 @@ $ xcodebuild test -workspace QiniuSDK.xcworkspace -scheme QiniuSDK_Mac -configur
 可以在单元测试上修改, 熟悉 SDK
 
 ``` bash
-$ xcodebuild test -workspace QiniuSDK.xcworkspace -scheme QiniuSDK_Mac -configuration Release -destination 'platform=macOS,arch=x86_64' -only-testing:"QiniuSDK_MacTests/QNResumeUploadTest/test5M"
+$ xcodebuild test -workspace QiniuSDK.xcworkspace -scheme QiniuSDK_Mac -configuration Release -destination 'platform=macOS,arch=x86_64' -only-testing:"QiniuSDK_MacTests/InspurResumeUploadTest/test5M"
 ```
 
 ## 示例代码
