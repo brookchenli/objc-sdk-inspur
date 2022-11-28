@@ -2,8 +2,8 @@
 //  QNPartsUploadPerformer.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/12/1.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/12/1.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 /// 抽象类，不可以直接使用，需要使用子类
 

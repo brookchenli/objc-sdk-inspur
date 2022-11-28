@@ -2,8 +2,8 @@
 //  QNResponseInfo.m
 //  QiniuSDK
 //
-//  Created by bailong on 14/10/2.
-//  Copyright (c) 2014年 Qiniu. All rights reserved.
+//  Created by Brook on 14/10/2.
+//  Copyright (c) 2014年 Inspur. All rights reserved.
 //
 #import "InspurErrorCode.h"
 #import "InspurResponseInfo.h"
@@ -38,27 +38,27 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 }
 
 + (instancetype)cancelResponse {
-    return [InspurResponseInfo errorResponseInfo:kQNRequestCancelled
+    return [InspurResponseInfo errorResponseInfo:kInspurRequestCancelled
                                    errorDesc:@"cancelled by user"];
 }
 
 + (instancetype)responseInfoWithNetworkError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNNetworkError
+    return [InspurResponseInfo errorResponseInfo:kInspurNetworkError
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithInvalidArgument:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNInvalidArgument
+    return [InspurResponseInfo errorResponseInfo:kInspurInvalidArgument
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithInvalidToken:(NSString *)desc {
-    return [InspurResponseInfo errorResponseInfo:kQNInvalidToken
+    return [InspurResponseInfo errorResponseInfo:kInspurInvalidToken
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithFileError:(NSError *)error {
-    return [InspurResponseInfo errorResponseInfo:kQNFileError
+    return [InspurResponseInfo errorResponseInfo:kInspurFileError
                                    errorDesc:nil
                                        error:error];
 }
@@ -70,32 +70,32 @@ static NSString *kQNErrorDomain = @"qiniu.com";
     } else {
         desc = [[NSString alloc] initWithFormat:@"file %@ size is 0", path];
     }
-    return [InspurResponseInfo errorResponseInfo:kQNZeroDataSize
+    return [InspurResponseInfo errorResponseInfo:kInspurZeroDataSize
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithLocalIOError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNLocalIOError
+    return [InspurResponseInfo errorResponseInfo:kInspurLocalIOError
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithMaliciousResponseError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNMaliciousResponseError
+    return [InspurResponseInfo errorResponseInfo:kInspurMaliciousResponseError
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithNoUsableHostError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNSDKInteriorError
+    return [InspurResponseInfo errorResponseInfo:kInspurSDKInteriorError
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithSDKInteriorError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNSDKInteriorError
+    return [InspurResponseInfo errorResponseInfo:kInspurSDKInteriorError
                                    errorDesc:desc];
 }
 
 + (instancetype)responseInfoWithUnexpectedSysCallError:(NSString *)desc{
-    return [InspurResponseInfo errorResponseInfo:kQNUnexpectedSysCallError
+    return [InspurResponseInfo errorResponseInfo:kInspurUnexpectedSysCallError
                                    errorDesc:desc];
 }
 
@@ -143,7 +143,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
             _xlog = headers[@"x-log"];
             _xvia = headers[@"x-via"] ?: headers[@"x-px"] ?: headers[@"fw-via"];
             if (_statusCode == 200 && _reqId == nil && _xlog == nil) {
-                _statusCode = kQNMaliciousResponseError;
+                _statusCode = kInspurMaliciousResponseError;
                 _message = @"this is a malicious response";
                 _responseDictionary = nil;
                 _error = [[NSError alloc] initWithDomain:kQNErrorDomain code:_statusCode userInfo:@{@"error" : _message}];
@@ -191,7 +191,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
             _message = [NSString stringWithFormat:@"%@", error];
             _responseDictionary = nil;
         } else {
-            _statusCode = kQNUnexpectedSysCallError;
+            _statusCode = kInspurUnexpectedSysCallError;
             _message = @"no response";
         }
     }
@@ -227,7 +227,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
             _message = [NSString stringWithFormat:@"%@", error];
             _responseDictionary = nil;
         } else {
-            _statusCode = kQNUnexpectedSysCallError;
+            _statusCode = kInspurUnexpectedSysCallError;
             _message = @"no response";
         }
     }
@@ -241,7 +241,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 }
 
 - (BOOL)isCancelled {
-    return _statusCode == kQNRequestCancelled || _statusCode == -999;
+    return _statusCode == kInspurRequestCancelled || _statusCode == -999;
 }
 
 - (BOOL)isTlsError{
@@ -261,7 +261,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 
 - (BOOL)isNotQiniu {
     // reqId is nill means the server is not qiniu
-    return (_statusCode == kQNMaliciousResponseError) || (_statusCode > 0 && _reqId == nil && _xlog == nil);
+    return (_statusCode == kInspurMaliciousResponseError) || (_statusCode > 0 && _reqId == nil && _xlog == nil);
 }
 
 - (BOOL)isOK {
@@ -284,7 +284,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
         || _statusCode == 501 || _statusCode == 573
         || _statusCode == 608 || _statusCode == 612 || _statusCode == 614 || _statusCode == 616
         || _statusCode == 619 || _statusCode == 630 || _statusCode == 631 || _statusCode == 640
-        || (_statusCode != kQNLocalIOError && _statusCode != kQNUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
+        || (_statusCode != kInspurLocalIOError && _statusCode != kInspurUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
         return NO;
     } else {
         return YES;
@@ -305,7 +305,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
         || _statusCode == 608 || _statusCode == 612 || _statusCode == 614 || _statusCode == 616
         || _statusCode == 619 || _statusCode == 630 || _statusCode == 631 || _statusCode == 640
         || _statusCode == 701
-        || (_statusCode != kQNLocalIOError && _statusCode != kQNUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
+        || (_statusCode != kInspurLocalIOError && _statusCode != kInspurUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
         return NO;
     } else {
         return YES;
@@ -325,7 +325,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
         || _statusCode == 608 || _statusCode == 612 || _statusCode == 614 || _statusCode == 616
         || _statusCode == 619 || _statusCode == 630 || _statusCode == 631 || _statusCode == 640
         || _statusCode == 701
-        || (_statusCode != kQNLocalIOError && _statusCode != kQNUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
+        || (_statusCode != kInspurLocalIOError && _statusCode != kInspurUnexpectedSysCallError && _statusCode < -1 && _statusCode > -1000)) {
         return NO;
     } else {
         return YES;
@@ -354,7 +354,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
 }
 
 - (BOOL)isConnectionBroken {
-    return _statusCode == kQNNetworkError || _statusCode == NSURLErrorNotConnectedToInternet;
+    return _statusCode == kInspurNetworkError || _statusCode == NSURLErrorNotConnectedToInternet;
 }
 
 - (NSString *)description {

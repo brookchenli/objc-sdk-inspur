@@ -3,7 +3,7 @@
 //  QiniuSDK
 //
 //  Created by WorkSpace_Sun on 2020/4/19.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurZoneInfo.h"

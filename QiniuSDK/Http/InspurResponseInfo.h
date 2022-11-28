@@ -2,8 +2,8 @@
 //  QNResponseInfo.h
 //  QiniuSDK
 //
-//  Created by bailong on 14/10/2.
-//  Copyright (c) 2014年 Qiniu. All rights reserved.
+//  Created by Brook on 14/10/2.
+//  Copyright (c) 2014年 Inspur. All rights reserved.
 //
 
 #import "InspurErrorCode.h"

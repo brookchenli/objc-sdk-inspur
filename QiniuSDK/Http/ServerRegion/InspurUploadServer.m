@@ -2,8 +2,8 @@
 //  QNUploadServer.m
 //  AppTest
 //
-//  Created by yangsen on 2020/4/23.
-//  Copyright © 2020 com.qiniu. All rights reserved.
+//  Created by Brook on 2020/4/23.
+//  Copyright © 2020 com.inspur. All rights reserved.
 //
 
 #import "InspurUploadServer.h"

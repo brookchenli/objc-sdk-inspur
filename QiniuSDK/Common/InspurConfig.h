@@ -2,8 +2,8 @@
 //  InspurConfig.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/3/26.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/3/26.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,4 +12,4 @@
 #define kQNPreQueryHost00 @"uc.qbox.me"
 #define kQNPreQueryHost01 @"api.qiniu.com"
 #define kQNPreQueryHost02 @"kodo-config.qiniuapi.com"
-#define kQNUpLogHost @"uplog.qbox.me"
+#define kInspurUpLogHost @"uplog.qbox.me"

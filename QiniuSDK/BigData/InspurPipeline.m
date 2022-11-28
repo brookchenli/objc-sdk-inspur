@@ -2,8 +2,8 @@
 //  QNPipeline.m
 //  QiniuSDK
 //
-//  Created by BaiLong on 2017/7/25.
-//  Copyright © 2017年 Qiniu. All rights reserved.
+//  Created by Brook on 2017/7/25.
+//  Copyright © 2017年 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

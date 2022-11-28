@@ -2,8 +2,8 @@
 //  QNTransactionManager.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/4/1.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/4/1.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-#define kQNTransactionManager [InspurTransactionManager shared]
+#define kInspurTransactionManager [InspurTransactionManager shared]
 @interface InspurTransactionManager : NSObject
 
 /// 单例构造方法

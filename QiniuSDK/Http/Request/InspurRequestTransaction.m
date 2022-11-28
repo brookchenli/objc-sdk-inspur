@@ -2,8 +2,8 @@
 //  QNRequestTransaction.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/4/30.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/4/30.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurRequestTransaction.h"
@@ -115,7 +115,7 @@
         return (BOOL)!responseInfo.isOK;
     };
     
-    NSDictionary *header = @{@"User-Agent" : [kQNUserAgent getUserAgent:self.token.token]};
+    NSDictionary *header = @{@"User-Agent" : [kInspurUserAgent getUserAgent:self.token.token]};
     NSString *action = [NSString stringWithFormat:@"/v4/query?ak=%@&bucket=%@&sdk_name=%@&sdk_version=%@", self.token.access, self.token.bucket, [InspurUtils sdkLanguage], [InspurUtils sdkVersion]];
     [self.regionRequest get:action
                     headers:header
@@ -219,7 +219,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Content-Type"] = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     header[@"Content-Length"] = [NSString stringWithFormat:@"%lu", (unsigned long)body.length];
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)!responseInfo.isOK;
@@ -247,7 +247,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *action = [NSString stringWithFormat:@"/mkblk/%u", (unsigned int)blockSize];
     
@@ -284,7 +284,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *action = [NSString stringWithFormat:@"/bput/%@/%lld", blockContext,  chunkOffset];
     
@@ -318,7 +318,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *mimeType = [[NSString alloc] initWithFormat:@"/mimeType/%@", [InspurUrlSafeBase64 encodeString:self.uploadOption.mimeType]];
 
@@ -406,7 +406,7 @@
     NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     if (self.uploadOption.checkCrc) {
         NSString *md5 = [[partData qn_md5] lowercaseString];
         if (md5) {
@@ -464,7 +464,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     //header[@"Authorization"] = token;
     header[@"Content-Type"] = @"text/plain";
-    //header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    //header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     //NSString *buckets = [[NSString alloc] initWithFormat:@"/buckets/%@", self.token.bucket];
     //NSString *objects = [[NSString alloc] initWithFormat:@"/objects/%@", [self resumeV2EncodeKey:self.key]];
@@ -511,7 +511,7 @@
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Authorization"] = token;
     header[@"Content-Type"] = @"application/json";
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *action = @"/log/4?compressed=gzip";
     
@@ -538,7 +538,7 @@
     
     self.requestInfo.requestType = QNUploadRequestTypeServerConfig;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *action = [NSString stringWithFormat:@"/v1/sdk/config?sdk_name=%@&sdk_version=%@", [InspurUtils sdkLanguage], [InspurUtils sdkVersion]];
     
@@ -561,7 +561,7 @@
     
     self.requestInfo.requestType = QNUploadRequestTypeServerUserConfig;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    header[@"User-Agent"] = [kQNUserAgent getUserAgent:self.token.token];
+    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
     NSString *action = [NSString stringWithFormat:@"/v1/sdk/config/user?ak=%@&sdk_name=%@&sdk_version=%@", self.token.access, [InspurUtils sdkLanguage], [InspurUtils sdkVersion]];
     

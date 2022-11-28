@@ -2,7 +2,7 @@
 //  QNCFHttpThreadPool.m
 //  Qiniu
 //
-//  Created by yangsen on 2021/10/13.
+//  Created by Brook on 2021/10/13.
 //
 
 #import "InspurCFHttpThreadPool.h"
@@ -67,7 +67,7 @@
     InspurTransaction *transaction = [InspurTransaction timeTransaction:@"CFHttpThreadPool" after:0 interval:1 action:^{
         [self checkThreadLive];
     }];
-    [kQNTransactionManager addTransaction:transaction];
+    [kInspurTransactionManager addTransaction:transaction];
 }
 
 - (void)checkThreadLive {

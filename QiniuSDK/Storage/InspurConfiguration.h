@@ -2,8 +2,8 @@
 //  QNConfiguration.h
 //  QiniuSDK
 //
-//  Created by bailong on 15/5/21.
-//  Copyright (c) 2015年 Qiniu. All rights reserved.
+//  Created by Brook on 15/5/21.
+//  Copyright (c) 2015年 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

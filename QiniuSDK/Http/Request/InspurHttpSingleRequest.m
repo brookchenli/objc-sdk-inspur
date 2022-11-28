@@ -2,8 +2,8 @@
 //  QNHttpRequest+SingleRequestRetry.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/4/29.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/4/29.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurDefine.h"
@@ -197,8 +197,8 @@
         return NO;
     }
     
-    return responseInfo.statusCode == kQNNetworkError ||
-    responseInfo.statusCode == kQNUnexpectedSysCallError || // CF 内部部分错误码 归结到了调用错误
+    return responseInfo.statusCode == kInspurNetworkError ||
+    responseInfo.statusCode == kInspurUnexpectedSysCallError || // CF 内部部分错误码 归结到了调用错误
     responseInfo.statusCode == NSURLErrorTimedOut /* NSURLErrorTimedOut */ ||
     responseInfo.statusCode == -1003 /* NSURLErrorCannotFindHost */ ||
     responseInfo.statusCode == -1004 /* NSURLErrorCannotConnectToHost */ ||

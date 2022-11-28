@@ -2,8 +2,8 @@
 //  QNPHAssetResource.h
 //  QiniuSDK
 //
-//  Created by   何舒 on 16/2/14.
-//  Copyright © 2016年 Qiniu. All rights reserved.
+//  Created by   Brook on 16/2/14.
+//  Copyright © 2016年 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

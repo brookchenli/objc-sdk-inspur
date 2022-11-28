@@ -2,7 +2,7 @@
 //  NSData+QNGZip.h
 //  GZipTest
 //
-//  Created by yangsen on 2020/8/12.
+//  Created by Brook on 2020/8/12.
 //  Copyright © 2020 yangsen. All rights reserved.
 //
 

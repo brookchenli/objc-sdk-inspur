@@ -2,8 +2,8 @@
 //  QNUploadSourceStream.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/5/10.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/5/10.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 
 #import "InspurErrorCode.h"
@@ -61,12 +61,12 @@
 
 - (NSData *)readData:(NSInteger)dataSize dataOffset:(long long)dataOffset error:(NSError **)error {
     if (self.stream == nil) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : @"inputStream is empty"}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : @"inputStream is empty"}];
         return nil;
     }
     
     if (dataOffset < self.readOffset) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : @"read data error: error data offset"}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : @"read data error: error data offset"}];
         return nil;
     }
     
@@ -179,13 +179,13 @@
             case NSStreamStatusReading:
                 continue;
             case NSStreamStatusWriting:
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : @"stream is writing"}];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : @"stream is writing"}];
                 break;
             case NSStreamStatusAtEnd:
                 isEOF = true;
                 break;
             case NSStreamStatusClosed:
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : @"stream is closed"}];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : @"stream is closed"}];
                 break;
             case NSStreamStatusError:
                 *error = self.stream.streamError;

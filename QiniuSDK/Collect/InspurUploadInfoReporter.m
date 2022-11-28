@@ -3,7 +3,7 @@
 //  QiniuSDK
 //
 //  Created by WorkSpace_Sun on 2019/6/24.
-//  Copyright © 2019 Qiniu. All rights reserved.
+//  Copyright © 2019 Inspur. All rights reserved.
 //
 #import "InspurDefine.h"
 #import "InspurZoneInfo.h"
@@ -163,7 +163,7 @@
             return;
         }
         
-        NSArray *transactionList = [kQNTransactionManager transactionsForName:kQNUplogDelayReportTransactionName];
+        NSArray *transactionList = [kInspurTransactionManager transactionsForName:kQNUplogDelayReportTransactionName];
         if (transactionList != nil && transactionList.count > 1) {
             return;
         }
@@ -178,7 +178,7 @@
         InspurTransaction *transaction = [InspurTransaction transaction:kQNUplogDelayReportTransactionName after:interval action:^{
             [self reportToServerIfNeeded:tokenString];
         }];
-        [kQNTransactionManager addTransaction:transaction];
+        [kInspurTransactionManager addTransaction:transaction];
     }
 }
 

@@ -2,7 +2,7 @@
 //  QNPHAssetFile.m
 //  Pods
 //
-//  Created by   何舒 on 15/10/21.
+//  Created by   Brook on 15/10/21.
 //
 //
 
@@ -62,7 +62,7 @@
                 f = [NSFileHandle fileHandleForReadingFromURL:[NSURL fileURLWithPath:self.filePath] error:error];
                 if (f == nil) {
                     if (error != nil) {
-                        *error = [[NSError alloc] initWithDomain:self.filePath code:kQNFileError userInfo:[*error userInfo]];
+                        *error = [[NSError alloc] initWithDomain:self.filePath code:kInspurFileError userInfo:[*error userInfo]];
                     }
                     return self;
                 }
@@ -99,7 +99,7 @@
             data = [NSData data];
         }
     } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
         NSLog(@"read file failed reason: %@ \n%@", exception.reason, exception.callStackSymbols);
     } @finally {
         [_lock unlock];

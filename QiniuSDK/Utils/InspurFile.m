@@ -2,8 +2,8 @@
 //  QNFile.m
 //  QiniuSDK
 //
-//  Created by bailong on 15/7/25.
-//  Copyright (c) 2015年 Qiniu. All rights reserved.
+//  Created by Brook on 15/7/25.
+//  Copyright (c) 2015年 Inspur. All rights reserved.
 //
 
 #import "InspurFile.h"
@@ -54,7 +54,7 @@
             f = [NSFileHandle fileHandleForReadingAtPath:path];
             if (f == nil) {
                 if (error != nil) {
-                    *error = [[NSError alloc] initWithDomain:path code:kQNFileError userInfo:nil];
+                    *error = [[NSError alloc] initWithDomain:path code:kInspurFileError userInfo:nil];
                 }
                 return self;
             }
@@ -92,7 +92,7 @@
             data = [NSData data];
         }
     } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
         NSLog(@"read file failed reason: %@ \n%@", exception.reason, exception.callStackSymbols);
     } @finally {
         [_lock unlock];

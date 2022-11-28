@@ -2,8 +2,8 @@
 //  QNUploadInfo.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/5/10.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/5/10.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 
 #import "InspurErrorCode.h"
@@ -93,7 +93,7 @@
 
 - (NSData *)readData:(NSInteger)dataSize dataOffset:(long long)dataOffset error:(NSError **)error {
     if (!self.source) {
-        *error = [NSError errorWithDomain:NSStreamSOCKSErrorDomain code:kQNLocalIOError userInfo:@{NSLocalizedDescriptionKey : @"file is not exist"}];
+        *error = [NSError errorWithDomain:NSStreamSOCKSErrorDomain code:kInspurLocalIOError userInfo:@{NSLocalizedDescriptionKey : @"file is not exist"}];
         return nil;
     }
     

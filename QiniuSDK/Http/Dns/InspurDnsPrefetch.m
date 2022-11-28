@@ -2,8 +2,8 @@
 //  QNDnsPrefetch.m
 //  QnDNS
 //
-//  Created by yangsen on 2020/3/26.
-//  Copyright © 2020 com.qiniu. All rights reserved.
+//  Created by Brook on 2020/3/26.
+//  Copyright © 2020 com.inspur. All rights reserved.
 //
 
 
@@ -669,7 +669,7 @@
 //MARK: -- 获取预取hosts
 - (NSArray <NSString *> *)getLocalPreHost{
     NSMutableArray *localHosts = [NSMutableArray array];
-    [localHosts addObject:kQNUpLogHost];
+    [localHosts addObject:kInspurUpLogHost];
     return [localHosts copy];
 }
 

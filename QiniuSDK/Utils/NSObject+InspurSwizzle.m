@@ -2,7 +2,7 @@
 //  NSObject+QNSwizzle.m
 //  HappyDNS
 //
-//  Created by yangsen on 2020/4/13.
+//  Created by Brook on 2020/4/13.
 //
 
 #import "NSObject+InspurSwizzle.h"

@@ -2,8 +2,8 @@
 //  QNServerConfiguration.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/8/25.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/8/25.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 #import "InspurLogUtil.h"
 #import "InspurDefine.h"
@@ -78,7 +78,7 @@
     }
     
     @synchronized (self) {
-        BOOL isExist = [kQNTransactionManager existTransactionsForName:kQNServerConfigTransactionKey];
+        BOOL isExist = [kInspurTransactionManager existTransactionsForName:kQNServerConfigTransactionKey];
         if (isExist) {
             return;
         }
@@ -86,16 +86,16 @@
         InspurTransaction *transaction = [InspurTransaction timeTransaction:kQNServerConfigTransactionKey after:0 interval:10 action:^{
             [[InspurServerConfigMonitor share] monitor];
         }];
-        [kQNTransactionManager addTransaction:transaction];
+        [kInspurTransactionManager addTransaction:transaction];
     }
 }
 
 // 停止监控
 + (void)endMonitor {
     @synchronized (self) {
-        NSArray *transactions = [kQNTransactionManager transactionsForName:kQNServerConfigTransactionKey];
+        NSArray *transactions = [kInspurTransactionManager transactionsForName:kQNServerConfigTransactionKey];
         for (InspurTransaction *transaction in transactions) {
-            [kQNTransactionManager removeTransaction:transaction];
+            [kInspurTransactionManager removeTransaction:transaction];
         }
     }
 }

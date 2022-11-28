@@ -2,8 +2,8 @@
 //  QNSystem.m
 //  QiniuSDK
 //
-//  Created by bailong on 15/10/13.
-//  Copyright © 2015年 Qiniu. All rights reserved.
+//  Created by Brook on 15/10/13.
+//  Copyright © 2015年 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

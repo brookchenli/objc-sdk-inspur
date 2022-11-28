@@ -2,8 +2,8 @@
 //  QNAutoZone.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/4/16.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/4/16.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurDefine.h"
@@ -194,7 +194,7 @@
             }
         } else {
             if (responseInfo.isConnectionBroken) {
-                ret(kQNNetworkError, responseInfo, metrics);
+                ret(kInspurNetworkError, responseInfo, metrics);
             } else {
                 InspurZonesInfo *zonesInfo = [[InspurFixedZone localsZoneInfo] getZonesInfoWithToken:token];
                 if ([zonesInfo isValid]) {

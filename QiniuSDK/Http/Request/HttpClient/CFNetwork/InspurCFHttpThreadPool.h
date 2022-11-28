@@ -2,7 +2,7 @@
 //  QNCFHttpThreadPool.h
 //  Qiniu
 //
-//  Created by yangsen on 2021/10/13.
+//  Created by Brook on 2021/10/13.
 //
 
 #import <Foundation/Foundation.h>

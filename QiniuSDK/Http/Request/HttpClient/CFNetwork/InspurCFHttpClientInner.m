@@ -2,8 +2,8 @@
 //  QNHttpClient.m
 //  AppTest
 //
-//  Created by yangsen on 2020/4/7.
-//  Copyright © 2020 com.qiniu. All rights reserved.
+//  Created by Brook on 2020/4/7.
+//  Copyright © 2020 com.inspur. All rights reserved.
 //
 
 #import "InspurErrorCode.h"
@@ -379,31 +379,31 @@
         return nil;
     }
     
-    NSInteger errorCode = kQNNetworkError;
+    NSInteger errorCode = kInspurNetworkError;
     NSString *errorInfo = [NSString stringWithFormat:@"cf client:[%ld] %@", (long)cfError.code, cfError.localizedDescription];
     switch (cfError.code) {
         case ENOENT: /* No such file or directory */
             errorCode = NSFileNoSuchFileError;
             break;
         case EIO: /* Input/output error */
-            errorCode = kQNLocalIOError;
+            errorCode = kInspurLocalIOError;
             break;
         case E2BIG: /* Argument list too long */
             break;
         case ENOEXEC: /* Exec format error */
-            errorCode = kQNLocalIOError;
+            errorCode = kInspurLocalIOError;
             break;
         case EBADF: /* Bad file descriptor */
-            errorCode = kQNLocalIOError;
+            errorCode = kInspurLocalIOError;
             break;
         case ECHILD: /* No child processes */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EDEADLK: /* Resource deadlock avoided */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENOMEM: /* Cannot allocate memory */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EACCES: /* Permission denied */
             errorCode = NSURLErrorNoPermissionsToReadFile;
@@ -412,49 +412,49 @@
             errorCode = NSURLErrorBadURL;
             break;
         case EBUSY: /* Device / Resource busy */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EEXIST: /* File exists */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENODEV: /* Operation not supported by device */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EISDIR: /* Is a directory */
             errorCode = NSURLErrorFileIsDirectory;
             break;
         case ENOTDIR: /* Not a directory */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EINVAL: /* Invalid argument */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENFILE: /* Too many open files in system */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EMFILE: /* Too many open files */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EFBIG: /* File too large */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENOSPC: /* No space left on device */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ESPIPE: /* Illegal seek */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EMLINK: /* Too many links */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EPIPE: /* Broken pipe */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EDOM: /* Numerical argument out of domain */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ERANGE: /* Result too large */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EAGAIN: /* Resource temporarily unavailable */
             break;
@@ -497,7 +497,7 @@
             errorCode = NSURLErrorNetworkConnectionLost;
             break;
         case ENOBUFS: /* No buffer space available */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EISCONN: /* Socket is already connected */
             break;
@@ -515,7 +515,7 @@
             errorCode = NSURLErrorCannotConnectToHost;
             break;
         case ELOOP: /* Too many levels of symbolic links */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENAMETOOLONG: /* File name too long */
             break;
@@ -526,39 +526,39 @@
         case ENOTEMPTY: /* Directory not empty */
             break;
         case EPROCLIM: /* Too many processes */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EUSERS: /* Too many users */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EDQUOT: /* Disc quota exceeded */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ESTALE: /* Stale NFS file handle */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EREMOTE: /* Too many levels of remote in path */
             break;
         case EBADRPC: /* RPC struct is bad */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ERPCMISMATCH: /* RPC version wrong */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EPROGUNAVAIL: /* RPC prog. not avail */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EPROGMISMATCH: /* Program version wrong */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EPROCUNAVAIL: /* Bad procedure for program */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENOLCK: /* No locks available */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ENOSYS: /* Function not implemented */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EFTYPE: /* Inappropriate file type or format */
             break;
@@ -567,25 +567,25 @@
         case ENEEDAUTH: /* Need authenticator */
             break;
         case EPWROFF: /* Device power is off */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EDEVERR: /* Device error, e.g. paper out */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EOVERFLOW: /* Value too large to be stored in data type */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EBADEXEC: /* Bad executable */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EBADARCH: /* Bad CPU type in executable */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ESHLIBVERS: /* Shared library version mismatch */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EBADMACHO: /* Malformed Macho file */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case ECANCELED: /* Operation canceled */
             errorCode = NSURLErrorCancelled;
@@ -622,7 +622,7 @@
         case ENOTRECOVERABLE: /* State not recoverable */
             break;
         case EOWNERDEAD: /* Previous owner died */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case EQFULL: /* Interface output queue is full */
             break;
@@ -633,13 +633,13 @@
             errorCode = NSURLErrorSecureConnectionFailed;
             break;
         case -9802:    /* Fatal alert */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9803:    /* I/O would block (not fatal) */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9804:    /* attempt to restore an unknown session */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9805:    /* connection closed gracefully */
             errorCode = NSURLErrorNetworkConnectionLost;
@@ -660,7 +660,7 @@
             errorCode = NSURLErrorNotConnectedToInternet;
             break;
         case -9811:    /* module attach failure */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9812:    /* valid cert chain, untrusted root */
             errorCode = NSURLErrorServerCertificateHasUnknownRoot;
@@ -771,13 +771,13 @@
             errorCode = NSURLErrorDataLengthExceedsMaximum;
             break;
         case -9848:    /* configuration error */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9849:    /* unexpected (skipped) record in DTLS */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9850:   /* weak ephemeral dh key  */
-            errorCode = kQNUnexpectedSysCallError;
+            errorCode = kInspurUnexpectedSysCallError;
             break;
         case -9851:    /* SNI */
             errorCode = NSURLErrorClientCertificateRejected;

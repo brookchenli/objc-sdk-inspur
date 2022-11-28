@@ -2,8 +2,8 @@
 //  QNErrorCode.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/10/21.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/10/21.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,54 +15,54 @@
 /**
  *    中途取消的状态码
  */
-extern const int kQNRequestCancelled;
+extern const int kInspurRequestCancelled;
 
 /**
  *    网络错误状态码
  */
-extern const int kQNNetworkError;
+extern const int kInspurNetworkError;
 
 /**
  *    错误参数状态码
  */
-extern const int kQNInvalidArgument;
+extern const int kInspurInvalidArgument;
 
 /**
  *    0 字节文件或数据
  */
-extern const int kQNZeroDataSize;
+extern const int kInspurZeroDataSize;
 
 /**
  *    错误token状态码
  */
-extern const int kQNInvalidToken;
+extern const int kInspurInvalidToken;
 
 /**
  *    读取文件错误状态码
  */
-extern const int kQNFileError;
+extern const int kInspurFileError;
 
 /**
  *    本地 I/O 错误
  */
-extern const int kQNLocalIOError;
+extern const int kInspurLocalIOError;
 
 /**
  *    ⽤户劫持错误 错误
  */
-extern const int kQNMaliciousResponseError;
+extern const int kInspurMaliciousResponseError;
 
 /**
  *    没有可用的Host 错误【废弃】
  */
-extern const int kQNNoUsableHostError NS_UNAVAILABLE;
+extern const int kInspurNoUsableHostError NS_UNAVAILABLE;
 
 /**
  *    SDK 内部错误
  */
-extern const int kQNSDKInteriorError;
+extern const int kInspurSDKInteriorError;
 
 /**
  *    非预期的系统调用 错误
  */
-extern const int kQNUnexpectedSysCallError;
+extern const int kInspurUnexpectedSysCallError;

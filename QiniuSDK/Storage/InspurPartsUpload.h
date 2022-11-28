@@ -2,8 +2,8 @@
 //  QNPartsUpload.h
 //  QiniuSDK_Mac
 //
-//  Created by yangsen on 2020/5/7.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/5/7.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 /// 分片上传，默认为串行
 

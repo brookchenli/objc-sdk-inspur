@@ -2,8 +2,8 @@
 //  QNReportItem.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/5/12.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/5/12.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurReportItem.h"
@@ -92,7 +92,7 @@
     NSString *errorType = nil;
     if (self.statusCode == -1){
         errorType = @"network_error";
-    } else if (self.statusCode == kQNLocalIOError){
+    } else if (self.statusCode == kInspurLocalIOError){
         errorType = @"local_io_error";
     } else if (self.statusCode == 100){
         errorType = @"protocol_error";
@@ -114,12 +114,12 @@
         errorType = @"ssl_error";
     } else if (self.statusCode == -1015 || self.statusCode == -1016 || self.statusCode == -1017){
         errorType = @"parse_error";
-    } else if (self.statusCode == -1007 || self.statusCode == -1010 || self.statusCode == kQNMaliciousResponseError){
+    } else if (self.statusCode == -1007 || self.statusCode == -1010 || self.statusCode == kInspurMaliciousResponseError){
         errorType = @"malicious_response";
-    } else if (self.statusCode == kQNUnexpectedSysCallError
+    } else if (self.statusCode == kInspurUnexpectedSysCallError
                || (self.statusCode > -1130 && self.statusCode <= -1010)){
         errorType = @"unexpected_syscall_error";
-    } else if (self.statusCode == kQNRequestCancelled
+    } else if (self.statusCode == kInspurRequestCancelled
                || self.statusCode == NSURLErrorCancelled){
         errorType = @"user_canceled";
     } else {
@@ -139,12 +139,12 @@
                 self.statusCode == 608 || self.statusCode == 612 || self.statusCode == 614 || self.statusCode == 630 || self.statusCode == 631 ||
                 self.statusCode == 701)) {
         result = @"bad_request";
-    } else if (self.statusCode == kQNZeroDataSize){
+    } else if (self.statusCode == kInspurZeroDataSize){
         result = @"zero_size_file";
-    } else if (self.statusCode == kQNFileError){
+    } else if (self.statusCode == kInspurFileError){
         result = @"invalid_file";
-    } else if (self.statusCode == kQNInvalidToken
-            || self.statusCode == kQNInvalidArgument){
+    } else if (self.statusCode == kInspurInvalidToken
+            || self.statusCode == kInspurInvalidArgument){
         result = @"invalid_args";
     }
     

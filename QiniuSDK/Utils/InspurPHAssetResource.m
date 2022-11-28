@@ -2,8 +2,8 @@
 //  QNPHAssetResource.m
 //  QiniuSDK
 //
-//  Created by   何舒 on 16/2/14.
-//  Copyright © 2016年 Qiniu. All rights reserved.
+//  Created by   Brook on 16/2/14.
+//  Copyright © 2016年 Inspur. All rights reserved.
 //
 
 #import "InspurPHAssetResource.h"
@@ -73,7 +73,7 @@ enum {
             data = [NSData data];
         }
     } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
         NSLog(@"read file failed reason: %@ \n%@", exception.reason, exception.callStackSymbols);
     } @finally {
         [_lock unlock];

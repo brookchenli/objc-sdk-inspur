@@ -2,8 +2,8 @@
 //  QNFileRecorder.m
 //  QiniuSDK
 //
-//  Created by bailong on 14/10/5.
-//  Copyright (c) 2014年 Qiniu. All rights reserved.
+//  Created by Brook on 14/10/5.
+//  Copyright (c) 2014年 Inspur. All rights reserved.
 //
 
 #import "InspurFileRecorder.h"

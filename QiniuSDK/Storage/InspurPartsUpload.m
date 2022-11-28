@@ -2,8 +2,8 @@
 //  QNPartsUpload.m
 //  QiniuSDK_Mac
 //
-//  Created by yangsen on 2020/5/7.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/5/7.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurDefine.h"
@@ -62,7 +62,7 @@
     if (!responseInfo) {
         return;
     }
-    if (!self.uploadDataErrorResponseInfo || responseInfo.statusCode != kQNSDKInteriorError) {
+    if (!self.uploadDataErrorResponseInfo || responseInfo.statusCode != kInspurSDKInteriorError) {
         self.uploadDataErrorResponseInfo = responseInfo;
         self.uploadDataErrorResponse = response ?: responseInfo.responseDictionary;
     }
@@ -86,7 +86,7 @@
     QNLogInfo(@"key:%@ region:%@", self.key, self.uploadPerformer.currentRegion.zoneInfo.regionId);
     
     if (self.uploadSource == nil) {
-        code = kQNLocalIOError;
+        code = kInspurLocalIOError;
     }
     return code;
 }

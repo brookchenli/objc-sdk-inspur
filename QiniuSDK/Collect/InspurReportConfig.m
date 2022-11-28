@@ -2,8 +2,8 @@
 //  QNReportConfig.m
 //  QiniuSDK
 //
-//  Created by 杨森 on 2020/7/14.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/7/14.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurReportConfig.h"
@@ -27,7 +27,7 @@
     if (self) {
         _reportEnable = YES;
         _interval = 0.5;
-        _serverHost = kQNUpLogHost;
+        _serverHost = kInspurUpLogHost;
         _recordDirectory = [NSString stringWithFormat:@"%@/report", [InspurUtils sdkCacheDirectory]];
         _maxRecordFileSize = 20 * 1024 * 1024;
         _uploadThreshold = 16 * 1024;

@@ -3,7 +3,7 @@
 //  QiniuSDK
 //
 //  Created by 陈历 on 2022/11/27.
-//  Copyright © 2022 Qiniu. All rights reserved.
+//  Copyright © 2022 Inspur. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -2,8 +2,8 @@
 //  QNPartsUploadApiV1.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2020/11/30.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/11/30.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurLogUtil.h"

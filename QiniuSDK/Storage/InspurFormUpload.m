@@ -2,8 +2,8 @@
 //  QNFormUpload.m
 //  QiniuSDK
 //
-//  Created by bailong on 15/1/4.
-//  Copyright (c) 2015年 Qiniu. All rights reserved.
+//  Created by Brook on 15/1/4.
+//  Copyright (c) 2015年 Inspur. All rights reserved.
 //
 #import "InspurDefine.h"
 #import "InspurLogUtil.h"

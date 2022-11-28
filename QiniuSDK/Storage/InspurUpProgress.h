@@ -2,8 +2,8 @@
 //  QNUpProgress.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/5/21.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/5/21.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 
 #import "InspurUploadOption.h"

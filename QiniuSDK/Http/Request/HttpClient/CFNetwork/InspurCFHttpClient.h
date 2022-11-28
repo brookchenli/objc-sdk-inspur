@@ -2,8 +2,8 @@
 //  QNCFHttpClient.h
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/10/11.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/10/11.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 
 #import "InspurRequestClient.h"

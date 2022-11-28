@@ -2,7 +2,7 @@
 //  QNPHAssetFile.h
 //  Pods
 //
-//  Created by   何舒 on 15/10/21.
+//  Created by   Brook on 15/10/21.
 //
 //
 

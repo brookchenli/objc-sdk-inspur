@@ -2,8 +2,8 @@
 //  QNUploadServerFreezeUtil.m
 //  QiniuSDK
 //
-//  Created by yangsen on 2021/2/4.
-//  Copyright © 2021 Qiniu. All rights reserved.
+//  Created by Brook on 2021/2/4.
+//  Copyright © 2021 Inspur. All rights reserved.
 //
 
 #import "InspurUtils.h"

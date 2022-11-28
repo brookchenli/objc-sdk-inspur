@@ -2,8 +2,8 @@
 //  QNALAssetFile.m
 //  QiniuSDK
 //
-//  Created by bailong on 15/7/25.
-//  Copyright (c) 2015年 Qiniu. All rights reserved.
+//  Created by Brook on 15/7/25.
+//  Copyright (c) 2015年 Inspur. All rights reserved.
 //
 
 #import "InspurALAssetFile.h"
@@ -55,7 +55,7 @@
         NSUInteger buffered = [rep getBytes:buffer fromOffset:offset length:size error:error];
         data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
     } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kQNFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kInspurFileError userInfo:@{NSLocalizedDescriptionKey : exception.reason}];
         NSLog(@"read file failed reason: %@ \n%@", exception.reason, exception.callStackSymbols);
     } @finally {
         [_lock unlock];

@@ -2,8 +2,8 @@
 //  QNInetAddress.m
 //  QiniuSDK
 //
-//  Created by 杨森 on 2020/7/27.
-//  Copyright © 2020 Qiniu. All rights reserved.
+//  Created by Brook on 2020/7/27.
+//  Copyright © 2020 Inspur. All rights reserved.
 //
 
 #import "InspurInetAddress.h"
