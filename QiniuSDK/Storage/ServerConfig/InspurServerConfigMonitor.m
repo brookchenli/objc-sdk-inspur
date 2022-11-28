@@ -1,6 +1,6 @@
 //
 //  QNServerConfiguration.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/25.
 //  Copyright © 2021 Inspur. All rights reserved.

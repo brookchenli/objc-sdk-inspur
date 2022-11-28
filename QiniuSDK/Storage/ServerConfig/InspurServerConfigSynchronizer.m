@@ -1,6 +1,6 @@
 //
 //  QNServerConfigSynchronizer.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/30.
 //  Copyright © 2021 Inspur. All rights reserved.
@@ -56,7 +56,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
         
         NSArray *hosts = Hosts;
         if (hosts == nil) {
-            hosts = @[kQNPreQueryHost00, kQNPreQueryHost01];
+            hosts = @[kInspurPreQueryHost00, kInspurPreQueryHost01];
         }
         InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
                                                                                regionId:QNZoneInfoEmptyRegionId
@@ -107,7 +107,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
         
         NSArray *hosts = Hosts;
         if (hosts == nil) {
-            hosts = @[kQNPreQueryHost00, kQNPreQueryHost01];
+            hosts = @[kInspurPreQueryHost00, kInspurPreQueryHost01];
         }
         InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
                                                                                regionId:QNZoneInfoEmptyRegionId

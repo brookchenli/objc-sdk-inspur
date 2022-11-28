@@ -1,6 +1,6 @@
 //
 //  QNCFHttpClient.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/10/11.
 //  Copyright © 2021 Inspur. All rights reserved.

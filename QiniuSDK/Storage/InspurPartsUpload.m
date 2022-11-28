@@ -1,6 +1,6 @@
 //
 //  QNPartsUpload.m
-//  QiniuSDK_Mac
+//  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/5/7.
 //  Copyright © 2020 Inspur. All rights reserved.

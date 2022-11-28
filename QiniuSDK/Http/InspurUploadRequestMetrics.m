@@ -1,6 +1,6 @@
 //
 //  QNUploadRequestMetrics.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/29.
 //  Copyright © 2020 Inspur. All rights reserved.

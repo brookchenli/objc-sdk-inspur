@@ -1,6 +1,6 @@
 //
 //  QNAutoZone.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
 //  Copyright © 2020 Inspur. All rights reserved.
@@ -213,7 +213,7 @@
     if (self.ucHosts && self.ucHosts.count > 0) {
         hosts = [self.ucHosts copy];
     } else {
-        hosts = @[kQNPreQueryHost02, kQNPreQueryHost00, kQNPreQueryHost01];
+        hosts = @[kInspurPreQueryHost02, kInspurPreQueryHost00, kInspurPreQueryHost01];
     }
     InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
                                                                            regionId:QNZoneInfoEmptyRegionId

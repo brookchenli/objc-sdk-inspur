@@ -1,6 +1,6 @@
 //
 //  QNErrorCode.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/10/21.
 //  Copyright © 2020 Inspur. All rights reserved.

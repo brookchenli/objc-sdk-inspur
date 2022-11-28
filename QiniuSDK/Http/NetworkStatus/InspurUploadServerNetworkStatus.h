@@ -1,6 +1,6 @@
 //
 //  QNUploadServerNetworkStatus.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/17.
 //  Copyright © 2020 Inspur. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  QNApiType.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2022/11/15.
 //  Copyright © 2022 Inspur. All rights reserved.

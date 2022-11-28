@@ -1,6 +1,6 @@
 //
 //  QNUploadInfoReporter.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/6/24.
 //  Copyright © 2019 Inspur. All rights reserved.
@@ -20,7 +20,7 @@
 #import "InspurTransactionManager.h"
 #import "InspurRequestTransaction.h"
 
-#define kQNUplogDelayReportTransactionName @"com.qiniu.uplog"
+#define kInspurUplogDelayReportTransactionName @"com.qiniu.uplog"
 
 @interface InspurUploadInfoReporter ()
 
@@ -163,7 +163,7 @@
             return;
         }
         
-        NSArray *transactionList = [kInspurTransactionManager transactionsForName:kQNUplogDelayReportTransactionName];
+        NSArray *transactionList = [kInspurTransactionManager transactionsForName:kInspurUplogDelayReportTransactionName];
         if (transactionList != nil && transactionList.count > 1) {
             return;
         }
@@ -175,7 +175,7 @@
             }
         }
         
-        InspurTransaction *transaction = [InspurTransaction transaction:kQNUplogDelayReportTransactionName after:interval action:^{
+        InspurTransaction *transaction = [InspurTransaction transaction:kInspurUplogDelayReportTransactionName after:interval action:^{
             [self reportToServerIfNeeded:tokenString];
         }];
         [kInspurTransactionManager addTransaction:transaction];

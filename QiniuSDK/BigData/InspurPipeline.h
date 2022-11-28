@@ -1,6 +1,6 @@
 //
 //  QNPipeline.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2017/7/25.
 //  Copyright © 2017年 Inspur. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  QNBaseUpload.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2020/4/19.
 //  Copyright © 2020 Inspur. All rights reserved.

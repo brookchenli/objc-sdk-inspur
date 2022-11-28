@@ -1,6 +1,6 @@
 //
 //  QNUploadServerFreezeManager.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/6/2.
 //  Copyright © 2020 Inspur. All rights reserved.

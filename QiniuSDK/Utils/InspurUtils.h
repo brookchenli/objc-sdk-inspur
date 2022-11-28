@@ -1,6 +1,6 @@
 //
 //  QNUtils.h
-//  QiniuSDK_Mac
+//  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/3/27.
 //  Copyright © 2020 Inspur. All rights reserved.

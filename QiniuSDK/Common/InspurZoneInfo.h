@@ -1,6 +1,6 @@
 //
 //  QNZoneInfo.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
 //  Copyright © 2020 Inspur. All rights reserved.

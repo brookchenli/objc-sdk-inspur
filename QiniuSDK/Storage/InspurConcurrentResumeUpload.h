@@ -1,6 +1,6 @@
 //
 //  QNConcurrentResumeUpload.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/7/15.
 //  Copyright © 2019 Inspur. All rights reserved.

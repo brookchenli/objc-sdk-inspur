@@ -1,6 +1,6 @@
 //
 //  QNSystem.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 15/10/13.
 //  Copyright © 2015年 Inspur. All rights reserved.

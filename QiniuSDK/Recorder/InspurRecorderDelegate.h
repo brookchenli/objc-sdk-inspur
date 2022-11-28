@@ -1,6 +1,6 @@
 //
 //  QNRecorderDelegate.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 14/10/5.
 //  Copyright (c) 2014年 Inspur. All rights reserved.

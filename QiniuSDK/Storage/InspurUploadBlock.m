@@ -1,6 +1,6 @@
 //
 //  QNUploadBlock.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.
 //  Copyright © 2021 Inspur. All rights reserved.

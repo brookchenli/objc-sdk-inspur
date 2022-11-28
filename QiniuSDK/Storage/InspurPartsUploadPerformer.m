@@ -1,6 +1,6 @@
 //
 //  QNPartsUploadPerformer.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/1.
 //  Copyright © 2020 Inspur. All rights reserved.

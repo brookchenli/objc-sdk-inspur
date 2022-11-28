@@ -1,6 +1,6 @@
 //
 //  QNConnectChecker.m
-//  QiniuSDK_Mac
+//  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2021/1/8.
 //  Copyright © 2021 Inspur. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  QNALAssetFile.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 15/7/25.
 //  Copyright (c) 2015年 Inspur. All rights reserved.

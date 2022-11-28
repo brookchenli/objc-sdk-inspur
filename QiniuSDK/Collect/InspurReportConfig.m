@@ -1,6 +1,6 @@
 //
 //  QNReportConfig.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/7/14.
 //  Copyright © 2020 Inspur. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  QNUpToken.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 15/6/7.
 //  Copyright (c) 2015年 Inspur. All rights reserved.

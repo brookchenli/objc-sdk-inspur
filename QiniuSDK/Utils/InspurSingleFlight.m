@@ -1,6 +1,6 @@
 //
 //  QNSingleFlight.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/1/4.
 //  Copyright © 2021 Inspur. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  QNMutableArray.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2021/7/5.
 //  Copyright © 2021 Inspur. All rights reserved.

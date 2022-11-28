@@ -1,6 +1,6 @@
 //
 //  QNResponseInfo.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 14/10/2.
 //  Copyright (c) 2014年 Inspur. All rights reserved.
@@ -11,7 +11,7 @@
 #import "InspurUtils.h"
 #import "InspurXMLReader.h"
 
-static NSString *kQNErrorDomain = @"qiniu.com";
+static NSString *kInspurErrorDomain = @"qiniu.com";
 
 @interface InspurResponseInfo ()
 
@@ -113,7 +113,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
     if (error) {
        response.error = error;
     } else {
-        NSError *error = [[NSError alloc] initWithDomain:kQNErrorDomain
+        NSError *error = [[NSError alloc] initWithDomain:kInspurErrorDomain
                                                     code:errorType
                                                 userInfo:@{ @"error" : response.message ?: @"error" }];
         response.error = error;
@@ -146,7 +146,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
                 _statusCode = kInspurMaliciousResponseError;
                 _message = @"this is a malicious response";
                 _responseDictionary = nil;
-                _error = [[NSError alloc] initWithDomain:kQNErrorDomain code:_statusCode userInfo:@{@"error" : _message}];
+                _error = [[NSError alloc] initWithDomain:kInspurErrorDomain code:_statusCode userInfo:@{@"error" : _message}];
             } else if (error) {
                 _error = error;
                 _statusCode = (int)error.code;
@@ -175,7 +175,7 @@ static NSString *kQNErrorDomain = @"qiniu.com";
                         if (errorString) {
                             [errorUserInfo setDictionary:@{@"error" : errorString}];
                             _message = errorString;
-                            _error = [[NSError alloc] initWithDomain:kQNErrorDomain code:statusCode userInfo:errorUserInfo];
+                            _error = [[NSError alloc] initWithDomain:kInspurErrorDomain code:statusCode userInfo:errorUserInfo];
                         } else {
                             _message = errorString;
                             _error = nil;

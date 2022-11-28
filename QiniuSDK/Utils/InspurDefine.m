@@ -1,6 +1,6 @@
 //
 //  QNDefine.m
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/9/4.
 //  Copyright © 2020 Inspur. All rights reserved.

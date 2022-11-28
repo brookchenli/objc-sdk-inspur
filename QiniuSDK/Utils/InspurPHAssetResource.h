@@ -1,6 +1,6 @@
 //
 //  QNPHAssetResource.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by   Brook on 16/2/14.
 //  Copyright © 2016年 Inspur. All rights reserved.

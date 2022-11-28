@@ -1,6 +1,6 @@
 //
 //  QNLogUtil.h
-//  QiniuSDK
+//  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/25.
 //  Copyright © 2020 Inspur. All rights reserved.
