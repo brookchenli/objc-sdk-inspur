@@ -20,6 +20,7 @@ pod "Qiniu", "~> 8.5.0"
 通过 Swift Package Manager (Xcode 11+)
 ```
 App 对接:
+/Users/chenli/Downloads/Demo/objc-sdk-inspur-1127/objc-sdk-inspur/Qiniu.podspec
 File -> Swift Packages -> Add Package Dependency，输入库链接，选择相应版本即可
 库链接: https://github.com/qiniu/objc-sdk
 

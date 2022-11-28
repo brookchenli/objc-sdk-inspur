@@ -1,16 +1,16 @@
 Pod::Spec.new do |s|
-  s.name         = 'Qiniu'
-  s.version      = '8.5.0'
-  s.summary      = 'Qiniu Resource Storage SDK for iOS and Mac'
+  s.name         = 'InspurOSS'
+  s.version      = '1.0.0'
+  s.summary      = 'Inspur Resource Storage SDK for iOS and Mac'
   s.homepage     = 'https://github.com/qiniu/objc-sdk'
-  s.social_media_url = 'http://weibo.com/qiniutek'
-  s.author       = "Qiniu => sdk@qiniu.com"
-  s.source       = {:git => 'https://github.com/qiniu/objc-sdk.git', :tag => "v#{s.version}"}
+  s.social_media_url = 'http://inspur.com'
+  s.author       = "Inspur => sdk@inspur.com"
+  s.source       = {:git => 'https://github.com/brookchenli/objc-sdk-inspur.git', :tag => "v#{s.version}"}
 
   s.ios.deployment_target = '7.0'
   s.osx.deployment_target = '10.9'
 
-  s.source_files = 'QiniuSDK/BigData/**/*.{h,m}','QiniuSDK/Collect/**/*.{h,m}','QiniuSDK/Common/**/*.{h,m}','QiniuSDK/Http/**/*.{h,m}','QiniuSDK/Recorder/**/*.{h,m}','QiniuSDK/Storage/**/*.{h,m}','QiniuSDK/Transaction/**/*.{h,m}','QiniuSDK/Utils/**/*.{h,m}','QiniuSDK/QiniuSDK.h'
+  s.source_files = 'QiniuSDK/Image/**/*.{h,m}', 'QiniuSDK/BigData/**/*.{h,m}','QiniuSDK/Collect/**/*.{h,m}','QiniuSDK/Common/**/*.{h,m}','QiniuSDK/Http/**/*.{h,m}','QiniuSDK/Recorder/**/*.{h,m}','QiniuSDK/Storage/**/*.{h,m}','QiniuSDK/Transaction/**/*.{h,m}','QiniuSDK/Utils/**/*.{h,m}','QiniuSDK/QiniuSDK.h'
   s.requires_arc = true
   s.libraries = 'z'
   s.dependency 'HappyDNS', '~> 1.0.2'
