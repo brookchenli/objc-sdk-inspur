@@ -17,6 +17,7 @@
 #define InspurImageProcessContrast @"InspurImageProcessContrast"
 #define InspurImageProcessSharpen @"InspurImageProcessSharpen"
 #define InspurImageProcessWater @"InspurImageProcessWater"
+#define InspurImageProcessBlindWater @"InspurImageProcessBlindWater"
 #define InspurImageProcessInterlace @"InspurImageInterlace"
 #define InspurImageProcessIndexcrop @"InspurImageIndexcrop"
 #define InspurImageProcessCircle @"InspurImageCircle"
@@ -47,6 +48,108 @@
 #define InspurImageIndexcropValueKey @"InspurImageIndexcropValueKey"
 #define InspurImageIndexcropIsXKey @"InspurImageIndexcropIsXKey"
 #define InspurImageIndexcropIndexKey @"InspurImageIndexcropIndexKey"
+
+@interface NSString (InspurImageProcess)
+
+@end
+
+@implementation NSString (InspurImageProcess)
+
+-(NSString *)base64EncodeString {
+    //1.先把字符串转换为二进制数据
+    NSString *string = [self copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    //2.对二进制数据进行base64编码，返回编码后的字符串
+    return [data base64EncodedStringWithOptions:0];
+}
+
+- (NSString *)removeSentivie {
+    NSString *string = [NSString stringWithFormat:@"%@", self];
+    string = [string stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    string = [string stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+    return string;
+}
+
+@end
+
+
+@interface InspurImageWaterMarkParams ()
+
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *color;
+@property (nonatomic, strong) NSString *font;
+@property (nonatomic, assign) int fontSize;
+@property (nonatomic, assign) int t;
+@property (nonatomic, strong) NSString *position;
+@property (nonatomic, assign) int x;
+@property (nonatomic, assign) int y;
+
+@property (nonatomic, assign) BOOL isTextMode;
+@property (nonatomic, strong) NSString *imageURL;
+
+@end
+
+@implementation InspurImageWaterMarkParams : NSObject
+
+- (instancetype)initWithText:(NSString *)text
+                       color:(NSString *)color
+                        font:(NSString *)font
+                        size:(int)fontSize
+                 transparent:(int)t
+                    position:(NSString *)position
+                     xMargin:(int)x
+                     yMargin:(int)y {
+    if (self = [super init]) {
+        _isTextMode = YES;
+        _text = text;
+        _color = color;
+        _font = font;
+        _fontSize = fontSize;
+        _t = t;
+        _position = position;
+        _x = x;
+        _y = y;
+    }
+    return self;
+}
+
+//图片水印
+- (instancetype)initWithImage:(NSString *)imageUrl
+                 transparent:(int)t
+                    position:(NSString *)position
+                     xMargin:(CGFloat)x
+                      yMargin:(CGFloat)y {
+    if (self = [super init]) {
+        _imageURL = imageUrl;
+        _t = t;
+        _position = position;
+        _x = x;
+        _y = y;
+    }
+    return self;
+}
+
+- (NSString *)textParams {
+    NSString *text = [[self.text base64EncodeString] removeSentivie];
+    NSString *font = [[self.font base64EncodeString] removeSentivie];
+
+    return [NSString stringWithFormat:@"text_%@,type_%@,color_%@,size_%@,g_%@,x_%d,y_%d,t_%d",text, font,self.color, @(self.fontSize), (self.position), (self.x), (self.y), (self.t)];
+}
+
+- (NSString *)imageParams {
+    NSString *imag = [[self.imageURL base64EncodeString] removeSentivie];
+    return [NSString stringWithFormat:@"g_%@,x_%d,y_%d,t_%d,image_%@", (self.position), (self.x), (self.y), (self.t), imag];
+}
+
+- (NSString *)toString {
+    if (self.isTextMode) {
+        return [self textParams];
+    }
+    return [self imageParams];
+}
+
+
+@end
 
 @interface InspurImageAttributeMaker ()
 @property (nonatomic, strong) NSMutableDictionary *params;
@@ -133,23 +236,20 @@
     };
 }
 
-- (InspurImageAttributeMaker *(^)(NSString *text, NSString *font, NSString *color, NSNumber *size, InspurImageWaterMarkPosition g, NSNumber *x, NSNumber *y, NSNumber *t, NSString *url))watermark {
-    return ^ InspurImageAttributeMaker *(NSString *text, NSString *font, NSString *color, NSNumber *size, InspurImageWaterMarkPosition g, NSNumber *x, NSNumber *y, NSNumber *t, NSString *url) {
-        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        [dictionary setValue:text forKey:InspurImageWaterMarkTextKey];
-        [dictionary setValue:font forKey:InspurImageWaterMarkFontkey];
-        [dictionary setValue:color forKey:InspurImageWaterMarkTextColorKey];
-        [dictionary setValue:size forKey:InspurImageWaterMarkSizeKey];
-        [dictionary setValue:@(g) forKey:InspurImageWaterMarkGKey];
-        [dictionary setValue:x forKey:InspurImageWaterMarkXKey];
-        [dictionary setValue:y forKey:InspurImageWaterMarkYKey];
-        [dictionary setValue:t forKey:InspurImageWaterMarkTKey];
-        [dictionary setValue:url forKey:InspurImageWaterMarkImageURLKey];
-        [self addAttribute:InspurImageProcessWater value:dictionary];
-        
+- (InspurImageAttributeMaker *(^)(NSArray <InspurImageWaterMarkParams *> *waterMarks))watermark {
+    return ^ InspurImageAttributeMaker *(NSArray <InspurImageWaterMarkParams *> *waterMarks) {
+        [self addAttribute:InspurImageProcessWater value:waterMarks];
         return self;
     };
 }
+
+- (InspurImageAttributeMaker *(^)(InspurImageWaterMarkParams *waterMark))blindWatermark {
+    return ^ InspurImageAttributeMaker *(InspurImageWaterMarkParams *waterMark) {
+        [self addAttribute:InspurImageProcessBlindWater value:waterMark];
+        return self;
+    };
+}
+
 
 - (InspurImageAttributeMaker *(^)(int interlace))interlace {
     return ^ InspurImageAttributeMaker *(int interlace) {
@@ -266,6 +366,7 @@
     [self addFormat:make toArray:array];
     [self addQuality:make toArray:array];
     [self addWaterMark:make toArray:array];
+    [self addBlindWaterMark:make toArray:array];
     [self addInterlace:make toArray:array];
     [self addIndexcrop:make toArray:array];
     [self addCircle:make toArray:array];
@@ -383,59 +484,21 @@
 }
 
 - (void)addWaterMark:(InspurImageAttributeMaker *)make toArray:(NSMutableArray *)array {
-    NSDictionary *values = [make.params objectForKey:InspurImageProcessWater];
-    if (values.count == 0) {
+    NSArray <InspurImageWaterMarkParams *> *list = [make.params objectForKey:InspurImageProcessWater];
+    if (list.count == 0) {
         return;
     }
-    NSMutableArray *tmpArray = [NSMutableArray array];
-    
-    NSString *text = [values objectForKey:InspurImageWaterMarkTextKey];
-    if (text && text.length > 0) {
-        [tmpArray addObject:[NSString stringWithFormat:@"text_%@", [self removeSentivie:[self base64EncodeString:text]]]];
+    for (InspurImageWaterMarkParams *param in list) {
+        [array addObject:[NSString stringWithFormat:@"watermark,%@", [param toString]]];
     }
-    
-    NSString *font = [values objectForKey:InspurImageWaterMarkFontkey];
-    if (font && font.length > 0) {
-        [tmpArray addObject:[NSString stringWithFormat:@"type_%@", [self removeSentivie:[self base64EncodeString:font]]]];
+}
+
+- (void)addBlindWaterMark:(InspurImageAttributeMaker *)make toArray:(NSMutableArray *)array {
+    InspurImageWaterMarkParams *blind = [make.params objectForKey:InspurImageProcessBlindWater];
+    if (!blind) {
+        return;
     }
-    
-    NSString *color = [values objectForKey:InspurImageWaterMarkTextColorKey];
-    if (color && color.length > 0) {
-        [tmpArray addObject:[NSString stringWithFormat:@"color_%@", color]];
-    }
-    
-    NSNumber *size = [values objectForKey:InspurImageWaterMarkSizeKey];
-    if (size) {
-        [tmpArray addObject:[NSString stringWithFormat:@"size_%@", size]];
-    }
-    
-    NSNumber *g = [values objectForKey:InspurImageWaterMarkGKey];
-    if (g && g.intValue > InspurImageWaterMarkPositionNone && g.intValue <= InspurImageWaterMarkPositionBR) {
-        NSArray *list = @[@"", @"tl", @"top", @"tr", @"left", @"center", @"right", @"bl", @"bottom", @"br"];
-        [tmpArray addObject:[NSString stringWithFormat:@"g_%@", [list objectAtIndex:g.intValue]]];
-    }
-    NSNumber *x = [values objectForKey:InspurImageWaterMarkXKey];
-    if (x) {
-        [tmpArray addObject:[NSString stringWithFormat:@"x_%@", x]];
-    }
-    
-    NSNumber *y = [values objectForKey:InspurImageWaterMarkYKey];
-    if (y) {
-        [tmpArray addObject:[NSString stringWithFormat:@"y_%@", y]];
-    }
-    
-    NSNumber *t = [values objectForKey:InspurImageWaterMarkTKey];
-    if (t) {
-        [tmpArray addObject:[NSString stringWithFormat:@"t_%@", t]];
-    }
-    
-    NSString *imageUrl = [values objectForKey:InspurImageWaterMarkImageURLKey];
-    if (imageUrl && imageUrl.length > 0) {
-        [tmpArray addObject:[NSString stringWithFormat:@"image_%@", [self removeSentivie:[self base64EncodeString:imageUrl]]]];
-    }
-    if (tmpArray.count > 0) {
-        [array addObject:[NSString stringWithFormat:@"watermark,%@", [tmpArray componentsJoinedByString:@","]]];
-    }
+    [array addObject:[NSString stringWithFormat:@"blind-watermark,%@", [blind toString]]];
 }
 
 - (void)addInterlace:(InspurImageAttributeMaker *)make toArray:(NSMutableArray *)array {
@@ -485,18 +548,6 @@
     }
 }
 
--(NSString *)base64EncodeString:(NSString *)string {
-    //1.先把字符串转换为二进制数据
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    //2.对二进制数据进行base64编码，返回编码后的字符串
-    return [data base64EncodedStringWithOptions:0];
-}
 
-- (NSString *)removeSentivie:(NSString *)input {
-    NSString *string = [NSString stringWithFormat:@"%@", input];
-    string = [string stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    string = [string stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
-    return string;
-}
 
 @end

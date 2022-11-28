@@ -12,6 +12,20 @@ NS_ASSUME_NONNULL_BEGIN
 @class InspurImageAttribute;
 @class InspurImageAttributeMaker;
 
+#define InspurImageWaterMarkPositionTL @"tl"
+#define InspurImageWaterMarkPositionTop @"top"
+#define InspurImageWaterMarkPositionTR @"tr"
+#define InspurImageWaterMarkPositionLeft @"left"
+#define InspurImageWaterMarkPositionCenter @"center"
+#define InspurImageWaterMarkPositionRight @"right"
+#define InspurImageWaterMarkPositionBL @"bl"
+#define InspurImageWaterMarkPositionBottom @"bottom"
+#define InspurImageWaterMarkPositionBR @"br"
+
+#define InspurImageWaterMarkFontSiyuanSongti @"思源宋体"
+#define InspurImageWaterMarkFontSiyuanHeiti @"思源黑体"
+#define InspurImageWaterMarkFontWequan @"文泉微米黑"
+
 typedef void (^InspurImageAttributeMakerBlock)(InspurImageAttributeMaker *maker);
 
 typedef NS_ENUM(NSUInteger, InspurImageFlip) {
@@ -29,22 +43,37 @@ typedef NS_ENUM(NSUInteger, InspurImageResizeMode) {
     InspurImageResizeModeFixed
 };
 
-typedef NS_ENUM(NSUInteger, InspurImageWaterMarkPosition) {
-    InspurImageWaterMarkPositionNone,
-    InspurImageWaterMarkPositionTL,
-    InspurImageWaterMarkPositionTop,
-    InspurImageWaterMarkPositionTR,
-    InspurImageWaterMarkPositionLeft,
-    InspurImageWaterMarkPositionCenter,
-    InspurImageWaterMarkPositionRight,
-    InspurImageWaterMarkPositionBL,
-    InspurImageWaterMarkPositionBottom,
-    InspurImageWaterMarkPositionBR
-};
+@interface InspurImageWaterMarkParams : NSObject
+
+//文字水印
+- (instancetype)initWithText:(NSString *)text
+                       color:(NSString *)color
+                        font:(NSString *)font
+                        size:(int)fontSize
+                 transparent:(int)t
+                    position:(NSString *)position
+                     xMargin:(int)x
+                     yMargin:(int)y;
+
+//图片水印
+- (instancetype)initWithImage:(NSString *)imageUrl
+                 transparent:(int)t
+                    position:(NSString *)position
+                     xMargin:(CGFloat)x
+                     yMargin:(CGFloat)y;
+
+- (NSString *)toString;
+
+@end
 
 @interface InspurImageAttributeMaker : NSObject
-
+/*
+ 选择模版
+ */
 - (InspurImageAttributeMaker *(^)(NSString *styleName))style;
+/*
+ 图片旋转, 取值范围 0-359
+ */
 - (InspurImageAttributeMaker *(^)(int))rotato;
 - (InspurImageAttributeMaker *(^)(InspurImageFlip flip))flip;
 - (InspurImageAttributeMaker *(^)(int resize))fitResize;
@@ -55,18 +84,12 @@ typedef NS_ENUM(NSUInteger, InspurImageWaterMarkPosition) {
                                   NSNumber* _Nullable l ,
                                   NSNumber* _Nullable limit,
                                   NSString * _Nullable color))resize;
-//TODO: 格式转换
 - (InspurImageAttributeMaker *(^)(int bright))bright;
 - (InspurImageAttributeMaker *(^)(float contrast))contrast;
 - (InspurImageAttributeMaker *(^)(float sharpen))sharpen;
 
-/*
- 三种字体:
- @"思源宋体"
- @"思源黑体"
- @"文泉微米黑"
- **/
-- (InspurImageAttributeMaker *(^)(NSString *text, NSString *font, NSString *color, NSNumber *size, InspurImageWaterMarkPosition position, NSNumber *x, NSNumber *y, NSNumber *t, NSString *url))watermark;
+- (InspurImageAttributeMaker *(^)(NSArray <InspurImageWaterMarkParams *> *waterMarks))watermark;
+- (InspurImageAttributeMaker *(^)(InspurImageWaterMarkParams *waterMark))blindWatermark;
 - (InspurImageAttributeMaker *(^)(int interlace))interlace;
 - (InspurImageAttributeMaker *(^)(BOOL isX, int value, int index))indexcrop;
 - (InspurImageAttributeMaker *(^)(int radius))circle;
