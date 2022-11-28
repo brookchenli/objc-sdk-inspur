@@ -1,5 +1,5 @@
 //
-//  QNZoneInfo.m
+//  InspurZoneInfo.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -8,8 +8,8 @@
 
 #import "InspurZoneInfo.h"
 
-NSString * const QNZoneInfoSDKDefaultIOHost = @"default_io_host";
-NSString * const QNZoneInfoEmptyRegionId = @"none";
+NSString * const InspurZoneInfoSDKDefaultIOHost = @"default_io_host";
+NSString * const InspurZoneInfoEmptyRegionId = @"none";
 
 @interface InspurZoneInfo()
 
@@ -45,7 +45,7 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
     }
     
     InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoFromDictionary:@{@"ttl" : @(-1),
-                                                                @"region" : regionId ?: QNZoneInfoEmptyRegionId,
+                                                                @"region" : regionId ?: InspurZoneInfoEmptyRegionId,
                                                                 @"up" : @{@"domains" : mainHosts ?: @[],
                                                                           @"old" : oldHosts ?: @[]},
                                                                 }];
@@ -59,7 +59,7 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
     
     NSString *regionId = [detailInfo objectForKey:@"region"];
     if (regionId == nil) {
-        regionId = QNZoneInfoEmptyRegionId;
+        regionId = InspurZoneInfoEmptyRegionId;
     }
     long ttl = [[detailInfo objectForKey:@"ttl"] longValue];
     BOOL http3Enabled = false;
@@ -139,10 +139,10 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
 }
 
 + (instancetype)infoWithDictionary:(NSDictionary *)dictionary {
-    return [self infoWithDictionary:dictionary actionType:QNActionTypeNone];
+    return [self infoWithDictionary:dictionary actionType:InspurActionTypeNone];
 }
 
-+ (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(QNActionType)actionType {
++ (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(InspurActionType)actionType {
     NSMutableArray *zonesInfo = [NSMutableArray array];
     
     NSArray *supportApis = [InspurApiType apisWithActionType:actionType];

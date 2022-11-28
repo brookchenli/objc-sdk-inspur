@@ -1,5 +1,5 @@
 //
-//  QNAutoZone.m
+//  InspurAutoZone.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -129,7 +129,7 @@
 }
 
 - (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
-                            actionType:(QNActionType)actionType {
+                            actionType:(InspurActionType)actionType {
     
     if (token == nil) return nil;
     NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
@@ -138,7 +138,7 @@
     return zonesInfo;
 }
 
-- (void)preQuery:(InspurUpToken *)token actionType:(QNActionType)actionType on:(InspurPrequeryReturn)ret {
+- (void)preQuery:(InspurUpToken *)token actionType:(InspurActionType)actionType on:(InspurPrequeryReturn)ret {
 
     if (token == nil || ![token isValid]) {
         ret(-1, [InspurResponseInfo responseInfoWithInvalidToken:@"invalid token"], nil);
@@ -216,7 +216,7 @@
         hosts = @[kInspurPreQueryHost02, kInspurPreQueryHost00, kInspurPreQueryHost01];
     }
     InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
-                                                                           regionId:QNZoneInfoEmptyRegionId
+                                                                           regionId:InspurZoneInfoEmptyRegionId
                                                                               token:token];
     @synchronized (self) {
         [self.transactions addObject:transaction];

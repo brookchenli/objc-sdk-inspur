@@ -1,5 +1,5 @@
 //
-//  QNBaseUpload.h
+//  InspurBaseUpload.h
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2020/4/19.

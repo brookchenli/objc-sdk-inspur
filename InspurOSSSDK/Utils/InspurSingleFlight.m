@@ -1,5 +1,5 @@
 //
-//  QNSingleFlight.m
+//  InspurSingleFlight.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/1/4.

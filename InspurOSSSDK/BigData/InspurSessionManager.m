@@ -1,5 +1,5 @@
 //
-//  QNHttpManager.m
+//  InspurHttpManager.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/1.

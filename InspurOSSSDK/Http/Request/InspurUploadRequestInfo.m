@@ -1,5 +1,5 @@
 //
-//  QNUploadRequestInfo.m
+//  InspurUploadRequestInfo.m
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/5/13.

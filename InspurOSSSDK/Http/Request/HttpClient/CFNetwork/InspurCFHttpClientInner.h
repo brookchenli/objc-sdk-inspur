@@ -1,5 +1,5 @@
 //
-//  QNHttpClient.h
+//  InspurHttpClient.h
 //  AppTest
 //
 //  Created by Brook on 2020/4/7.

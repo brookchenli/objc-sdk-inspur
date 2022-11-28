@@ -1,5 +1,5 @@
 //
-//  QNReportConfig.m
+//  InspurReportConfig.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/7/14.

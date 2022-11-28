@@ -1,5 +1,5 @@
 //
-//  QNPartsUploadApiV1.m
+//  InspurPartsUploadApiV1.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/30.
@@ -56,7 +56,7 @@
     }
     
     if (block == nil || chunk == nil) {
-        QNLogInfo(@"key:%@ no chunk left", self.key);
+        InspurLogInfo(@"key:%@ no chunk left", self.key);
         
         InspurResponseInfo *responseInfo = nil;
         if (uploadInfo.getSourceSize == 0) {
@@ -69,7 +69,7 @@
     }
     
     if (chunk.data == nil) {
-        QNLogInfo(@"key:%@ chunk data is nil", self.key);
+        InspurLogInfo(@"key:%@ chunk data is nil", self.key);
         
         InspurResponseInfo *responseInfo = [InspurResponseInfo responseInfoOfZeroData:@"chunk data is nil"];;
         completeHandler(YES, responseInfo, nil, nil);
@@ -101,10 +101,10 @@
     };
     
     if ([uploadInfo isFirstData:chunk]) {
-        QNLogInfo(@"key:%@ makeBlock", self.key);
+        InspurLogInfo(@"key:%@ makeBlock", self.key);
         [self makeBlock:block firstChunk:chunk chunkData:chunk.data progress:progress completeHandler:completeHandlerP];
     } else {
-        QNLogInfo(@"key:%@ uploadChunk", self.key);
+        InspurLogInfo(@"key:%@ uploadChunk", self.key);
         [self uploadChunk:block chunk:chunk chunkData:chunk.data progress:progress completeHandler:completeHandlerP];
     }
 }

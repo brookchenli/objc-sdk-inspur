@@ -1,5 +1,5 @@
 //
-//  QNUploadOption.m
+//  InspurUploadOption.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/4.

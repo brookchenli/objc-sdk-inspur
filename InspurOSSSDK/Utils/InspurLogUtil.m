@@ -1,5 +1,5 @@
 //
-//  QNLogUtil.m
+//  InspurLogUtil.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/25.

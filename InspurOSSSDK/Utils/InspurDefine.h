@@ -1,5 +1,5 @@
 //
-//  QNDefine.h
+//  InspurDefine.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/9/4.

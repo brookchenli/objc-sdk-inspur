@@ -1,5 +1,5 @@
 //
-//  QNUpProgress.m
+//  InspurUpProgress.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/21.
@@ -50,7 +50,7 @@
     }
     
     if (self.byteProgress) {
-        QNAsyncRunInMain(^{
+        InspurAsyncRunInMain(^{
             self.byteProgress(key, self.previousUploadBytes, totalBytes);
         });
         return;
@@ -61,7 +61,7 @@
     }
     
     if (self.progress) {
-        QNAsyncRunInMain(^{
+        InspurAsyncRunInMain(^{
             double notifyPercent = (double) uploadBytes / (double) totalBytes;
             self.progress(key, notifyPercent);
         });
@@ -74,14 +74,14 @@
     }
     
     if (self.byteProgress) {
-        QNAsyncRunInMain(^{
+        InspurAsyncRunInMain(^{
             self.byteProgress(key, totalBytes, totalBytes);
         });
         return;
     }
     
     if (self.progress) {
-        QNAsyncRunInMain(^{
+        InspurAsyncRunInMain(^{
             self.progress(key, 1);
         });
     }

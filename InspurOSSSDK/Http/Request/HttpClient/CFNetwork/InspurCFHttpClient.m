@@ -1,5 +1,5 @@
 //
-//  QNCFHttpClient.m
+//  InspurCFHttpClient.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/10/11.

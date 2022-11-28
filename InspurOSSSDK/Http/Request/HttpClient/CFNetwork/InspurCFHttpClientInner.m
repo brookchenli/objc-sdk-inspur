@@ -1,5 +1,5 @@
 //
-//  QNHttpClient.m
+//  InspurHttpClient.m
 //  AppTest
 //
 //  Created by Brook on 2020/4/7.
@@ -12,7 +12,7 @@
 #import "NSURLRequest+InspurRequest.h"
 #import <sys/errno.h>
 
-#define kQNCFHttpClientErrorDomain @"CFNetwork"
+#define kInspurCFHttpClientErrorDomain @"CFNetwork"
 
 @interface InspurCFHttpClientInner()<NSStreamDelegate>
 
@@ -851,11 +851,11 @@
 // MARK: error
 - (NSError *)createError:(NSInteger)errorCode errorDescription:(NSString *)errorDescription {
     if (errorDescription) {
-        return [NSError errorWithDomain:kQNCFHttpClientErrorDomain
+        return [NSError errorWithDomain:kInspurCFHttpClientErrorDomain
                                    code:errorCode
                                userInfo:@{@"userInfo":errorDescription}];
     } else {
-        return [NSError errorWithDomain:kQNCFHttpClientErrorDomain
+        return [NSError errorWithDomain:kInspurCFHttpClientErrorDomain
                                    code:NSURLErrorSecureConnectionFailed
                                userInfo:nil];
     }

@@ -1,5 +1,5 @@
 //
-//  QNUpToken.h
+//  InspurUpToken.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/6/7.

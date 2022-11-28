@@ -1,5 +1,5 @@
 //
-//  QNZone.m
+//  InspurZone.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -13,21 +13,21 @@
 @implementation InspurZone
 
 - (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token {
-    return [self getZonesInfoWithToken:token actionType:QNActionTypeNone];
+    return [self getZonesInfoWithToken:token actionType:InspurActionTypeNone];
 }
 
 - (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
-                            actionType:(QNActionType)actionType {
+                            actionType:(InspurActionType)actionType {
     return nil;
 }
 
 - (void)preQuery:(InspurUpToken *)token
               on:(InspurPrequeryReturn)ret {
-    [self preQuery:token actionType:QNActionTypeNone on:ret];
+    [self preQuery:token actionType:InspurActionTypeNone on:ret];
 }
 
 - (void)preQuery:(InspurUpToken *)token
-      actionType:(QNActionType)actionType
+      actionType:(InspurActionType)actionType
               on:(InspurPrequeryReturn)ret {
     ret(0, nil, nil);
 }

@@ -1,5 +1,5 @@
 //
-//  QNErrorCode.m
+//  InspurErrorCode.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/10/21.

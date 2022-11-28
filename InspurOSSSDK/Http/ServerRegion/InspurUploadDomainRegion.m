@@ -1,5 +1,5 @@
 //
-//  QNUploadServerDomainResolver.m
+//  InspurUploadServerDomainResolver.m
 //  AppTest
 //
 //  Created by Brook on 2020/4/23.
@@ -213,8 +213,8 @@
     self.oldDomainHostList = oldDomainHostList;
     self.oldDomainDictionary = [self createDomainDictionary:serverGroups];
     
-    QNLogInfo(@"region :%@",domainHostList);
-    QNLogInfo(@"region old:%@",oldDomainHostList);
+    InspurLogInfo(@"region :%@",domainHostList);
+    InspurLogInfo(@"region old:%@",oldDomainHostList);
 }
 
 - (NSDictionary *)createDomainDictionary:(NSArray <NSString *> *)hosts{
@@ -259,9 +259,9 @@
             InspurUploadServer *domainServer = [domainInfo[host] getServerWithCondition:^BOOL(NSString *host, InspurUploadServer *serverP, InspurUploadServer *filterServer) {
                 
                 // 1.1 剔除冻结对象
-                NSString *frozenType = QNUploadFrozenType(host, filterServer.ip);
+                NSString *frozenType = InspurUploadFrozenType(host, filterServer.ip);
                 BOOL isFrozen = [InspurUploadServerFreezeUtil isType:frozenType
-                                          frozenByFreezeManagers:@[self.partialHttp3Freezer, kQNUploadGlobalHttp3Freezer]];
+                                          frozenByFreezeManagers:@[self.partialHttp3Freezer, kInspurUploadGlobalHttp3Freezer]];
                 if (isFrozen) {
                     return NO;
                 }
@@ -277,7 +277,7 @@
         }
         
         if (server) {
-            server.httpVersion = kQNHttpVersion3;
+            server.httpVersion = kInspurHttpVersion3;
             return server;
         }
     }
@@ -290,9 +290,9 @@
             kInspurStrongSelf;
             
             // 2.1 剔除冻结对象
-            NSString *frozenType = QNUploadFrozenType(host, filterServer.ip);
+            NSString *frozenType = InspurUploadFrozenType(host, filterServer.ip);
             BOOL isFrozen = [InspurUploadServerFreezeUtil isType:frozenType
-                                      frozenByFreezeManagers:@[self.partialHttp2Freezer, kQNUploadGlobalHttp2Freezer]];
+                                      frozenByFreezeManagers:@[self.partialHttp2Freezer, kInspurUploadGlobalHttp2Freezer]];
             if (isFrozen) {
                 return NO;
             }
@@ -319,9 +319,9 @@
         self.isAllFrozen = YES;
     }
     
-    server.httpVersion = kQNHttpVersion2;
+    server.httpVersion = kInspurHttpVersion2;
     
-    QNLogInfo(@"get server host:%@ ip:%@", server.host, server.ip);
+    InspurLogInfo(@"get server host:%@ ip:%@", server.host, server.ip);
     return server;
 }
 
@@ -332,9 +332,9 @@
         return;
     }
     
-    NSString *frozenType = QNUploadFrozenType(freezeServer.host, freezeServer.ip);
+    NSString *frozenType = InspurUploadFrozenType(freezeServer.host, freezeServer.ip);
     // 1. http3 冻结
-    if (kQNIsHttp3(freezeServer.httpVersion)) {
+    if (kInspurIsHttp3(freezeServer.httpVersion)) {
         if (responseInfo.isNotQiniu) {
             self.hasFreezeHost = YES;
             [self.partialHttp3Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.partialHostFrozenTime];
@@ -342,7 +342,7 @@
         
         if (!responseInfo.canConnectToHost || responseInfo.isHostUnavailable) {
             self.hasFreezeHost = YES;
-            [kQNUploadGlobalHttp3Freezer freezeType:frozenType frozenTime:kQNUploadHttp3FrozenTime];
+            [kInspurUploadGlobalHttp3Freezer freezeType:frozenType frozenTime:kInspurUploadHttp3FrozenTime];
         }
         return;
     }
@@ -350,16 +350,16 @@
     // 2. http2 冻结
     // 2.1 无法连接到Host || Host不可用， 局部冻结
     if (responseInfo.isNotQiniu || !responseInfo.canConnectToHost || responseInfo.isHostUnavailable) {
-        QNLogInfo(@"partial freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
+        InspurLogInfo(@"partial freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
         self.hasFreezeHost = YES;
         [self.partialHttp2Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.partialHostFrozenTime];
     }
     
     // 2.2 Host不可用，全局冻结
     if (responseInfo.isHostUnavailable) {
-        QNLogInfo(@"global freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
+        InspurLogInfo(@"global freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
         self.hasFreezeHost = YES;
-        [kQNUploadGlobalHttp2Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.globalHostFrozenTime];
+        [kInspurUploadGlobalHttp2Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.globalHostFrozenTime];
     }
 }
 
@@ -369,7 +369,7 @@
         return;
     }
 
-    NSString *frozenType = QNUploadFrozenType(freezeServer.host, freezeServer.ip);
+    NSString *frozenType = InspurUploadFrozenType(freezeServer.host, freezeServer.ip);
     [self.partialHttp2Freezer unfreezeType:frozenType];
 }
 

@@ -1,5 +1,5 @@
 //
-//  QNUploadServerFreezeUtil.h
+//  InspurUploadServerFreezeUtil.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/2/4.
@@ -11,11 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kQNUploadHttp3FrozenTime (3600 * 24)
-#define QNUploadFrozenType(HOST, IP) ([InspurUploadServerFreezeUtil getFrozenType:HOST ip:IP])
+#define kInspurUploadHttp3FrozenTime (3600 * 24)
+#define InspurUploadFrozenType(HOST, IP) ([InspurUploadServerFreezeUtil getFrozenType:HOST ip:IP])
 
-#define kQNUploadGlobalHttp3Freezer [InspurUploadServerFreezeUtil sharedHttp3Freezer]
-#define kQNUploadGlobalHttp2Freezer [InspurUploadServerFreezeUtil sharedHttp2Freezer]
+#define kInspurUploadGlobalHttp3Freezer [InspurUploadServerFreezeUtil sharedHttp3Freezer]
+#define kInspurUploadGlobalHttp2Freezer [InspurUploadServerFreezeUtil sharedHttp2Freezer]
 
 @interface InspurUploadServerFreezeUtil : NSObject
 

@@ -1,5 +1,5 @@
 //
-//  QNUtils.m
+//  InspurUtils.m
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/3/27.

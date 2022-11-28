@@ -1,5 +1,5 @@
 //
-//  QNPartsUploadPerformer.h
+//  InspurPartsUploadPerformer.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/1.

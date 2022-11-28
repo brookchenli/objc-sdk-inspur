@@ -1,5 +1,5 @@
 //
-//  QNConnectChecker.m
+//  InspurConnectChecker.m
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2021/1/8.
@@ -87,16 +87,16 @@
             if (isHostConnected || completeCount == allHosts.count) {
                 @synchronized (self) {
                     if (isCompleted) {
-                        QNLogInfo(@"== check all hosts has completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
+                        InspurLogInfo(@"== check all hosts has completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
                         return;
                     } else {
-                        QNLogInfo(@"== check all hosts completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
+                        InspurLogInfo(@"== check all hosts completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
                         isCompleted = true;
                     }
                 }
                 complete(metrics);
             } else {
-                QNLogInfo(@"== check all hosts not completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
+                InspurLogInfo(@"== check all hosts not completed totalCount:%d completeCount:%d", allHosts.count, completeCount);
             }
         }];
     }
@@ -122,7 +122,7 @@
             }
             hasCallback = true;
         }
-        QNLogInfo(@"== checkHost:%@ responseInfo:%@", host, response);
+        InspurLogInfo(@"== checkHost:%@ responseInfo:%@", host, response);
         complete(metrics);
     }];
     

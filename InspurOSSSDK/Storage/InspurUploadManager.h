@@ -1,5 +1,5 @@
 //
-//  QNUploader.h
+//  InspurUploader.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 14-9-28.

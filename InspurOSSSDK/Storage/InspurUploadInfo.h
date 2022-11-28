@@ -1,5 +1,5 @@
 //
-//  QNUploadInfo.h
+//  InspurUploadInfo.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.
@@ -71,5 +71,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define kQNUploadInfoTypeKey @"infoType"
+#define kInspurUploadInfoTypeKey @"infoType"
 NS_ASSUME_NONNULL_END

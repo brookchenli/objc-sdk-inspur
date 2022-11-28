@@ -1,5 +1,5 @@
 //
-//  QNPartsUploadPerformer.m
+//  InspurPartsUploadPerformer.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/1.
@@ -20,8 +20,8 @@
 #import "InspurUpProgress.h"
 #import "InspurRequestTransaction.h"
 
-#define kQNRecordFileInfoKey @"recordFileInfo"
-#define kQNRecordZoneInfoKey @"recordZoneInfo"
+#define kInspurRecordFileInfoKey @"recordFileInfo"
+#define kInspurRecordZoneInfoKey @"recordZoneInfo"
 
 @interface InspurPartsUploadPerformer()
 
@@ -116,15 +116,15 @@
         NSDictionary *zoneInfo = [self.currentRegion zoneInfo].detailInfo;
         NSDictionary *uploadInfo = [self.uploadInfo toDictionary];
         if (zoneInfo && uploadInfo) {
-            NSDictionary *info = @{kQNRecordZoneInfoKey : zoneInfo,
-                                   kQNRecordFileInfoKey : uploadInfo};
+            NSDictionary *info = @{kInspurRecordZoneInfoKey : zoneInfo,
+                                   kInspurRecordFileInfoKey : uploadInfo};
             NSData *data = [NSJSONSerialization dataWithJSONObject:info options:NSJSONWritingPrettyPrinted error:nil];
             if (data) {
                 [self.recorder set:key data:data];
             }
         }
     }
-    QNLogInfo(@"key:%@ recorderKey:%@ recordUploadInfo", self.key, self.recorderKey);
+    InspurLogInfo(@"key:%@ recorderKey:%@ recordUploadInfo", self.key, self.recorderKey);
 }
 
 - (void)removeUploadInfoRecord {
@@ -132,11 +132,11 @@
     self.recoveredFrom = nil;
     [self.uploadInfo clearUploadState];
     [self.recorder del:self.recorderKey];
-    QNLogInfo(@"key:%@ recorderKey:%@ removeUploadInfoRecord", self.key, self.recorderKey);
+    InspurLogInfo(@"key:%@ recorderKey:%@ removeUploadInfoRecord", self.key, self.recorderKey);
 }
 
 - (void)recoverUploadInfoFromRecord {
-    QNLogInfo(@"key:%@ recorderKey:%@ recorder:%@ recoverUploadInfoFromRecord", self.key, self.recorderKey, self.recorder);
+    InspurLogInfo(@"key:%@ recorderKey:%@ recorder:%@ recoverUploadInfoFromRecord", self.key, self.recorderKey, self.recorder);
     
     NSString *key = self.recorderKey;
     if (self.recorder == nil || key == nil || [key isEqualToString:@""]) {
@@ -145,24 +145,24 @@
 
     NSData *data = [self.recorder get:key];
     if (data == nil) {
-        QNLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord data:nil", self.key, self.recorderKey);
+        InspurLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord data:nil", self.key, self.recorderKey);
         return;
     }
 
     NSError *error = nil;
     NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
     if (error != nil || ![info isKindOfClass:[NSDictionary class]]) {
-        QNLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord json error", self.key, self.recorderKey);
+        InspurLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord json error", self.key, self.recorderKey);
         [self.recorder del:self.key];
         return;
     }
 
-    InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoFromDictionary:info[kQNRecordZoneInfoKey]];
-    InspurUploadInfo *recoverUploadInfo = [self getFileInfoWithDictionary:info[kQNRecordFileInfoKey]];
+    InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoFromDictionary:info[kInspurRecordZoneInfoKey]];
+    InspurUploadInfo *recoverUploadInfo = [self getFileInfoWithDictionary:info[kInspurRecordFileInfoKey]];
     
     if (zoneInfo && self.uploadInfo && [recoverUploadInfo isValid]
         && [self.uploadInfo isSameUploadInfo:recoverUploadInfo]) {
-        QNLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord valid", self.key, self.recorderKey);
+        InspurLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord valid", self.key, self.recorderKey);
         
         [recoverUploadInfo checkInfoStateAndUpdate];
         self.uploadInfo = recoverUploadInfo;
@@ -173,7 +173,7 @@
         self.targetRegion = region;
         self.recoveredFrom = @([recoverUploadInfo uploadSize]);
     } else {
-        QNLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord invalid", self.key, self.recorderKey);
+        InspurLogInfo(@"key:%@ recorderKey:%@ recoverUploadInfoFromRecord invalid", self.key, self.recorderKey);
         
         [self.recorder del:self.key];
         self.currentRegion = nil;

@@ -1,6 +1,6 @@
 //
-//  QNDnsCacheFile.m
-//  QnDNS
+//  InspurDnsCacheFile.m
+//  InspurDNS
 //
 //  Created by Brook on 2020/3/26.
 //  Copyright © 2020 com.inspur. All rights reserved.

@@ -1,5 +1,5 @@
 //
-//  QNNetworkStatusManager.m
+//  InspurNetworkStatusManager.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/17.

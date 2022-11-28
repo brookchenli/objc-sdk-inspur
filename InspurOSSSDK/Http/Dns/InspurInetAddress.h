@@ -1,5 +1,5 @@
 //
-//  QNInetAddress.h
+//  InspurInetAddress.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/7/27.

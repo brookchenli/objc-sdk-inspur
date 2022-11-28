@@ -1,5 +1,5 @@
 //
-//  QNEtag.h
+//  InspurEtag.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/4.

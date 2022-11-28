@@ -1,5 +1,5 @@
 //
-//  QNConnectChecker.h
+//  inspurConnectChecker.h
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2021/1/8.

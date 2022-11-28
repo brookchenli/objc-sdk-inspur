@@ -1,5 +1,5 @@
 //
-//  QNUploadServer.m
+//  InspurUploadServer.m
 //  AppTest
 //
 //  Created by Brook on 2020/4/23.
@@ -27,7 +27,7 @@
     server.ip = ip;
     server.host = host;
     server.source = source ?: @"none";
-    server.httpVersion = kQNHttpVersion2;
+    server.httpVersion = kInspurHttpVersion2;
     server.ipPrefetchedTime = ipPrefetchedTime;
     return server;
 }

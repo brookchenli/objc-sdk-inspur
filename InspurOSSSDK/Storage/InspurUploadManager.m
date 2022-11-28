@@ -1,5 +1,5 @@
 //
-//  QNUploader.h
+//  InspurUploader.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 14-9-28.
@@ -468,7 +468,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     
     //[QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
     
-    QNAsyncRunInMain(^{
+    InspurAsyncRunInMain(^{
         if (completionHandler) {
             completionHandler(responseInfo, key, response);
         }
@@ -487,7 +487,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     InspurUploadTaskMetrics *taskMetricsP = taskMetrics ?: [InspurUploadTaskMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeQuality forKey:InspurReportQualityKeyLogType];
+    [item setReportValue:InspurReportLogTypeQuality forKey:InspurReportQualityKeyLogType];
     [item setReportValue:taskMetricsP.upType forKey:InspurReportQualityKeyUpType];
     [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:InspurReportQualityKeyUpTime];
     [item setReportValue:responseInfo.qualityResult forKey:InspurReportQualityKeyResult];

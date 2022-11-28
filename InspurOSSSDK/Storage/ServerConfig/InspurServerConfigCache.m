@@ -1,5 +1,5 @@
 //
-//  QNServerConfigCache.m
+//  InspurServerConfigCache.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/30.
@@ -10,8 +10,8 @@
 #import "InspurUtils.h"
 #import "InspurFileRecorder.h"
 
-#define kQNServerConfigDiskKey @"config"
-#define kQNServerUserConfigDiskKey @"userConfig"
+#define kInspurServerConfigDiskKey @"config"
+#define kInspurServerUserConfigDiskKey @"userConfig"
 
 @interface InspurServerConfigCache(){
     InspurServerConfig *_config;
@@ -32,7 +32,7 @@
 - (InspurServerConfig *)getConfigFromDisk {
     NSData *data = nil;
     @synchronized (self) {
-        data = [self.recorder get:kQNServerConfigDiskKey];
+        data = [self.recorder get:kInspurServerConfigDiskKey];
     }
     if (data == nil) {
         return nil;
@@ -42,7 +42,7 @@
     NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
     if (error != nil || ![info isKindOfClass:[NSDictionary class]]) {
         @synchronized (self) {
-            [self.recorder del:kQNServerConfigDiskKey];
+            [self.recorder del:kInspurServerConfigDiskKey];
         }
         return nil;
     }
@@ -56,7 +56,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:config.info options:NSJSONWritingPrettyPrinted error:nil];
     if (data) {
         @synchronized (self) {
-            [self.recorder set:kQNServerConfigDiskKey data:data];
+            [self.recorder set:kInspurServerConfigDiskKey data:data];
         }
     }
 }
@@ -65,7 +65,7 @@
 - (InspurServerUserConfig *)getUserConfigFromDisk {
     NSData *data = nil;
     @synchronized (self) {
-        data = [self.recorder get:kQNServerUserConfigDiskKey];
+        data = [self.recorder get:kInspurServerUserConfigDiskKey];
     }
     if (data == nil) {
         return nil;
@@ -76,7 +76,7 @@
     
     if (error != nil || ![info isKindOfClass:[NSDictionary class]]) {
         @synchronized (self) {
-            [self.recorder del:kQNServerUserConfigDiskKey];
+            [self.recorder del:kInspurServerUserConfigDiskKey];
         }
         return nil;
     }
@@ -90,15 +90,15 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:config.info options:NSJSONWritingPrettyPrinted error:nil];
     if (data) {
         @synchronized (self) {
-            [self.recorder set:kQNServerUserConfigDiskKey data:data];
+            [self.recorder set:kInspurServerUserConfigDiskKey data:data];
         }
     }
 }
 
 - (void)removeConfigCache {
     @synchronized (self) {
-        [self.recorder del:kQNServerConfigDiskKey];
-        [self.recorder del:kQNServerUserConfigDiskKey];
+        [self.recorder del:kInspurServerConfigDiskKey];
+        [self.recorder del:kInspurServerUserConfigDiskKey];
     }
 }
 

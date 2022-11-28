@@ -1,5 +1,5 @@
 //
-//  QNUploadInfoReporter.h
+//  InspurUploadInfoReporter.h
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/6/24.

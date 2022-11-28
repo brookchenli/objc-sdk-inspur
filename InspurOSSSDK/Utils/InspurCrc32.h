@@ -1,5 +1,5 @@
 //
-//  QNCrc.h
+//  InspurCrc.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 14-9-29.

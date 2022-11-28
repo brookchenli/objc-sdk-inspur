@@ -1,5 +1,5 @@
 //
-//  QNUpToken.m
+//  InspurUpToken.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/6/7.
@@ -9,9 +9,9 @@
 #import "InspurUrlSafeBase64.h"
 #import "InspurUpToken.h"
 
-#define kQNPolicyKeyScope @"scope"
-#define kQNPolicyKeyDeadline @"deadline"
-#define kQNPolicyKeyReturnUrl @"returnUrl"
+#define kInspurPolicyKeyScope @"scope"
+#define kInspurPolicyKeyDeadline @"deadline"
+#define kInspurPolicyKeyReturnUrl @"returnUrl"
 @interface InspurUpToken ()
 
 - (instancetype)init:(NSDictionary *)policy token:(NSString *)token;
@@ -43,8 +43,8 @@
         _token = token;
         _access = [self getAccess];
         _bucket = [self getBucket:policy];
-        _deadline = [policy[kQNPolicyKeyDeadline] longValue];
-        _hasReturnUrl = (policy[kQNPolicyKeyReturnUrl] != nil);
+        _deadline = [policy[kInspurPolicyKeyDeadline] longValue];
+        _hasReturnUrl = (policy[kInspurPolicyKeyReturnUrl] != nil);
     }
 
     return self;
@@ -58,7 +58,7 @@
 
 - (NSString *)getBucket:(NSDictionary *)info {
 
-    NSString *scope = [info objectForKey:kQNPolicyKeyScope];
+    NSString *scope = [info objectForKey:kInspurPolicyKeyScope];
     if (!scope || [scope isKindOfClass:[NSNull class]]) {
         return @"";
     }
@@ -102,7 +102,7 @@
     
     NSError *tmp = nil;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&tmp];
-    if (tmp != nil || dict[kQNPolicyKeyScope] == nil || dict[kQNPolicyKeyDeadline] == nil) {
+    if (tmp != nil || dict[kInspurPolicyKeyScope] == nil || dict[kInspurPolicyKeyDeadline] == nil) {
         return nil;
     }
     return [[InspurUpToken alloc] init:dict token:token];

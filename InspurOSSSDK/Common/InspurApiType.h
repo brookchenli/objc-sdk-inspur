@@ -1,5 +1,5 @@
 //
-//  QNApiType.h
+//  InspurApiType.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2022/11/15.
@@ -10,18 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, QNActionType) {
-    QNActionTypeNone,
-    QNActionTypeUploadByForm,
-    QNActionTypeUploadByResumeV1,
-    QNActionTypeUploadByResumeV2,
+typedef NS_ENUM(NSUInteger, InspurActionType) {
+    InspurActionTypeNone,
+    InspurActionTypeUploadByForm,
+    InspurActionTypeUploadByResumeV1,
+    InspurActionTypeUploadByResumeV2,
 };
 
 @interface InspurApiType : NSObject
 
-+ (NSString *)actionTypeString:(QNActionType)actionType;
++ (NSString *)actionTypeString:(InspurActionType)actionType;
 
-+ (NSArray <NSString *> *)apisWithActionType:(QNActionType)actionType;
++ (NSArray <NSString *> *)apisWithActionType:(InspurActionType)actionType;
 
 @end
 

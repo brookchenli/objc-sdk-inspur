@@ -1,5 +1,5 @@
 //
-//  QNIUploadServer.h
+//  InspurIUploadServer.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/7/3.
@@ -19,10 +19,10 @@
 
 @end
 
-#define kQNHttpVersion1 @"http_version_1"
-#define kQNHttpVersion2 @"http_version_2"
-#define kQNHttpVersion3 @"http_version_3"
+#define kInspurHttpVersion1 @"http_version_1"
+#define kInspurHttpVersion2 @"http_version_2"
+#define kInspurHttpVersion3 @"http_version_3"
 
-BOOL kQNIsHttp3(NSString * _Nullable httpVersion);
-BOOL kQNIsHttp2(NSString * _Nullable httpVersion);
+BOOL kInspurIsHttp3(NSString * _Nullable httpVersion);
+BOOL kInspurIsHttp2(NSString * _Nullable httpVersion);
 

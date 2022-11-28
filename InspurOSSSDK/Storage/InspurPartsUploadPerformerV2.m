@@ -1,5 +1,5 @@
 //
-//  QNPartsUploadApiV2.m
+//  InspurPartsUploadApiV2.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/30.
@@ -30,7 +30,7 @@
     
     InspurUploadInfoV2 *uploadInfo = (InspurUploadInfoV2 *)self.uploadInfo;
     if (uploadInfo && [uploadInfo isValid]) {
-        QNLogInfo(@"key:%@ serverInit success", self.key);
+        InspurLogInfo(@"key:%@ serverInit success", self.key);
         InspurResponseInfo *responseInfo = [InspurResponseInfo successResponse];
         completeHandler(responseInfo, nil, nil);
         return;
@@ -77,7 +77,7 @@
     
     // 上传完毕
     if (data == nil) {
-        QNLogInfo(@"key:%@ no data left", self.key);
+        InspurLogInfo(@"key:%@ no data left", self.key);
         
         InspurResponseInfo *responseInfo = nil;
         if (uploadInfo.getSourceSize == 0) {

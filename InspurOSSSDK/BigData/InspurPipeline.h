@@ -1,5 +1,5 @@
 //
-//  QNPipeline.h
+//  InspurPipeline.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2017/7/25.

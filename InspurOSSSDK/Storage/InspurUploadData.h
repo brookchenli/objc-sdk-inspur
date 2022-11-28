@@ -1,5 +1,5 @@
 //
-//  QNUploadData.h
+//  InspurUploadData.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.

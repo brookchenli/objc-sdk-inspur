@@ -1,5 +1,5 @@
 //
-//  QNUploadInfo.m
+//  InspurUploadInfo.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.
@@ -68,8 +68,8 @@
     }
     
     // 检测文件大小，如果能获取到文件大小的话，就进行检测
-    if (info.sourceSize > kQNUnknownSourceSize &&
-        self.sourceSize > kQNUnknownSourceSize &&
+    if (info.sourceSize > kInspurUnknownSourceSize &&
+        self.sourceSize > kInspurUnknownSourceSize &&
         info.sourceSize != self.sourceSize) {
         return false;
     }

@@ -1,5 +1,5 @@
 //
-//  QNServerConfigSynchronizer.m
+//  InspurServerConfigSynchronizer.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/30.
@@ -59,7 +59,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
             hosts = @[kInspurPreQueryHost00, kInspurPreQueryHost01];
         }
         InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
-                                                                               regionId:QNZoneInfoEmptyRegionId
+                                                                               regionId:InspurZoneInfoEmptyRegionId
                                                                                   token:token];
         serverConfigTransaction = transaction;
         return transaction;
@@ -110,7 +110,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
             hosts = @[kInspurPreQueryHost00, kInspurPreQueryHost01];
         }
         InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
-                                                                               regionId:QNZoneInfoEmptyRegionId
+                                                                               regionId:InspurZoneInfoEmptyRegionId
                                                                                   token:token];
         serverUserConfigTransaction = transaction;
         return transaction;

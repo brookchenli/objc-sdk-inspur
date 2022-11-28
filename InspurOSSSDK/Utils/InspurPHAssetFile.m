@@ -1,5 +1,5 @@
 //
-//  QNPHAssetFile.m
+//  InspurPHAssetFile.m
 //  Pods
 //
 //  Created by   Brook on 15/10/21.

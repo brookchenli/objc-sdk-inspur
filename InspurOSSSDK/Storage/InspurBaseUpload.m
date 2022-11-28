@@ -1,5 +1,5 @@
 //
-//  QNBaseUpload.m
+//  InspurBaseUpload.m
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2020/4/19.
@@ -199,15 +199,15 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
     self.strongSelf = nil;
 }
 
-- (QNActionType)actionType {
+- (InspurActionType)actionType {
     if ([self.upType containsString:QNUploadUpTypeForm]) {
-        return QNActionTypeUploadByForm;
+        return InspurActionTypeUploadByForm;
     } else if ([self.upType containsString:QNUploadUpTypeResumableV1]) {
-        return QNActionTypeUploadByResumeV1;
+        return InspurActionTypeUploadByResumeV1;
     } else if ([self.upType containsString:QNUploadUpTypeResumableV2]) {
-        return QNActionTypeUploadByResumeV2;
+        return InspurActionTypeUploadByResumeV2;
     } else {
-        return QNActionTypeNone;
+        return InspurActionTypeNone;
     }
 }
 

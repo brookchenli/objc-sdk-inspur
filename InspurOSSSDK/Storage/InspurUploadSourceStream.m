@@ -1,5 +1,5 @@
 //
-//  QNUploadSourceStream.m
+//  InspurUploadSourceStream.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.
@@ -52,10 +52,10 @@
 }
 
 - (long long)getSize {
-    if (self.size > kQNUnknownSourceSize) {
+    if (self.size > kInspurUnknownSourceSize) {
         return self.size;
     } else {
-        return kQNUnknownSourceSize;
+        return kInspurUnknownSourceSize;
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  QNUploadServerFreezeUtil.m
+//  InspurUploadServerFreezeUtil.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/2/4.

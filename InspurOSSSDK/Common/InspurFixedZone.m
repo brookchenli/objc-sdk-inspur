@@ -1,5 +1,5 @@
 //
-//  QNFixZone.m
+//  InspurFixZone.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -171,7 +171,7 @@
     return self;
 }
 
-- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token actionType:(QNActionType)actionType {
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token actionType:(InspurActionType)actionType {
     return self.zonesInfo;
 }
 

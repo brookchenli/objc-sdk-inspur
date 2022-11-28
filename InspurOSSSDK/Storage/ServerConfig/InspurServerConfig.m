@@ -1,5 +1,5 @@
 //
-//  QNServerConfig.m
+//  InspurServerConfig.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/30.

@@ -1,5 +1,5 @@
 //
-//  QNIUploadServer.m
+//  InspurIUploadServer.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/2/4.
@@ -8,10 +8,10 @@
 
 #import "InspurIUploadServer.h"
 
-BOOL kQNIsHttp3(NSString * _Nullable httpVersion) {
-    return [httpVersion isEqualToString:kQNHttpVersion3];
+BOOL kInspurIsHttp3(NSString * _Nullable httpVersion) {
+    return [httpVersion isEqualToString:kInspurHttpVersion3];
 }
 
-BOOL kQNIsHttp2(NSString * _Nullable httpVersion) {
-    return [httpVersion isEqualToString:kQNHttpVersion2];
+BOOL kInspurIsHttp2(NSString * _Nullable httpVersion) {
+    return [httpVersion isEqualToString:kInspurHttpVersion2];
 }

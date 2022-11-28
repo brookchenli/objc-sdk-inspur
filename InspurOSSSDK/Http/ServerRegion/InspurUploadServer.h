@@ -1,5 +1,5 @@
 //
-//  QNUploadServer.h
+//  InspurUploadServer.h
 //  AppTest
 //
 //  Created by Brook on 2020/4/23.

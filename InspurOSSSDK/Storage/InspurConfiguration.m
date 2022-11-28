@@ -1,5 +1,5 @@
 //
-//  QNConfiguration.m
+//  InspurConfiguration.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/5/21.
@@ -13,8 +13,8 @@
 #import "InspurAutoZone.h"
 #import "InspurFixedZone.h"
 
-const UInt32 kQNBlockSize = 4 * 1024 * 1024;
-const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
+const UInt32 kInspurBlockSize = 4 * 1024 * 1024;
+const UInt32 kInspurDefaultDnsCacheTime = 2 * 60;
 
 
 @implementation InspurConfiguration
@@ -94,7 +94,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
     _dnsResolveTimeout = 2;
     _dnsCacheDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/Dns"];
     _dnsRepreHostNum = 2;
-    _dnsCacheTime = kQNDefaultDnsCacheTime;
+    _dnsCacheTime = kInspurDefaultDnsCacheTime;
     _dnsCacheMaxTTL = 10*60;
     
     _dohEnable = true;

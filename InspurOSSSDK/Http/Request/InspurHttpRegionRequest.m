@@ -1,5 +1,5 @@
 //
-//  QNHttpRequest.m
+//  InspurHttpRequest.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/29.
@@ -148,8 +148,8 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
     [request setTimeoutInterval:self.config.timeoutInterval];
     request.HTTPBody = body;
     
-    QNLogInfo(@"key:%@ url:%@", self.requestInfo.key, request.URL);
-    QNLogInfo(@"key:%@ headers:%@", self.requestInfo.key, headers);
+    InspurLogInfo(@"key:%@ url:%@", self.requestInfo.key, request.URL);
+    InspurLogInfo(@"key:%@ headers:%@", self.requestInfo.key, headers);
     
     NSLog(@"key:%@ url:%@", self.requestInfo.key, request.URL);
     
@@ -176,7 +176,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
             
             id <InspurUploadServer> newServer = [self getNextServer:responseInfo];
             if (newServer) {
-                QNAsyncRunAfter(self.config.retryInterval, kQNBackgroundQueue, ^{
+                InspurAsyncRunAfter(self.config.retryInterval, kInspurBackgroundQueue, ^{
                     [self performRequest:newServer
                                   action:action
                                  headers:headers

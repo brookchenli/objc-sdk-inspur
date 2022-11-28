@@ -1,5 +1,5 @@
 //
-//  QNFile.h
+//  InspurFile.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/7/25.

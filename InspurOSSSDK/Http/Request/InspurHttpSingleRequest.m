@@ -1,5 +1,5 @@
 //
-//  QNHttpRequest+SingleRequestRetry.m
+//  InspurHttpRequest+SingleRequestRetry.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/29.
@@ -80,7 +80,7 @@
             progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
             complete:(QNSingleRequestCompleteHandler)complete{
     
-    if (kQNIsHttp3(server.httpVersion)) {
+    if (kInspurIsHttp3(server.httpVersion)) {
         self.client = [[InspurUploadSystemClient alloc] init];
     } else {
         if ([self shouldUseCFClient:request server:server]) {
@@ -101,7 +101,7 @@
         return isCancelled;
     };
 
-    QNLogInfo(@"key:%@ retry:%d url:%@", self.requestInfo.key, self.currentRetryTime, request.URL);
+    InspurLogInfo(@"key:%@ retry:%d url:%@", self.requestInfo.key, self.currentRetryTime, request.URL);
     
     [self.client request:request server:server connectionProxy:self.config.proxy progress:^(long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         kInspurStrongSelf;
@@ -178,11 +178,11 @@
         [self reportRequest:responseInfo server:server requestMetrics:metrics];
         */
         
-        QNLogInfo(@"key:%@ response:%@", self.requestInfo.key, responseInfo);
+        InspurLogInfo(@"key:%@ response:%@", self.requestInfo.key, responseInfo);
         if (shouldRetry(responseInfo, responseDic)
             && self.currentRetryTime < self.config.retryMax) {
             self.currentRetryTime += 1;
-            QNAsyncRunAfter(self.config.retryInterval, kQNBackgroundQueue, ^{
+            InspurAsyncRunAfter(self.config.retryInterval, kInspurBackgroundQueue, ^{
                 [self retryRequest:request server:server shouldRetry:shouldRetry progress:progress complete:complete];
             });
         } else {
@@ -239,7 +239,7 @@
         NSNumber *speed = [InspurUtils calculateSpeed:bytes totalTime:duration];
         if (speed) {
             NSString *type = [InspurNetworkStatusManager getNetworkStatusType:server.host ip:server.ip];
-            [kQNNetworkStatusManager updateNetworkStatus:type speed:(int)(speed.longValue / 1000)];
+            [kInspurNetworkStatusManager updateNetworkStatus:type speed:(int)(speed.longValue / 1000)];
         }
     }
 }
@@ -257,7 +257,7 @@
     
     NSInteger currentTimestamp = [InspurUtils currentTimestamp];
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeRequest forKey:InspurReportRequestKeyLogType];
+    [item setReportValue:InspurReportLogTypeRequest forKey:InspurReportRequestKeyLogType];
     [item setReportValue:@(currentTimestamp/1000) forKey:InspurReportRequestKeyUpTime];
     [item setReportValue:info.requestReportStatusCode forKey:InspurReportRequestKeyStatusCode];
     [item setReportValue:info.reqId forKey:InspurReportRequestKeyRequestId];

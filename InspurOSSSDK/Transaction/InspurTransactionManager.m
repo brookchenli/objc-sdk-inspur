@@ -1,5 +1,5 @@
 //
-//  QNTransactionManager.m
+//  InspurTransactionManager.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/1.

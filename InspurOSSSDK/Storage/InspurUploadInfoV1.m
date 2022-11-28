@@ -1,5 +1,5 @@
 //
-//  QNUploadInfoV1.m
+//  InspurUploadInfoV1.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.
@@ -43,7 +43,7 @@
     }
     
     int dataSize = [dictionary[@"dataSize"] intValue];
-    NSString *type = dictionary[kQNUploadInfoTypeKey];
+    NSString *type = dictionary[kInspurUploadInfoTypeKey];
     NSArray *blockInfoList = dictionary[@"blockList"];
     
     InspurMutableArray *blockList = [InspurMutableArray array];
@@ -161,7 +161,7 @@
     if (dictionary == nil) {
         dictionary = [NSMutableDictionary dictionary];
     }
-    [dictionary setObject:kTypeValue forKey:kQNUploadInfoTypeKey];
+    [dictionary setObject:kTypeValue forKey:kInspurUploadInfoTypeKey];
     [dictionary setObject:@(self.dataSize) forKey:@"dataSize"];
     
     if (self.blockList != nil && self.blockList.count != 0) {

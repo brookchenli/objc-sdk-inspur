@@ -1,5 +1,5 @@
 //
-//  QNServerConfiguration.m
+//  InspurServerConfiguration.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/25.
@@ -15,7 +15,7 @@
 #import "InspurServerConfigMonitor.h"
 #import "InspurTransactionManager.h"
 
-#define kQNServerConfigTransactionKey @"QNServerConfig"
+#define kInspurServerConfigTransactionKey @"QNServerConfig"
 
 @interface InspurGlobalConfiguration(DnsDefaultServer)
 @property(nonatomic, strong)NSArray *defaultDohIpv4Servers;
@@ -78,12 +78,12 @@
     }
     
     @synchronized (self) {
-        BOOL isExist = [kInspurTransactionManager existTransactionsForName:kQNServerConfigTransactionKey];
+        BOOL isExist = [kInspurTransactionManager existTransactionsForName:kInspurServerConfigTransactionKey];
         if (isExist) {
             return;
         }
         
-        InspurTransaction *transaction = [InspurTransaction timeTransaction:kQNServerConfigTransactionKey after:0 interval:10 action:^{
+        InspurTransaction *transaction = [InspurTransaction timeTransaction:kInspurServerConfigTransactionKey after:0 interval:10 action:^{
             [[InspurServerConfigMonitor share] monitor];
         }];
         [kInspurTransactionManager addTransaction:transaction];
@@ -93,7 +93,7 @@
 // 停止监控
 + (void)endMonitor {
     @synchronized (self) {
-        NSArray *transactions = [kInspurTransactionManager transactionsForName:kQNServerConfigTransactionKey];
+        NSArray *transactions = [kInspurTransactionManager transactionsForName:kInspurServerConfigTransactionKey];
         for (InspurTransaction *transaction in transactions) {
             [kInspurTransactionManager removeTransaction:transaction];
         }
@@ -153,13 +153,13 @@
     if (self.cache.config.regionConfig &&
         config.regionConfig.clearId > self.cache.config.regionConfig.clearId &&
         config.regionConfig.clearCache) {
-        QNLogDebug(@"server config: clear region cache");
+        InspurLogDebug(@"server config: clear region cache");
         [InspurAutoZone clearCache];
     }
     
     // dns 配置
     if (config.dnsConfig.enable) {
-        QNLogDebug(@"server config: dns enable %@", config.dnsConfig.enable);
+        InspurLogDebug(@"server config: dns enable %@", config.dnsConfig.enable);
         kInspurGlobalConfiguration.isDnsOpen = [config.dnsConfig.enable boolValue];
     }
     
@@ -167,40 +167,40 @@
     if (self.cache.config.dnsConfig &&
         config.dnsConfig.clearId > self.cache.config.dnsConfig.clearId &&
         config.dnsConfig.clearCache) {
-        QNLogDebug(@"server config: clear dns cache");
+        InspurLogDebug(@"server config: clear dns cache");
         [kInspurDnsPrefetch clearDnsCache:nil];
     }
     
     // udp 配置
     if (config.dnsConfig.udpConfig.enable) {
-        QNLogDebug(@"server config: udp enable %@", config.dnsConfig.udpConfig.enable);
+        InspurLogDebug(@"server config: udp enable %@", config.dnsConfig.udpConfig.enable);
         kInspurGlobalConfiguration.udpDnsEnable = [config.dnsConfig.udpConfig.enable boolValue];
     }
     
     if (config.dnsConfig.udpConfig.ipv4Server.isOverride &&
         [config.dnsConfig.udpConfig.ipv4Server.servers isKindOfClass:[NSArray class]]) {
-        QNLogDebug(@"server config: udp config ipv4Server %@", config.dnsConfig.udpConfig.ipv4Server.servers);
+        InspurLogDebug(@"server config: udp config ipv4Server %@", config.dnsConfig.udpConfig.ipv4Server.servers);
         kInspurGlobalConfiguration.defaultUdpDnsIpv4Servers = [config.dnsConfig.udpConfig.ipv4Server.servers copy];
     }
     if (config.dnsConfig.udpConfig.ipv6Server.isOverride &&
         [config.dnsConfig.udpConfig.ipv6Server.servers isKindOfClass:[NSArray class]]) {
-        QNLogDebug(@"server config: udp config ipv6Server %@", config.dnsConfig.udpConfig.ipv6Server.servers);
+        InspurLogDebug(@"server config: udp config ipv6Server %@", config.dnsConfig.udpConfig.ipv6Server.servers);
         kInspurGlobalConfiguration.defaultUdpDnsIpv6Servers = [config.dnsConfig.udpConfig.ipv6Server.servers copy];
     }
     
     // doh 配置
     if (config.dnsConfig.dohConfig.enable) {
         kInspurGlobalConfiguration.dohEnable = [config.dnsConfig.dohConfig.enable boolValue];
-        QNLogDebug(@"server config: doh enable %@", config.dnsConfig.dohConfig.enable);
+        InspurLogDebug(@"server config: doh enable %@", config.dnsConfig.dohConfig.enable);
     }
     if (config.dnsConfig.dohConfig.ipv4Server.isOverride &&
         [config.dnsConfig.dohConfig.ipv4Server.servers isKindOfClass:[NSArray class]]) {
-        QNLogDebug(@"server config: doh config ipv4Server %@", config.dnsConfig.dohConfig.ipv4Server.servers);
+        InspurLogDebug(@"server config: doh config ipv4Server %@", config.dnsConfig.dohConfig.ipv4Server.servers);
         kInspurGlobalConfiguration.defaultDohIpv4Servers = [config.dnsConfig.dohConfig.ipv4Server.servers copy];
     }
     if (config.dnsConfig.dohConfig.ipv6Server.isOverride &&
         [config.dnsConfig.dohConfig.ipv6Server.servers isKindOfClass:[NSArray class]]) {
-        QNLogDebug(@"server config: doh config ipv6Server %@", config.dnsConfig.dohConfig.ipv6Server.servers);
+        InspurLogDebug(@"server config: doh config ipv6Server %@", config.dnsConfig.dohConfig.ipv6Server.servers);
         kInspurGlobalConfiguration.defaultDohIpv6Servers = [config.dnsConfig.dohConfig.ipv6Server.servers copy];
     }
 }
@@ -210,7 +210,7 @@
         return;
     }
     if (config.networkCheckEnable) {
-        QNLogDebug(@"server config: connect check enable %@", config.networkCheckEnable);
+        InspurLogDebug(@"server config: connect check enable %@", config.networkCheckEnable);
         kInspurGlobalConfiguration.connectCheckEnable = [config.networkCheckEnable boolValue];
     }
 }

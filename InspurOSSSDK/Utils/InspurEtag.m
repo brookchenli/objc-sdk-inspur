@@ -1,5 +1,5 @@
 //
-//  QNEtag.m
+//  InspurEtag.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/4.
@@ -29,7 +29,7 @@
         return @"Fto5o-5ea0sNMlW_75VgGJCv2AcJ";
     }
     int len = (int)[data length];
-    int count = (len + kQNBlockSize - 1) / kQNBlockSize;
+    int count = (len + kInspurBlockSize - 1) / kInspurBlockSize;
 
     NSMutableData *retData = [NSMutableData dataWithLength:CC_SHA1_DIGEST_LENGTH + 1];
     UInt8 *ret = [retData mutableBytes];
@@ -42,8 +42,8 @@
     }
 
     for (int i = 0; i < count; i++) {
-        int offset = i * kQNBlockSize;
-        int size = (len - offset) > kQNBlockSize ? kQNBlockSize : (len - offset);
+        int offset = i * kInspurBlockSize;
+        int size = (len - offset) > kInspurBlockSize ? kInspurBlockSize : (len - offset);
         NSData *d = [data subdataWithRange:NSMakeRange(offset, (unsigned int)size)];
         CC_SHA1([d bytes], (CC_LONG)size, pblocksSha1 + i * CC_SHA1_DIGEST_LENGTH);
     }

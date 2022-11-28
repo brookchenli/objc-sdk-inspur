@@ -1,5 +1,5 @@
 //
-//  QNSignatureContentGenerator.h
+//  InspurSignatureContentGenerator.h
 //  InspurOSSSDK
 //
 //  Created by 陈历 on 2022/11/27.

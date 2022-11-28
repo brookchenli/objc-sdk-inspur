@@ -1,5 +1,5 @@
 //
-//  QNHttpRequest.h
+//  InspurHttpRequest.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/29.

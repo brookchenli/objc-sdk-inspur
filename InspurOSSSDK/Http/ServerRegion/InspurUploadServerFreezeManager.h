@@ -1,5 +1,5 @@
 //
-//  QNUploadServerFreezeManager.h
+//  InspurUploadServerFreezeManager.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/6/2.

@@ -1,5 +1,5 @@
 //
-//  QNZoneInfo.h
+//  InspurZoneInfo.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const QNZoneInfoSDKDefaultIOHost;
-extern NSString *const QNZoneInfoEmptyRegionId;
+extern NSString *const InspurZoneInfoSDKDefaultIOHost;
+extern NSString *const InspurZoneInfoEmptyRegionId;
 
 @interface InspurZoneInfo : NSObject
 
@@ -52,7 +52,7 @@ extern NSString *const QNZoneInfoEmptyRegionId;
 /// 根据键值对构造对象 【内部使用】
 /// @param dictionary 键值对信息
 /// @param actionType  action 类型
-+ (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(QNActionType)actionType;
++ (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(InspurActionType)actionType;
 
 - (instancetype)initWithZonesInfo:(NSArray<InspurZoneInfo *> *)zonesInfo;
 

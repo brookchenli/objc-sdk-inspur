@@ -1,5 +1,5 @@
 //
-//  QNUploadRequestMetrics.m
+//  InspurUploadRequestMetrics.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/29.
@@ -310,7 +310,7 @@
     if (metricsInfo) {
         int count = 0;
         for (InspurUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
-            if (![metrics.region.zoneInfo.regionId isEqualToString:QNZoneInfoEmptyRegionId]) {
+            if (![metrics.region.zoneInfo.regionId isEqualToString:InspurZoneInfoEmptyRegionId]) {
                 count += 1;
             }
         }

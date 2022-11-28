@@ -1,5 +1,5 @@
 //
-//  QNZone.h
+//  InspurZone.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/4/16.
@@ -27,7 +27,7 @@ typedef void (^InspurPrequeryReturn)(int code, InspurResponseInfo * _Nullable ht
 /// @param actionType action 类型
 /// @param ret 查询回调
 - (void)preQuery:(InspurUpToken * _Nullable)token
-      actionType:(QNActionType)actionType
+      actionType:(InspurActionType)actionType
               on:(InspurPrequeryReturn _Nullable)ret;
 
 /// 根据token获取ZonesInfo 【内部使用】
@@ -37,7 +37,7 @@ typedef void (^InspurPrequeryReturn)(int code, InspurResponseInfo * _Nullable ht
 /// 获取ZonesInfo 【内部使用】
 /// @param token token 信息
 /// @param actionType action 类型
-- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token actionType:(QNActionType)actionType;
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token actionType:(InspurActionType)actionType;
 
 @end
 

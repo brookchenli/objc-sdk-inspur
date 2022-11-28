@@ -1,5 +1,5 @@
 //
-//  QNMutableArray.h
+//  InspurMutableArray.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/7/5.

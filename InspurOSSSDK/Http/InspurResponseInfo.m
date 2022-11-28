@@ -1,5 +1,5 @@
 //
-//  QNResponseInfo.m
+//  InspurResponseInfo.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/2.

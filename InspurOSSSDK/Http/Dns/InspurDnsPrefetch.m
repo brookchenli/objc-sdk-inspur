@@ -1,6 +1,6 @@
 //
-//  QNDnsPrefetch.m
-//  QnDNS
+//  InspurDnsPrefetch.m
+//  InspurDNS
 //
 //  Created by Brook on 2020/3/26.
 //  Copyright © 2020 com.inspur. All rights reserved.
@@ -547,7 +547,7 @@
             if (address) {
                 address.hostValue = preHost;
                 if (!address.ttlValue) {
-                    address.ttlValue = @(kQNDefaultDnsCacheTime);
+                    address.ttlValue = @(kInspurDefaultDnsCacheTime);
                 }
                 if (!address.timestampValue) {
                     address.timestampValue = @([[NSDate date] timeIntervalSince1970]);
@@ -757,8 +757,8 @@
 
 //MARK: -- DNS 事务
 @implementation InspurTransactionManager(Dns)
-#define kQNLoadLocalDnsTransactionName @"QNLoadLocalDnsTransaction"
-#define kQNDnsCheckAndPrefetchTransactionName @"QNDnsCheckAndPrefetchTransactionName"
+#define kInspurLoadLocalDnsTransactionName @"InspurLoadLocalDnsTransaction"
+#define kInspurDnsCheckAndPrefetchTransactionName @"InspurDnsCheckAndPrefetchTransactionName"
 
 - (void)addDnsLocalLoadTransaction{
     
@@ -769,7 +769,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        InspurTransaction *transaction = [InspurTransaction transaction:kQNLoadLocalDnsTransactionName after:0 action:^{
+        InspurTransaction *transaction = [InspurTransaction transaction:kInspurLoadLocalDnsTransactionName after:0 action:^{
             
             [kInspurDnsPrefetch recoverCache];
             [kInspurDnsPrefetch localFetch];
@@ -815,11 +815,11 @@
     @synchronized (kInspurDnsPrefetch) {
         
         InspurTransactionManager *transactionManager = [InspurTransactionManager shared];
-        InspurTransaction *transaction = [transactionManager transactionsForName:kQNDnsCheckAndPrefetchTransactionName].firstObject;
+        InspurTransaction *transaction = [transactionManager transactionsForName:kInspurDnsCheckAndPrefetchTransactionName].firstObject;
         
         if (!transaction) {
             
-            InspurTransaction *transaction = [InspurTransaction timeTransaction:kQNDnsCheckAndPrefetchTransactionName
+            InspurTransaction *transaction = [InspurTransaction timeTransaction:kInspurDnsCheckAndPrefetchTransactionName
                                                                   after:10
                                                                interval:120
                                                                  action:^{

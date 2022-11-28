@@ -1,5 +1,5 @@
 //
-//  QNCrc.m
+//  InspurCrc.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14-9-29.
@@ -29,12 +29,12 @@
         }
 
         int len = (int)[data length];
-        int count = (len + kQNBlockSize - 1) / kQNBlockSize;
+        int count = (len + kInspurBlockSize - 1) / kInspurBlockSize;
 
         uLong crc = crc32(0L, Z_NULL, 0);
         for (int i = 0; i < count; i++) {
-            int offset = i * kQNBlockSize;
-            int size = (len - offset) > kQNBlockSize ? kQNBlockSize : (len - offset);
+            int offset = i * kInspurBlockSize;
+            int size = (len - offset) > kInspurBlockSize ? kInspurBlockSize : (len - offset);
             NSData *d = [data subdataWithRange:NSMakeRange(offset, (unsigned int)size)];
             crc = crc32(crc, [d bytes], (uInt)[d length]);
         }

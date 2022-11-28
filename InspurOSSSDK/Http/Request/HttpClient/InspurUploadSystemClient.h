@@ -1,5 +1,5 @@
 //
-//  QNUploadSystemClient.h
+//  InspurUploadSystemClient.h
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/5/6.

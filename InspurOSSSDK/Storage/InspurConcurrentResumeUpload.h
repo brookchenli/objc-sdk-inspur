@@ -1,5 +1,5 @@
 //
-//  QNConcurrentResumeUpload.h
+//  InspurConcurrentResumeUpload.h
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/7/15.

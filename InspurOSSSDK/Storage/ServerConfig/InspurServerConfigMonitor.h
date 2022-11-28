@@ -1,5 +1,5 @@
 //
-//  QNServerConfiguration.h
+//  InspurServerConfiguration.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/8/25.

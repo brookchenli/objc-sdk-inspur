@@ -1,5 +1,5 @@
 //
-//  QNUserAgent.m
+//  InspurUserAgent.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14-9-29.

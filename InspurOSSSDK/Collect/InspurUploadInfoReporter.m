@@ -1,5 +1,5 @@
 //
-//  QNUploadInfoReporter.m
+//  InspurUploadInfoReporter.m
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/6/24.
@@ -229,7 +229,7 @@
         hosts = @[self.config.serverHost];
     }
     InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
-                                                                           regionId:QNZoneInfoEmptyRegionId
+                                                                           regionId:InspurZoneInfoEmptyRegionId
                                                                               token:token];
     self.transaction = transaction;
     return transaction;

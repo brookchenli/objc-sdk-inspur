@@ -1,5 +1,5 @@
 //
-//  QNUploadBlock.m
+//  InspurUploadBlock.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/10.

@@ -1,5 +1,5 @@
 //
-//  QNALAssetFile.h
+//  InspurALAssetFile.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/7/25.

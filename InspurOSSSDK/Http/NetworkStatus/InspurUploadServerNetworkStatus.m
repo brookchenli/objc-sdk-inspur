@@ -1,5 +1,5 @@
 //
-//  QNUploadServerNetworkStatus.m
+//  InspurUploadServerNetworkStatus.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/17.
@@ -31,8 +31,8 @@
         return YES;
     }
     
-    InspurNetworkStatus *serverStatusA = [kQNNetworkStatusManager getNetworkStatus:serverTypeA];
-    InspurNetworkStatus *serverStatusB = [kQNNetworkStatusManager getNetworkStatus:serverTypeB];
+    InspurNetworkStatus *serverStatusA = [kInspurNetworkStatusManager getNetworkStatus:serverTypeA];
+    InspurNetworkStatus *serverStatusB = [kInspurNetworkStatusManager getNetworkStatus:serverTypeB];
 
     return serverStatusB.speed < serverStatusA.speed;
 }

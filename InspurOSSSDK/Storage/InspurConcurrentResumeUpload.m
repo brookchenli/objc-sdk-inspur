@@ -1,5 +1,5 @@
 //
-//  QNConcurrentResumeUpload.m
+//  InspurConcurrentResumeUpload.m
 //  InspurOSSSDK
 //
 //  Created by WorkSpace_Sun on 2019/7/15.
@@ -25,7 +25,7 @@
 }
 
 - (void)uploadRestData:(dispatch_block_t)completeHandler {
-    QNLogInfo(@"key:%@ 并发分片", self.key);
+    InspurLogInfo(@"key:%@ 并发分片", self.key);
     
     for (int i = 0; i < self.config.concurrentTaskCount; i++) {
         dispatch_group_enter(self.uploadGroup);

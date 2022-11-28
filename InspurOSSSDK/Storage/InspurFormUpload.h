@@ -1,5 +1,5 @@
 //
-//  QNFormUpload.h
+//  InspurFormUpload.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/1/4.

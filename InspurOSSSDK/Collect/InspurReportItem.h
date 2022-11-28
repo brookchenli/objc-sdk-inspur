@@ -1,5 +1,5 @@
 //
-//  QNReportItem.h
+//  InspurReportItem.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/5/12.
@@ -46,9 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 //MARK:-- 日志类型
-extern NSString *const QNReportLogTypeRequest;
-extern NSString *const QNReportLogTypeBlock;
-extern NSString *const QNReportLogTypeQuality;
+extern NSString *const InspurReportLogTypeRequest;
+extern NSString *const InspurReportLogTypeBlock;
+extern NSString *const InspurReportLogTypeQuality;
 
 //MARK:-- 请求信息打点⽇志
 extern NSString *const InspurReportRequestKeyLogType;

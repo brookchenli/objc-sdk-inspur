@@ -1,5 +1,5 @@
 //
-//  QNConfiguration.h
+//  InspurConfiguration.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/5/21.
@@ -13,12 +13,12 @@
 /**
  * 断点上传时的分块大小
  */
-extern const UInt32 kQNBlockSize;
+extern const UInt32 kInspurBlockSize;
 
 /**
  *  DNS默认缓存时间
  */
-extern const UInt32 kQNDefaultDnsCacheTime;
+extern const UInt32 kInspurDefaultDnsCacheTime;
 
 /**
  *    转换为用户需要的url

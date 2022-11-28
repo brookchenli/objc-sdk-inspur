@@ -1,5 +1,5 @@
 //
-//  QNNetworkStatusManager.h
+//  InspurNetworkStatusManager.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/17.
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-#define kQNNetworkStatusManager [InspurNetworkStatusManager sharedInstance]
+#define kInspurNetworkStatusManager [InspurNetworkStatusManager sharedInstance]
 @interface InspurNetworkStatusManager : NSObject
 
 

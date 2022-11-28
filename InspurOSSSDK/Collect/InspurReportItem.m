@@ -1,5 +1,5 @@
 //
-//  QNReportItem.m
+//  InspurReportItem.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/5/12.
@@ -73,7 +73,7 @@
 - (void)reportItem:(InspurReportItem *)item token:(NSString *)token{
     InspurAsyncRun(^{
         NSString *itemJsonString = [item toJson];
-        QNLogInfo(@"up log:%@", itemJsonString);
+        InspurLogInfo(@"up log:%@", itemJsonString);
         if (itemJsonString && ![itemJsonString isEqualToString:@"{}"]) {
             [self report:itemJsonString token:token];
         }
@@ -159,9 +159,9 @@
 
 
 //MARK:-- 日志类型
-NSString * const QNReportLogTypeRequest = @"request";
-NSString * const QNReportLogTypeBlock = @"block";
-NSString * const QNReportLogTypeQuality = @"quality";
+NSString * const InspurReportLogTypeRequest = @"request";
+NSString * const InspurReportLogTypeBlock = @"block";
+NSString * const InspurReportLogTypeQuality = @"quality";
 
 
 //MARK:-- 请求信息打点⽇志

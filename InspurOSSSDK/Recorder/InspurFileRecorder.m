@@ -1,5 +1,5 @@
 //
-//  QNFileRecorder.m
+//  InspurFileRecorder.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/5.

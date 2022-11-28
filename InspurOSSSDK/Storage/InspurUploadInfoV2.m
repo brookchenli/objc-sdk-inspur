@@ -1,5 +1,5 @@
 //
-//  QNUploadInfoV2.m
+//  InspurUploadInfoV2.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 2021/5/13.
@@ -41,7 +41,7 @@
     int dataSize = [dictionary[@"dataSize"] intValue];
     NSNumber *expireAt = dictionary[@"expireAt"];
     NSString *uploadId = dictionary[@"uploadId"];
-    NSString *type = dictionary[kQNUploadInfoTypeKey];
+    NSString *type = dictionary[kInspurUploadInfoTypeKey];
     if (expireAt == nil || ![expireAt isKindOfClass:[NSNumber class]] ||
         uploadId == nil || ![uploadId isKindOfClass:[NSString class]] || uploadId.length == 0) {
         return nil;
@@ -161,7 +161,7 @@
     if (dictionary == nil) {
         dictionary = [NSMutableDictionary dictionary];
     }
-    [dictionary setObject:kTypeValue forKey:kQNUploadInfoTypeKey];
+    [dictionary setObject:kTypeValue forKey:kInspurUploadInfoTypeKey];
     [dictionary setObject:@(self.dataSize) forKey:@"dataSize"];
     [dictionary setObject:self.expireAt ?: 0 forKey:@"expireAt"];
     [dictionary setObject:self.uploadId ?: @"" forKey:@"uploadId"];

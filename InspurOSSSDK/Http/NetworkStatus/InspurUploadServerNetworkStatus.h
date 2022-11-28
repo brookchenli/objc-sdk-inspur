@@ -1,5 +1,5 @@
 //
-//  QNUploadServerNetworkStatus.h
+//  InspurUploadServerNetworkStatus.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/11/17.

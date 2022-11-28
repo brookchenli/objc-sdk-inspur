@@ -1,5 +1,5 @@
 //
-//  QNPHAssetResource.m
+//  InspurPHAssetResource.m
 //  InspurOSSSDK
 //
 //  Created by   Brook on 16/2/14.

@@ -1,5 +1,5 @@
 //
-//  QNFormUpload.m
+//  InspurFormUpload.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/1/4.
@@ -25,7 +25,7 @@
 - (void)startToUpload {
     [super startToUpload];
     
-    QNLogInfo(@"key:%@ form上传", self.key);
+    InspurLogInfo(@"key:%@ form上传", self.key);
     
     self.uploadTransaction = [[InspurRequestTransaction alloc] initWithConfig:self.config
                                                              uploadOption:self.option

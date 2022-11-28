@@ -1,5 +1,5 @@
 //
-//  QNUploadRegion.h
+//  InspurUploadRegion.h
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/4/30.

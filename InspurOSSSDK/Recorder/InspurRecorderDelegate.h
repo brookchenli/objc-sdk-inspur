@@ -1,5 +1,5 @@
 //
-//  QNRecorderDelegate.h
+//  InspurRecorderDelegate.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 14/10/5.

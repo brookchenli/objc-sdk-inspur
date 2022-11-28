@@ -1,5 +1,5 @@
 //
-//  QNSystem.m
+//  InspurSystem.m
 //  InspurOSSSDK
 //
 //  Created by Brook on 15/10/13.

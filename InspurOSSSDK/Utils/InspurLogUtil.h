@@ -1,5 +1,5 @@
 //
-//  QNLogUtil.h
+//  InspurLogUtil.h
 //  InspurOSSSDK
 //
 //  Created by Brook on 2020/12/25.
@@ -45,8 +45,8 @@ typedef NS_ENUM(NSInteger, InspurLogLevel){
 
 #define QNLogError(format, ...)   QNLog(InspurLogLevelError, format, ##__VA_ARGS__)
 #define QNLogWarn(format, ...)    QNLog(InspurLogLevelWarn, format, ##__VA_ARGS__)
-#define QNLogInfo(format, ...)    QNLog(InspurLogLevelInfo, format, ##__VA_ARGS__)
-#define QNLogDebug(format, ...)   QNLog(InspurLogLevelDebug, format, ##__VA_ARGS__)
+#define InspurLogInfo(format, ...)    QNLog(InspurLogLevelInfo, format, ##__VA_ARGS__)
+#define InspurLogDebug(format, ...)   QNLog(InspurLogLevelDebug, format, ##__VA_ARGS__)
 #define QNLogVerbose(format, ...) QNLog(InspurLogLevelVerbose, format, ##__VA_ARGS__)
 
 NS_ASSUME_NONNULL_END

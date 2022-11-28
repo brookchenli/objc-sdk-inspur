@@ -1,5 +1,5 @@
 //
-//  QNPartsUpload.m
+//  InspurPartsUpload.m
 //  InspurOSSSDK_Mac
 //
 //  Created by Brook on 2020/5/7.
@@ -16,8 +16,8 @@
 #import "InspurPartsUploadPerformerV1.h"
 #import "InspurPartsUploadPerformerV2.h"
 
-#define kQNRecordFileInfoKey @"recordFileInfo"
-#define kQNRecordZoneInfoKey @"recordZoneInfo"
+#define kInspurRecordFileInfoKey @"recordFileInfo"
+#define kInspurRecordZoneInfoKey @"recordZoneInfo"
 
 
 @interface InspurPartsUpload()
@@ -34,7 +34,7 @@
     [super initData];
     // 根据文件从本地恢复上传信息，如果没有则重新构建上传信息
     if (self.config.resumeUploadVersion == InspurResumeUploadVersionV1) {
-        QNLogInfo(@"key:%@ 分片V1", self.key);
+        InspurLogInfo(@"key:%@ 分片V1", self.key);
         self.uploadPerformer = [[InspurPartsUploadPerformerV1 alloc] initWithSource:self.uploadSource
                                                                        fileName:self.fileName
                                                                             key:self.key
@@ -43,7 +43,7 @@
                                                                   configuration:self.config
                                                                     recorderKey:self.recorderKey];
     } else {
-        QNLogInfo(@"key:%@ 分片V2", self.key);
+        InspurLogInfo(@"key:%@ 分片V2", self.key);
         self.uploadPerformer = [[InspurPartsUploadPerformerV2 alloc] initWithSource:self.uploadSource
                                                                        fileName:self.fileName
                                                                             key:self.key
@@ -78,12 +78,12 @@
     if (self.uploadPerformer.currentRegion && self.uploadPerformer.currentRegion.isValid) {
         // currentRegion有值，为断点续传，将region插入至regionList第一处
         [self insertRegionAtFirst:self.uploadPerformer.currentRegion];
-        QNLogInfo(@"key:%@ 使用缓存region", self.key);
+        InspurLogInfo(@"key:%@ 使用缓存region", self.key);
     } else {
         // currentRegion无值 切换region
         [self.uploadPerformer switchRegion:[self getCurrentRegion]];
     }
-    QNLogInfo(@"key:%@ region:%@", self.key, self.uploadPerformer.currentRegion.zoneInfo.regionId);
+    InspurLogInfo(@"key:%@ region:%@", self.key, self.uploadPerformer.currentRegion.zoneInfo.regionId);
     
     if (self.uploadSource == nil) {
         code = kInspurLocalIOError;
@@ -95,7 +95,7 @@
     BOOL isSuccess = [super switchRegion];
     if (isSuccess) {
         [self.uploadPerformer switchRegion:self.getCurrentRegion];
-        QNLogInfo(@"key:%@ 切换region：%@", self.key , self.uploadPerformer.currentRegion.zoneInfo.regionId);
+        InspurLogInfo(@"key:%@ 切换region：%@", self.key , self.uploadPerformer.currentRegion.zoneInfo.regionId);
     }
     return isSuccess;
 }
@@ -123,7 +123,7 @@
     self.uploadDataErrorResponse = nil;
     
     
-    QNLogInfo(@"key:%@ serverInit", self.key);
+    InspurLogInfo(@"key:%@ serverInit", self.key);
     
     // 1. 启动upload
     kInspurWeakSelf;
@@ -137,7 +137,7 @@
             return;
         }
         
-        QNLogInfo(@"key:%@ uploadRestData", self.key);
+        InspurLogInfo(@"key:%@ uploadRestData", self.key);
         
         // 2. 上传数据
         kInspurWeakSelf;
@@ -158,7 +158,7 @@
                 return;
             }
             
-            QNLogInfo(@"key:%@ completeUpload errorResponseInfo:%@", self.key, self.uploadDataErrorResponseInfo);
+            InspurLogInfo(@"key:%@ completeUpload errorResponseInfo:%@", self.key, self.uploadDataErrorResponseInfo);
             
             // 3. 组装文件
             kInspurWeakSelf;
@@ -178,7 +178,7 @@
 }
 
 - (void)uploadRestData:(dispatch_block_t)completeHandler {
-    QNLogInfo(@"key:%@ 串行分片", self.key);
+    InspurLogInfo(@"key:%@ 串行分片", self.key);
     [self performUploadRestData:completeHandler];
 }
 
@@ -270,7 +270,7 @@
     InspurUploadRegionRequestMetrics *metrics = self.currentRegionRequestMetrics ?: [InspurUploadRegionRequestMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeBlock forKey:InspurReportBlockKeyLogType];
+    [item setReportValue:InspurReportLogTypeBlock forKey:InspurReportBlockKeyLogType];
     [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:InspurReportBlockKeyUpTime];
     [item setReportValue:self.token.bucket forKey:InspurReportBlockKeyTargetBucket];
     [item setReportValue:self.key forKey:InspurReportBlockKeyTargetKey];
