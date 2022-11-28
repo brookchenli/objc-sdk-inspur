@@ -145,7 +145,7 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
 + (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(QNActionType)actionType {
     NSMutableArray *zonesInfo = [NSMutableArray array];
     
-    NSArray *supportApis = [QNApiType apisWithActionType:actionType];
+    NSArray *supportApis = [InspurApiType apisWithActionType:actionType];
     if (supportApis != nil && supportApis.count > 0) {
         NSMutableDictionary *universal = [dictionary[@"universal"] mutableCopy];
         if ([universal isKindOfClass:[NSDictionary class]]) {

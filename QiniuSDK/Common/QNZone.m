@@ -7,26 +7,26 @@
 //
 
 #import "QNZone.h"
-#import "QNUpToken.h"
+#import "InspurUpToken.h"
 #import "QNZoneInfo.h"
 
 @implementation QNZone
 
-- (QNZonesInfo *)getZonesInfoWithToken:(QNUpToken *)token {
+- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token {
     return [self getZonesInfoWithToken:token actionType:QNActionTypeNone];
 }
 
-- (QNZonesInfo *)getZonesInfoWithToken:(QNUpToken * _Nullable)token
+- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
                             actionType:(QNActionType)actionType {
     return nil;
 }
 
-- (void)preQuery:(QNUpToken *)token
+- (void)preQuery:(InspurUpToken *)token
               on:(QNPrequeryReturn)ret {
     [self preQuery:token actionType:QNActionTypeNone on:ret];
 }
 
-- (void)preQuery:(QNUpToken *)token
+- (void)preQuery:(InspurUpToken *)token
       actionType:(QNActionType)actionType
               on:(QNPrequeryReturn)ret {
     ret(0, nil, nil);

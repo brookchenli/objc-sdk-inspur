@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSObject(QNSwizzle)
+@interface NSObject(InspurSwizzle)
 
 /// swizzle 两个对象方法
 /// @param selectorA 方法a的sel

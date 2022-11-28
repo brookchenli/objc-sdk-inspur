@@ -9,7 +9,7 @@
 #import "NSData+QNMD5.h"
 #import <CommonCrypto/CommonDigest.h>
 
-@implementation NSData(QNMD5)
+@implementation NSData(InspurMD5)
 
 - (NSString *)qn_md5{
     

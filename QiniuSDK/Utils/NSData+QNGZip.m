@@ -11,7 +11,7 @@
 
 #pragma clang diagnostic ignored "-Wcast-qual"
 
-@implementation NSData(QNGZip)
+@implementation NSData(InspurGZip)
 
 + (NSData *)qn_gZip:(NSData *)data{
     

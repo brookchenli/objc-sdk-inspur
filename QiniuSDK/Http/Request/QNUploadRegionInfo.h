@@ -6,22 +6,22 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNIUploadServer.h"
+#import "InspurIUploadServer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class QNZoneInfo, QNUploadRequestState, QNResponseInfo;
+@class QNZoneInfo, InspurUploadRequestState, InspurResponseInfo;
 
-@protocol QNUploadRegion <NSObject>
+@protocol InspurUploadRegion <NSObject>
 
 @property(nonatomic, assign, readonly)BOOL isValid;
 @property(nonatomic, strong, nullable, readonly)QNZoneInfo *zoneInfo;
 
 - (void)setupRegionData:(QNZoneInfo * _Nullable)zoneInfo;
 
-- (id<QNUploadServer> _Nullable)getNextServer:(QNUploadRequestState *)requestState
-                                 responseInfo:(QNResponseInfo *)responseInfo
-                                 freezeServer:(id <QNUploadServer> _Nullable)freezeServer;
+- (id<InspurUploadServer> _Nullable)getNextServer:(InspurUploadRequestState *)requestState
+                                 responseInfo:(InspurResponseInfo *)responseInfo
+                                 freezeServer:(id <InspurUploadServer> _Nullable)freezeServer;
 
 - (void)updateIpListFormHost:(NSString *)host;
 

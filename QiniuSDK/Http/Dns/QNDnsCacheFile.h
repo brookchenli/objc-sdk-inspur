@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QNRecorderDelegate.h"
+#import "InspurRecorderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNDnsCacheFile : NSObject<QNRecorderDelegate>
+@interface QNDnsCacheFile : NSObject<InspurRecorderDelegate>
 
 /// DNS解析信息本地缓存路径
 @property(nonatomic,  copy, readonly)NSString *directory;

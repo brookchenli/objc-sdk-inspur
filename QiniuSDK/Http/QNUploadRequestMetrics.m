@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNUtils.h"
+#import "InspurUtils.h"
 #import "QNUploadRequestMetrics.h"
 #import "NSURLRequest+QNRequest.h"
 #import "QNZoneInfo.h"
@@ -24,7 +24,7 @@
 }
 
 - (NSNumber *)totalElapsedTime{
-    return [QNUtils dateDuration:self.startDate endDate:self.endDate];
+    return [InspurUtils dateDuration:self.startDate endDate:self.endDate];
 }
 
 - (void)start {
@@ -140,7 +140,7 @@
 }
 
 - (NSNumber *)timeFromStartDate:(NSDate *)startDate toEndDate:(NSDate *)endDate{
-    return [QNUtils dateDuration:startDate endDate:endDate];
+    return [InspurUtils dateDuration:startDate endDate:endDate];
 }
 
 - (NSNumber *)perceptiveSpeed {
@@ -149,7 +149,7 @@
         return nil;
     }
     
-    return [QNUtils calculateSpeed:size totalTime:self.totalElapsedTime.longLongValue];
+    return [InspurUtils calculateSpeed:size totalTime:self.totalElapsedTime.longLongValue];
 }
 
 @end
@@ -157,7 +157,7 @@
 
 @interface QNUploadRegionRequestMetrics()
 
-@property (nonatomic, strong) id <QNUploadRegion> region;
+@property (nonatomic, strong) id <InspurUploadRegion> region;
 @property (nonatomic,   copy) NSMutableArray<QNUploadSingleRequestMetrics *> *metricsListInter;
 
 @end
@@ -168,7 +168,7 @@
     return metrics;
 }
 
-- (instancetype)initWithRegion:(id<QNUploadRegion>)region{
+- (instancetype)initWithRegion:(id<InspurUploadRegion>)region{
     if (self = [super init]) {
         _region = region;
         _metricsListInter = [NSMutableArray array];

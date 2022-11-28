@@ -10,7 +10,7 @@
 #import "NSURLRequest+QNRequest.h"
 
 
-@implementation NSURLRequest(QNRequest)
+@implementation NSURLRequest(InspurRequest)
 
 #define kQNURLRequestHostKey @"Host"
 #define kQNURLRequestIPKey @"QNURLRequestIP"

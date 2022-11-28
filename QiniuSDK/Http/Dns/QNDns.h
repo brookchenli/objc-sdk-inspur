@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol QNIDnsNetworkAddress <NSObject>
+@protocol InspurIDnsNetworkAddress <NSObject>
 
 /// 域名
 @property(nonatomic,  copy, readonly)NSString *hostValue;
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 根据host获取解析结果
 /// @param host 域名
-- (NSArray < id <QNIDnsNetworkAddress> > *)query:(NSString *)host;
+- (NSArray < id <InspurIDnsNetworkAddress> > *)query:(NSString *)host;
 
 @end
 

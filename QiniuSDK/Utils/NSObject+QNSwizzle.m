@@ -8,7 +8,7 @@
 #import "NSObject+QNSwizzle.h"
 #import <objc/runtime.h>
 
-@implementation NSObject(QNSwizzle)
+@implementation NSObject(InspurSwizzle)
 
 + (BOOL)qn_swizzleInstanceMethodsOfSelectorA:(SEL)selectorA
                                    selectorB:(SEL)selectorB{

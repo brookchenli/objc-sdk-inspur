@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSURLRequest(QNRequest)
+@interface NSURLRequest(InspurRequest)
 
 /// 请求id【内部使用】
 /// 只有通过设置qn_domain才会有效

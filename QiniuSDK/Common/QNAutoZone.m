@@ -9,12 +9,12 @@
 #import "QNDefine.h"
 #import "QNAutoZone.h"
 #import "QNConfig.h"
-#import "QNRequestTransaction.h"
+#import "InspurRequestTransaction.h"
 #import "QNZoneInfo.h"
-#import "QNUpToken.h"
-#import "QNResponseInfo.h"
+#import "InspurUpToken.h"
+#import "InspurResponseInfo.h"
 #import "QNFixedZone.h"
-#import "QNSingleFlight.h"
+#import "InspurSingleFlight.h"
 #import "QNUploadRequestMetrics.h"
 
 
@@ -86,7 +86,7 @@
 
 @interface QNUCQuerySingleFlightValue : NSObject
 
-@property(nonatomic, strong)QNResponseInfo *responseInfo;
+@property(nonatomic, strong)InspurResponseInfo *responseInfo;
 @property(nonatomic, strong)NSDictionary *response;
 @property(nonatomic, strong)QNUploadRegionRequestMetrics *metrics;
 
@@ -97,16 +97,16 @@
 @interface QNAutoZone()
 
 @property(nonatomic, strong)NSArray *ucHosts;
-@property(nonatomic, strong)NSMutableArray <QNRequestTransaction *> *transactions;
+@property(nonatomic, strong)NSMutableArray <InspurRequestTransaction *> *transactions;
 
 @end
 @implementation QNAutoZone
 
-+ (QNSingleFlight *)UCQuerySingleFlight {
-    static QNSingleFlight *singleFlight = nil;
++ (InspurSingleFlight *)UCQuerySingleFlight {
+    static InspurSingleFlight *singleFlight = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        singleFlight = [[QNSingleFlight alloc] init];
+        singleFlight = [[InspurSingleFlight alloc] init];
     });
     return singleFlight;
 }
@@ -128,45 +128,45 @@
     return self;
 }
 
-- (QNZonesInfo *)getZonesInfoWithToken:(QNUpToken * _Nullable)token
+- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
                             actionType:(QNActionType)actionType {
     
     if (token == nil) return nil;
-    NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [QNApiType actionTypeString:actionType]] ;
+    NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
     QNZonesInfo *zonesInfo = [[QNAutoZoneCache share] cacheForKey:cacheKey];
     zonesInfo = [zonesInfo copy];
     return zonesInfo;
 }
 
-- (void)preQuery:(QNUpToken *)token actionType:(QNActionType)actionType on:(QNPrequeryReturn)ret {
+- (void)preQuery:(InspurUpToken *)token actionType:(QNActionType)actionType on:(QNPrequeryReturn)ret {
 
     if (token == nil || ![token isValid]) {
-        ret(-1, [QNResponseInfo responseInfoWithInvalidToken:@"invalid token"], nil);
+        ret(-1, [InspurResponseInfo responseInfoWithInvalidToken:@"invalid token"], nil);
         return;
     }
     
     QNUploadRegionRequestMetrics *cacheMetrics = [QNUploadRegionRequestMetrics emptyMetrics];
     [cacheMetrics start];
     
-    NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [QNApiType actionTypeString:actionType]] ;
+    NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
     QNZonesInfo *zonesInfo = [[QNAutoZoneCache share] zonesInfoForKey:cacheKey];
     
     // 临时的 zonesInfo 仅能使用一次
     if (zonesInfo != nil && zonesInfo.isValid && !zonesInfo.isTemporary) {
         [cacheMetrics end];
-        ret(0, [QNResponseInfo successResponse], cacheMetrics);
+        ret(0, [InspurResponseInfo successResponse], cacheMetrics);
         return;
     }
     
     kQNWeakSelf;
-    QNSingleFlight *singleFlight = [QNAutoZone UCQuerySingleFlight];
+    InspurSingleFlight *singleFlight = [QNAutoZone UCQuerySingleFlight];
     [singleFlight perform:token.index action:^(QNSingleFlightComplete  _Nonnull complete) {
         kQNStrongSelf;
-        QNRequestTransaction *transaction = [self createUploadRequestTransaction:token];
+        InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
         
         kQNWeakSelf;
         kQNWeakObj(transaction);
-        [transaction queryUploadHosts:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+        [transaction queryUploadHosts:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
             kQNStrongSelf;
             kQNStrongObj(transaction);
             
@@ -180,7 +180,7 @@
         }];
         
     } complete:^(id  _Nullable value, NSError * _Nullable error) {
-        QNResponseInfo *responseInfo = [(QNUCQuerySingleFlightValue *)value responseInfo];
+        InspurResponseInfo *responseInfo = [(QNUCQuerySingleFlightValue *)value responseInfo];
         NSDictionary *response = [(QNUCQuerySingleFlightValue *)value response];
         QNUploadRegionRequestMetrics *metrics = [(QNUCQuerySingleFlightValue *)value metrics];
 
@@ -208,14 +208,14 @@
     }];
 }
 
-- (QNRequestTransaction *)createUploadRequestTransaction:(QNUpToken *)token{
+- (InspurRequestTransaction *)createUploadRequestTransaction:(InspurUpToken *)token{
     NSArray *hosts = nil;
     if (self.ucHosts && self.ucHosts.count > 0) {
         hosts = [self.ucHosts copy];
     } else {
         hosts = @[kQNPreQueryHost02, kQNPreQueryHost00, kQNPreQueryHost01];
     }
-    QNRequestTransaction *transaction = [[QNRequestTransaction alloc] initWithHosts:hosts
+    InspurRequestTransaction *transaction = [[InspurRequestTransaction alloc] initWithHosts:hosts
                                                                            regionId:QNZoneInfoEmptyRegionId
                                                                               token:token];
     @synchronized (self) {
@@ -224,7 +224,7 @@
     return transaction;
 }
 
-- (void)destroyUploadRequestTransaction:(QNRequestTransaction *)transaction{
+- (void)destroyUploadRequestTransaction:(InspurRequestTransaction *)transaction{
     if (transaction) {
         @synchronized (self) {
             [self.transactions removeObject:transaction];
