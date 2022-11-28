@@ -7,7 +7,7 @@
 //
 #import "InspurLogUtil.h"
 #import "QNDefine.h"
-#import "QNAutoZone.h"
+#import "InspurAutoZone.h"
 #import "InspurDnsPrefetch.h"
 #import "InspurConfiguration.h"
 #import "InspurServerConfigSynchronizer.h"
@@ -154,7 +154,7 @@
         config.regionConfig.clearId > self.cache.config.regionConfig.clearId &&
         config.regionConfig.clearCache) {
         QNLogDebug(@"server config: clear region cache");
-        [QNAutoZone clearCache];
+        [InspurAutoZone clearCache];
     }
     
     // dns 配置

@@ -9,11 +9,11 @@
 #import "InspurLogUtil.h"
 #import "QNAsyncRun.h"
 #import "InspurUpToken.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurUploadOption.h"
 #import "InspurConfiguration.h"
 #import "InspurUploadInfo.h"
-#import "QNUploadRegionInfo.h"
+#import "InspurUploadRegionInfo.h"
 #import "InspurRecorderDelegate.h"
 #import "InspurUploadDomainRegion.h"
 #import "InspurPartsUploadPerformer.h"
@@ -157,7 +157,7 @@
         return;
     }
 
-    QNZoneInfo *zoneInfo = [QNZoneInfo zoneInfoFromDictionary:info[kQNRecordZoneInfoKey]];
+    InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoFromDictionary:info[kQNRecordZoneInfoKey]];
     InspurUploadInfo *recoverUploadInfo = [self getFileInfoWithDictionary:info[kQNRecordFileInfoKey]];
     
     if (zoneInfo && self.uploadInfo && [recoverUploadInfo isValid]
@@ -212,16 +212,16 @@
 }
 
 - (void)serverInit:(void (^)(InspurResponseInfo * _Nullable,
-                             QNUploadRegionRequestMetrics * _Nullable,
+                             InspurUploadRegionRequestMetrics * _Nullable,
                              NSDictionary * _Nullable))completeHandler {}
 
 - (void)uploadNextData:(void (^)(BOOL stop,
                                  InspurResponseInfo * _Nullable,
-                                 QNUploadRegionRequestMetrics * _Nullable,
+                                 InspurUploadRegionRequestMetrics * _Nullable,
                                  NSDictionary * _Nullable))completeHandler {}
 
 - (void)completeUpload:(void (^)(InspurResponseInfo * _Nullable,
-                                 QNUploadRegionRequestMetrics * _Nullable,
+                                 InspurUploadRegionRequestMetrics * _Nullable,
                                  NSDictionary * _Nullable))completeHandler {}
 
 - (InspurUpProgress *)progress {

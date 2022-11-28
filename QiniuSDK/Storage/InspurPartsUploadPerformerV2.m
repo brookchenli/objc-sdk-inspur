@@ -25,7 +25,7 @@
 }
 
 - (void)serverInit:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                            QNUploadRegionRequestMetrics * _Nullable metrics,
+                            InspurUploadRegionRequestMetrics * _Nullable metrics,
                             NSDictionary * _Nullable response))completeHandler {
     
     InspurUploadInfoV2 *uploadInfo = (InspurUploadInfoV2 *)self.uploadInfo;
@@ -40,7 +40,7 @@
 
     kQNWeakSelf;
     kQNWeakObj(transaction);
-    [transaction initPart:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    [transaction initPart:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
                 
@@ -58,7 +58,7 @@
 
 - (void)uploadNextData:(void(^)(BOOL stop,
                                 InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler {
     InspurUploadInfoV2 *uploadInfo = (InspurUploadInfoV2 *)self.uploadInfo;
     
@@ -103,7 +103,7 @@
                   partIndex:[uploadInfo getPartIndexOfData:data]
                    partData:data.data
                    progress:progress
-                   complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                   complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
 
@@ -123,7 +123,7 @@
 }
 
 - (void)completeUpload:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler {
     
     InspurUploadInfoV2 *uploadInfo = (InspurUploadInfoV2 *)self.uploadInfo;
@@ -133,7 +133,7 @@
     
     kQNWeakSelf;
     kQNWeakObj(transaction);
-    [transaction completeParts:self.fileName uploadId:uploadInfo.uploadId partInfoArray:partInfoArray complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    [transaction completeParts:self.fileName uploadId:uploadInfo.uploadId partInfoArray:partInfoArray complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
         if (responseInfo.isOK) {

@@ -36,14 +36,14 @@
     return queue;
 }
 
-+ (BOOL)isConnected:(QNUploadSingleRequestMetrics *)metrics {
++ (BOOL)isConnected:(InspurUploadSingleRequestMetrics *)metrics {
     return metrics && ((NSHTTPURLResponse *)metrics.response).statusCode > 99;
 }
 
-+ (QNUploadSingleRequestMetrics *)check {
-    __block QNUploadSingleRequestMetrics *metrics = nil;
++ (InspurUploadSingleRequestMetrics *)check {
+    __block InspurUploadSingleRequestMetrics *metrics = nil;
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    [self check:^(QNUploadSingleRequestMetrics *metricsP) {
+    [self check:^(InspurUploadSingleRequestMetrics *metricsP) {
         metrics = metricsP;
         dispatch_semaphore_signal(semaphore);
     }];
@@ -51,14 +51,14 @@
     return metrics;
 }
 
-+ (void)check:(void (^)(QNUploadSingleRequestMetrics *))complete {
++ (void)check:(void (^)(InspurUploadSingleRequestMetrics *))complete {
     InspurSingleFlight *singleFlight = [self singleFlight];
     
     kQNWeakSelf;
     [singleFlight perform:@"connect_check" action:^(QNSingleFlightComplete  _Nonnull singleFlightComplete) {
         kQNStrongSelf;
         
-        [self checkAllHosts:^(QNUploadSingleRequestMetrics *metrics) {
+        [self checkAllHosts:^(InspurUploadSingleRequestMetrics *metrics) {
             singleFlightComplete(metrics, nil);
         }];
         
@@ -70,14 +70,14 @@
 }
 
 
-+ (void)checkAllHosts:(void (^)(QNUploadSingleRequestMetrics *metrics))complete {
++ (void)checkAllHosts:(void (^)(InspurUploadSingleRequestMetrics *metrics))complete {
     
     __block int completeCount = 0;
     __block BOOL isCompleted = false;
     kQNWeakSelf;
     NSArray *allHosts = [kQNGlobalConfiguration.connectCheckURLStrings copy];
     for (NSString *host in allHosts) {
-        [self checkHost:host complete:^(QNUploadSingleRequestMetrics *metrics) {
+        [self checkHost:host complete:^(InspurUploadSingleRequestMetrics *metrics) {
             kQNStrongSelf;
             
             BOOL isHostConnected = [self isConnected:metrics];
@@ -102,7 +102,7 @@
     }
 }
 
-+ (void)checkHost:(NSString *)host complete:(void (^)(QNUploadSingleRequestMetrics *metrics))complete {
++ (void)checkHost:(NSString *)host complete:(void (^)(InspurUploadSingleRequestMetrics *metrics))complete {
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     request.URL = [NSURL URLWithString:host];
@@ -111,11 +111,11 @@
     
     __block BOOL hasCallback = false;
     
-    QNUploadSingleRequestMetrics *timeoutMetric = [QNUploadSingleRequestMetrics emptyMetrics];
+    InspurUploadSingleRequestMetrics *timeoutMetric = [InspurUploadSingleRequestMetrics emptyMetrics];
     [timeoutMetric start];
     
     InspurUploadSystemClient *client = [[InspurUploadSystemClient alloc] init];
-    [client request:request server:nil connectionProxy:nil progress:nil complete:^(NSURLResponse *response, QNUploadSingleRequestMetrics * metrics, NSData * _Nullable data, NSError * error) {
+    [client request:request server:nil connectionProxy:nil progress:nil complete:^(NSURLResponse *response, InspurUploadSingleRequestMetrics * metrics, NSData * _Nullable data, NSError * error) {
         @synchronized (self) {
             if (hasCallback) {
                 return;

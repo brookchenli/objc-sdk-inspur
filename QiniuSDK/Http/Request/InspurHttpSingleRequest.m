@@ -27,7 +27,7 @@
 
 #import "InspurCFHttpClient.h"
 #import "InspurUploadSystemClient.h"
-#import "NSURLRequest+QNRequest.h"
+#import "NSURLRequest+InspurRequest.h"
 
 
 
@@ -40,7 +40,7 @@
 @property(nonatomic, strong)InspurUploadRequestInfo *requestInfo;
 @property(nonatomic, strong)InspurUploadRequestState *requestState;
 
-@property(nonatomic, strong)NSMutableArray <QNUploadSingleRequestMetrics *> *requestMetricsList;
+@property(nonatomic, strong)NSMutableArray <InspurUploadSingleRequestMetrics *> *requestMetricsList;
 
 @property(nonatomic, strong)id <InspurRequestClient> client;
 
@@ -114,7 +114,7 @@
             self.requestState.isUserCancel = YES;
             [self.client cancel];
         }
-    } complete:^(NSURLResponse *response, QNUploadSingleRequestMetrics *metrics, NSData * responseData, NSError * error) {
+    } complete:^(NSURLResponse *response, InspurUploadSingleRequestMetrics *metrics, NSData * responseData, NSError * error) {
         kQNStrongSelf;
         
         if (metrics) {
@@ -213,7 +213,7 @@
 - (void)complete:(InspurResponseInfo *)responseInfo
             server:(id<InspurUploadServer>)server
           response:(NSDictionary *)response
-    requestMetrics:(QNUploadSingleRequestMetrics *)requestMetrics
+    requestMetrics:(InspurUploadSingleRequestMetrics *)requestMetrics
           complete:(QNSingleRequestCompleteHandler)complete {
     [self updateHostNetworkStatus:responseInfo server:server requestMetrics:requestMetrics];
     if (complete) {
@@ -232,7 +232,7 @@
 //MARK:-- 统计网络状态
 - (void)updateHostNetworkStatus:(InspurResponseInfo *)responseInfo
                          server:(id <InspurUploadServer>)server
-                 requestMetrics:(QNUploadSingleRequestMetrics *)requestMetrics{
+                 requestMetrics:(InspurUploadSingleRequestMetrics *)requestMetrics{
     long long bytes = requestMetrics.bytesSend.longLongValue;
     if (requestMetrics.startDate && requestMetrics.endDate && bytes >= 1024 * 1024) {
         double duration = [requestMetrics.endDate timeIntervalSinceDate:requestMetrics.startDate] * 1000;
@@ -247,13 +247,13 @@
 //MARK:-- 统计quality日志
 - (void)reportRequest:(InspurResponseInfo *)info
                server:(id <InspurUploadServer>)server
-       requestMetrics:(QNUploadSingleRequestMetrics *)requestMetrics {
+       requestMetrics:(InspurUploadSingleRequestMetrics *)requestMetrics {
     
     if (! [self.requestInfo shouldReportRequestLog]) {
         return;
     }
     
-    QNUploadSingleRequestMetrics *requestMetricsP = requestMetrics ?: [QNUploadSingleRequestMetrics emptyMetrics];
+    InspurUploadSingleRequestMetrics *requestMetricsP = requestMetrics ?: [InspurUploadSingleRequestMetrics emptyMetrics];
     
     NSInteger currentTimestamp = [InspurUtils currentTimestamp];
     InspurReportItem *item = [InspurReportItem item];
@@ -305,7 +305,7 @@
     if (!kQNGlobalConfiguration.connectCheckEnable) {
         [item setReportValue:@"disable" forKey:QNReportRequestKeyNetworkMeasuring];
     } else if (requestMetricsP.connectCheckMetrics) {
-        QNUploadSingleRequestMetrics *metrics = requestMetricsP.connectCheckMetrics;
+        InspurUploadSingleRequestMetrics *metrics = requestMetricsP.connectCheckMetrics;
         NSString *connectCheckDuration = [NSString stringWithFormat:@"%.2lf", [metrics.totalElapsedTime doubleValue]];
         NSString *connectCheckStatusCode = @"";
         if (metrics.response) {

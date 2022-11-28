@@ -15,15 +15,15 @@
 #import "QNAsyncRun.h"
 #import "InspurUploadManager.h"
 #import "InspurUploadOption.h"
-#import "QNZone.h"
+#import "InspurZone.h"
 #import "InspurUploadSource.h"
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 
 extern NSString *const QNUploadUpTypeForm;
 extern NSString *const QNUploadUpTypeResumableV1;
 extern NSString *const QNUploadUpTypeResumableV2;
 
-typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *key, QNUploadTaskMetrics *metrics, NSDictionary *resp);
+typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp);
 
 @interface InspurBaseUpload : NSObject
 
@@ -39,8 +39,8 @@ typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *ke
 @property (nonatomic,   copy, readonly) NSString *recorderKey;
 @property (nonatomic, strong, readonly) QNUpTaskCompletionHandler completionHandler;
 
-@property (nonatomic, strong, readonly) QNUploadRegionRequestMetrics *currentRegionRequestMetrics;
-@property (nonatomic, strong, readonly) QNUploadTaskMetrics *metrics;
+@property (nonatomic, strong, readonly) InspurUploadRegionRequestMetrics *currentRegionRequestMetrics;
+@property (nonatomic, strong, readonly) InspurUploadTaskMetrics *metrics;
 
 
 //MARK:-- 构造函数
@@ -121,6 +121,6 @@ typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *ke
 //MARK: -- upLog
 
 // 一个上传流程可能会发起多个上传操作（如：上传多个分片），每个上传操作均是以一个Region的host做重试操作
-- (void)addRegionRequestMetricsOfOneFlow:(QNUploadRegionRequestMetrics *)metrics;
+- (void)addRegionRequestMetricsOfOneFlow:(InspurUploadRegionRequestMetrics *)metrics;
 
 @end

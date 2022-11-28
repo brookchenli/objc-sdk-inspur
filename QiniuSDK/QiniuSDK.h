@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #import "QNErrorCode.h"
-#import "QNDns.h"
-#import "QNZone.h"
-#import "QNFixedZone.h"
-#import "QNAutoZone.h"
+#import "InspurDns.h"
+#import "InspurZone.h"
+#import "InspurFixedZone.h"
+#import "InspurAutoZone.h"
 #import "InspurLogUtil.h"
 #import "InspurConfiguration.h"
 #import "InspurServerConfigMonitor.h"

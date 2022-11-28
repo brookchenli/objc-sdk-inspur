@@ -6,16 +6,16 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface InspurConnectChecker : NSObject
 
-+ (QNUploadSingleRequestMetrics *)check;
++ (InspurUploadSingleRequestMetrics *)check;
 
-+ (BOOL)isConnected:(QNUploadSingleRequestMetrics *)metrics;
++ (BOOL)isConnected:(InspurUploadSingleRequestMetrics *)metrics;
 
 @end
 

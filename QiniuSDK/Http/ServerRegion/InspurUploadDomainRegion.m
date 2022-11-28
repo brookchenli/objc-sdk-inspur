@@ -10,7 +10,7 @@
 #import "InspurUploadDomainRegion.h"
 #import "InspurResponseInfo.h"
 #import "InspurUploadServer.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurUploadServerFreezeUtil.h"
 #import "InspurUploadServerFreezeManager.h"
 #import "InspurDnsPrefetch.h"
@@ -178,7 +178,7 @@
 @property(nonatomic, strong)NSArray <NSString *> *oldDomainHostList;
 @property(nonatomic, strong)NSDictionary <NSString *, QNUploadServerDomain *> *oldDomainDictionary;
 
-@property(nonatomic, strong, nullable)QNZoneInfo *zoneInfo;
+@property(nonatomic, strong, nullable)InspurZoneInfo *zoneInfo;
 @end
 @implementation InspurUploadDomainRegion
 
@@ -186,7 +186,7 @@
     return !self.isAllFrozen && (self.domainHostList.count > 0 || self.oldDomainHostList.count > 0);
 }
 
-- (void)setupRegionData:(QNZoneInfo *)zoneInfo{
+- (void)setupRegionData:(InspurZoneInfo *)zoneInfo{
     _zoneInfo = zoneInfo;
     
     self.isAllFrozen = NO;

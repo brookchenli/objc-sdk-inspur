@@ -6,11 +6,11 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNZone.h"
+#import "InspurZone.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNFixedZone : QNZone
+@interface InspurFixedZone : InspurZone
 
 /**
  *    zone 0 华东
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *   获取本地所有固定zone信息
  */
-+ (QNFixedZone *)localsZoneInfo;
++ (InspurFixedZone *)localsZoneInfo;
 
 @end
 

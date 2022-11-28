@@ -6,7 +6,7 @@
 //  Copyright © 2020 yangsen. All rights reserved.
 //
 
-#import "NSData+QNGZip.h"
+#import "NSData+InspurGZip.h"
 #import <zlib.h>
 
 #pragma clang diagnostic ignored "-Wcast-qual"

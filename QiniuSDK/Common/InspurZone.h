@@ -10,17 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class InspurResponseInfo, InspurUpToken, QNZonesInfo, QNUploadRegionRequestMetrics;
+@class InspurResponseInfo, InspurUpToken, QNZonesInfo, InspurUploadRegionRequestMetrics;
 
-typedef void (^QNPrequeryReturn)(int code, InspurResponseInfo * _Nullable httpResponseInfo, QNUploadRegionRequestMetrics * _Nullable metrics);
+typedef void (^InspurPrequeryReturn)(int code, InspurResponseInfo * _Nullable httpResponseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics);
 
-@interface QNZone : NSObject
+@interface InspurZone : NSObject
 
 /// 根据token查询相关 Zone 信息【内部使用】
 /// @param token token 信息
 /// @param ret 查询回调
 - (void)preQuery:(InspurUpToken * _Nullable)token
-              on:(QNPrequeryReturn _Nullable)ret;
+              on:(InspurPrequeryReturn _Nullable)ret;
 
 /// 根据token查询相关 Zone 信息【内部使用】
 /// @param token token 信息
@@ -28,7 +28,7 @@ typedef void (^QNPrequeryReturn)(int code, InspurResponseInfo * _Nullable httpRe
 /// @param ret 查询回调
 - (void)preQuery:(InspurUpToken * _Nullable)token
       actionType:(QNActionType)actionType
-              on:(QNPrequeryReturn _Nullable)ret;
+              on:(InspurPrequeryReturn _Nullable)ret;
 
 /// 根据token获取ZonesInfo 【内部使用】
 /// @param token token信息

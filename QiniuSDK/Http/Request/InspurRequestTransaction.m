@@ -11,16 +11,16 @@
 #import "QNDefine.h"
 #import "InspurUtils.h"
 #import "InspurCrc32.h"
-#import "NSData+QNMD5.h"
+#import "NSData+InspurMD5.h"
 #import "InspurUrlSafeBase64.h"
 #import "InspurUpToken.h"
 #import "InspurConfiguration.h"
 #import "InspurUploadOption.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurUserAgent.h"
 #import "InspurResponseInfo.h"
 #import "InspurUploadRequestState.h"
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 
 #import "InspurUploadDomainRegion.h"
 #import "InspurHttpRegionRequest.h"
@@ -60,7 +60,7 @@
                          token:(nonnull InspurUpToken *)token{
     
     InspurUploadDomainRegion *region = [[InspurUploadDomainRegion alloc] init];
-    [region setupRegionData:[QNZoneInfo zoneInfoWithMainHosts:hosts regionId:regionId]];
+    [region setupRegionData:[InspurZoneInfo zoneInfoWithMainHosts:hosts regionId:regionId]];
     return [self initWithConfig:config
                    uploadOption:uploadOption
                    targetRegion:region
@@ -209,7 +209,7 @@
     } @catch (NSException *exception) {
         if (complete) {
             InspurResponseInfo *info = [InspurResponseInfo responseInfoWithLocalIOError:[NSString stringWithFormat:@"%@", exception]];
-            QNUploadRegionRequestMetrics *metrics = [QNUploadRegionRequestMetrics emptyMetrics];
+            InspurUploadRegionRequestMetrics *metrics = [InspurUploadRegionRequestMetrics emptyMetrics];
             complete(info, metrics, nil);
         }
         return;
@@ -385,7 +385,7 @@
                             body:nil
                      shouldRetry:shouldRetry
                         progress:nil
-                        complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                        complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
             complete(responseInfo, metrics, response);
         }];
@@ -437,7 +437,7 @@
                            body:partData
                     shouldRetry:shouldRetry
                        progress:progress
-                       complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                       complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
             complete(responseInfo, metrics, response);
         }];
@@ -496,7 +496,7 @@
                             body:body
                      shouldRetry:shouldRetry
                         progress:nil
-                        complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                        complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
             complete(responseInfo, metrics, response);
         }];
     });
@@ -528,7 +528,7 @@
                         body:logData
                  shouldRetry:shouldRetry
                     progress:nil
-                    complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
         complete(responseInfo, metrics, response);
     }];
@@ -551,7 +551,7 @@
                         body:nil
                  shouldRetry:shouldRetry
                     progress:nil
-                    complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
         complete(responseInfo, metrics, response);
     }];
@@ -574,7 +574,7 @@
                         body:nil
                  shouldRetry:shouldRetry
                     progress:nil
-                    complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
 
         complete(responseInfo, metrics, response);
     }];

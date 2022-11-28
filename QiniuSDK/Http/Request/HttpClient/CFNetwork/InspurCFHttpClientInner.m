@@ -9,7 +9,7 @@
 #import "QNErrorCode.h"
 #import "QNDefine.h"
 #import "InspurCFHttpClientInner.h"
-#import "NSURLRequest+QNRequest.h"
+#import "NSURLRequest+InspurRequest.h"
 #import <sys/errno.h>
 
 #define kQNCFHttpClientErrorDomain @"CFNetwork"

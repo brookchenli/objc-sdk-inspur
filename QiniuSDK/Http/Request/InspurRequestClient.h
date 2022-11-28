@@ -6,11 +6,11 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^QNRequestClientCompleteHandler)(NSURLResponse * _Nullable, QNUploadSingleRequestMetrics * _Nullable, NSData * _Nullable, NSError * _Nullable);
+typedef void (^QNRequestClientCompleteHandler)(NSURLResponse * _Nullable, InspurUploadSingleRequestMetrics * _Nullable, NSData * _Nullable, NSError * _Nullable);
 
 @protocol InspurRequestClient <NSObject>
 

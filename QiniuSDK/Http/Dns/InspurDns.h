@@ -1,5 +1,5 @@
 //
-//  QNDns.h
+//  InspurDns.h
 //  QnDNS
 //
 //  Created by yangsen on 2020/3/26.
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@protocol QNDnsDelegate <NSObject>
+@protocol InspurDnsDelegate <NSObject>
 
 /// 根据host获取解析结果
 /// @param host 域名

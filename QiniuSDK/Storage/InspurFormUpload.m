@@ -43,7 +43,7 @@
     [self.uploadTransaction putData:self.data
                            fileName:self.fileName
                            progress:progressHandler
-                           complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                           complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         
         [self addRegionRequestMetricsOfOneFlow:metrics];

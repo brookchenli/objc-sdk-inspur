@@ -9,8 +9,8 @@
 #import "QNAsyncRun.h"
 #import "InspurCFHttpClient.h"
 #import "InspurCFHttpClientInner.h"
-#import "NSURLRequest+QNRequest.h"
-#import "QNUploadRequestMetrics.h"
+#import "NSURLRequest+InspurRequest.h"
+#import "InspurUploadRequestMetrics.h"
 #import "InspurCFHttpThreadPool.h"
 
 @interface InspurCFHttpClient() <QNCFHttpClientInnerDelegate>
@@ -22,7 +22,7 @@
 @property(nonatomic, strong)NSURLRequest *request;
 @property(nonatomic, strong)NSURLResponse *response;
 @property(nonatomic, strong)NSDictionary *connectionProxy;
-@property(nonatomic, strong)QNUploadSingleRequestMetrics *requestMetrics;
+@property(nonatomic, strong)InspurUploadSingleRequestMetrics *requestMetrics;
 @property(nonatomic, strong)NSMutableData *responseData;
 @property(nonatomic,  copy)void(^progress)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
 @property(nonatomic,  copy)QNRequestClientCompleteHandler complete;
@@ -70,7 +70,7 @@ connectionProxy:(NSDictionary *)connectionProxy
     self.connectionProxy = connectionProxy;
     self.progress = progress;
     self.complete = complete;
-    self.requestMetrics = [QNUploadSingleRequestMetrics emptyMetrics];
+    self.requestMetrics = [InspurUploadSingleRequestMetrics emptyMetrics];
     self.requestMetrics.request = self.request;
     self.requestMetrics.remoteAddress = self.request.qn_ip;
     self.requestMetrics.remotePort = self.request.qn_isHttps ? @443 : @80;

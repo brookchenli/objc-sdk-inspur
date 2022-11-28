@@ -10,14 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class QNZoneInfo, InspurUploadRequestState, InspurResponseInfo;
+@class InspurZoneInfo, InspurUploadRequestState, InspurResponseInfo;
 
 @protocol InspurUploadRegion <NSObject>
 
 @property(nonatomic, assign, readonly)BOOL isValid;
-@property(nonatomic, strong, nullable, readonly)QNZoneInfo *zoneInfo;
+@property(nonatomic, strong, nullable, readonly)InspurZoneInfo *zoneInfo;
 
-- (void)setupRegionData:(QNZoneInfo * _Nullable)zoneInfo;
+- (void)setupRegionData:(InspurZoneInfo * _Nullable)zoneInfo;
 
 - (id<InspurUploadServer> _Nullable)getNextServer:(InspurUploadRequestState *)requestState
                                  responseInfo:(InspurResponseInfo *)responseInfo

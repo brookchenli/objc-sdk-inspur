@@ -10,7 +10,7 @@
 #import "InspurUtils.h"
 #import "InspurLogUtil.h"
 #import "InspurPartsUpload.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurReportItem.h"
 #import "InspurRequestTransaction.h"
 #import "InspurPartsUploadPerformerV1.h"
@@ -204,7 +204,7 @@
 - (void)serverInit:(void(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
     kQNWeakSelf;
-    void(^completeHandlerP)(InspurResponseInfo *, QNUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
+    void(^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
         kQNStrongSelf;
         
         if (!responseInfo.isOK) {
@@ -220,7 +220,7 @@
 - (void)uploadNextData:(void(^)(BOOL stop, InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
     kQNWeakSelf;
-    void(^completeHandlerP)(BOOL, InspurResponseInfo *, QNUploadRegionRequestMetrics *, NSDictionary *) = ^(BOOL stop, InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
+    void(^completeHandlerP)(BOOL, InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(BOOL stop, InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
         kQNStrongSelf;
         
         if (!responseInfo.isOK) {
@@ -236,7 +236,7 @@
 - (void)completeUpload:(void(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
     kQNWeakSelf;
-    void(^completeHandlerP)(InspurResponseInfo *, QNUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
+    void(^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
         kQNStrongSelf;
         
         if (!responseInfo.isOK) {
@@ -267,7 +267,7 @@
 //MARK:-- 统计block日志
 - (void)reportBlock{
     
-    QNUploadRegionRequestMetrics *metrics = self.currentRegionRequestMetrics ?: [QNUploadRegionRequestMetrics emptyMetrics];
+    InspurUploadRegionRequestMetrics *metrics = self.currentRegionRequestMetrics ?: [InspurUploadRegionRequestMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
     [item setReportValue:QNReportLogTypeBlock forKey:QNReportBlockKeyLogType];

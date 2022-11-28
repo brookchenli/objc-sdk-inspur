@@ -1,5 +1,5 @@
 //
-//  QNConfig.h
+//  InspurConfig.h
 //  QiniuSDK
 //
 //  Created by yangsen on 2020/3/26.

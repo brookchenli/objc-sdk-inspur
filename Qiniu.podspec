@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
-  s.name         = 'InspurOSS'
-  s.version      = '1.0.0'
-  s.summary      = 'Inspur Resource Storage SDK for iOS and Mac'
+  s.name         = 'Qiniu'
+  s.version      = '8.5.0'
+  s.summary      = 'Qiniu Resource Storage SDK for iOS and Mac'
   s.homepage     = 'https://github.com/qiniu/objc-sdk'
-  s.social_media_url = 'http://inspur.com'
-  s.author       = "Inspur => sdk@inspur.com"
-  s.source       = {:git => 'https://github.com/brookchenli/objc-sdk-inspur.git', :tag => "v#{s.version}"}
+  s.social_media_url = 'http://weibo.com/qiniutek'
+  s.author       = "Qiniu => sdk@qiniu.com"
+  s.source       = {:git => 'https://github.com/qiniu/objc-sdk.git', :tag => "v#{s.version}"}
 
   s.ios.deployment_target = '7.0'
   s.osx.deployment_target = '10.9'

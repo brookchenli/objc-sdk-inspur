@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurResponseInfo.h"
 #import "QNDefine.h"
 #import "InspurBaseUpload.h"
@@ -35,8 +35,8 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 @property (nonatomic, assign)NSInteger currentRegionIndex;
 @property (nonatomic, strong)NSMutableArray <id <InspurUploadRegion> > *regions;
 
-@property (nonatomic, strong)QNUploadRegionRequestMetrics *currentRegionRequestMetrics;
-@property (nonatomic, strong) QNUploadTaskMetrics *metrics;
+@property (nonatomic, strong)InspurUploadRegionRequestMetrics *currentRegionRequestMetrics;
+@property (nonatomic, strong) InspurUploadTaskMetrics *metrics;
 
 @end
 
@@ -105,7 +105,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
     [self.metrics start];
     
     kQNWeakSelf;
-    [_config.zone preQuery:self.token actionType:[self actionType] on:^(int code, InspurResponseInfo *responseInfo, QNUploadRegionRequestMetrics *metrics) {
+    [_config.zone preQuery:self.token actionType:[self actionType] on:^(int code, InspurResponseInfo *responseInfo, InspurUploadRegionRequestMetrics *metrics) {
         kQNStrongSelf;
         self.metrics.ucQueryMetrics = metrics;
         
@@ -136,7 +136,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 }
 
 - (void)startToUpload{
-    self.currentRegionRequestMetrics = [[QNUploadRegionRequestMetrics alloc] initWithRegion:[self getCurrentRegion]];
+    self.currentRegionRequestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:[self getCurrentRegion]];
     [self.currentRegionRequestMetrics start];
 }
 
@@ -215,7 +215,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 - (BOOL)setupRegions{
     NSMutableArray *defaultRegions = [NSMutableArray array];
     NSArray *zoneInfos = [self.config.zone getZonesInfoWithToken:self.token actionType:[self actionType]].zonesInfo;
-    for (QNZoneInfo *zoneInfo in zoneInfos) {
+    for (InspurZoneInfo *zoneInfo in zoneInfos) {
         InspurUploadDomainRegion *region = [[InspurUploadDomainRegion alloc] init];
         [region setupRegionData:zoneInfo];
         if (region.isValid) {
@@ -266,7 +266,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
     return region;
 }
 
-- (void)addRegionRequestMetricsOfOneFlow:(QNUploadRegionRequestMetrics *)metrics{
+- (void)addRegionRequestMetricsOfOneFlow:(InspurUploadRegionRequestMetrics *)metrics{
     if (metrics == nil) {
         return;
     }
@@ -281,9 +281,9 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
     [self.currentRegionRequestMetrics addMetrics:metrics];
 }
 
-- (QNUploadTaskMetrics *)metrics {
+- (InspurUploadTaskMetrics *)metrics {
     if (_metrics == nil) {
-        _metrics = [QNUploadTaskMetrics taskMetrics:self.upType];
+        _metrics = [InspurUploadTaskMetrics taskMetrics:self.upType];
     }
     return _metrics;
 }

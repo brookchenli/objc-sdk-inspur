@@ -12,9 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, QNUploadSingleRequestMetrics;
+@class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, InspurUploadSingleRequestMetrics;
 
-typedef void(^QNSingleRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, NSArray <QNUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response);
+typedef void(^QNSingleRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, NSArray <InspurUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response);
 
 @interface InspurHttpSingleRequest : NSObject
 

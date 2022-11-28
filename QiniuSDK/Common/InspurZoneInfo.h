@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const QNZoneInfoSDKDefaultIOHost;
 extern NSString *const QNZoneInfoEmptyRegionId;
 
-@interface QNZoneInfo : NSObject
+@interface InspurZoneInfo : NSObject
 
 @property(nonatomic, assign, readonly)long ttl;
 @property(nonatomic, assign, readonly)BOOL http3Enabled;
@@ -24,16 +24,16 @@ extern NSString *const QNZoneInfoEmptyRegionId;
 @property(nonatomic, strong, readonly)NSArray <NSString *> *allHosts;
 @property(nonatomic, strong, readonly)NSDictionary *detailInfo;
 
-+ (QNZoneInfo *)zoneInfoWithMainHosts:(NSArray <NSString *> *)mainHosts
++ (InspurZoneInfo *)zoneInfoWithMainHosts:(NSArray <NSString *> *)mainHosts
                              regionId:(NSString * _Nullable)regionId;
 
-+ (QNZoneInfo *)zoneInfoWithMainHosts:(NSArray <NSString *> *)mainHosts
++ (InspurZoneInfo *)zoneInfoWithMainHosts:(NSArray <NSString *> *)mainHosts
                              oldHosts:(NSArray <NSString *> * _Nullable)oldHosts
                              regionId:(NSString * _Nullable)regionId;
 
 /// 根据键值对构造对象 【内部使用】
 /// @param detailInfo 键值对信息
-+ (QNZoneInfo *)zoneInfoFromDictionary:(NSDictionary *)detailInfo;
++ (InspurZoneInfo *)zoneInfoFromDictionary:(NSDictionary *)detailInfo;
 
 - (BOOL)isValid;
 
@@ -43,7 +43,7 @@ extern NSString *const QNZoneInfoEmptyRegionId;
 
 @property (nonatomic, assign, readonly) BOOL isTemporary;
 @property (nonatomic, assign, readonly) BOOL isValid;
-@property (nonatomic, strong, readonly) NSArray<QNZoneInfo *> *zonesInfo;
+@property (nonatomic, strong, readonly) NSArray<InspurZoneInfo *> *zonesInfo;
 
 /// 根据键值对构造对象 【内部使用】
 /// @param dictionary 键值对信息
@@ -54,7 +54,7 @@ extern NSString *const QNZoneInfoEmptyRegionId;
 /// @param actionType  action 类型
 + (instancetype)infoWithDictionary:(NSDictionary *)dictionary actionType:(QNActionType)actionType;
 
-- (instancetype)initWithZonesInfo:(NSArray<QNZoneInfo *> *)zonesInfo;
+- (instancetype)initWithZonesInfo:(NSArray<InspurZoneInfo *> *)zonesInfo;
 
 // 转成临时 zones, 临时 Zones，不建议长期使用
 - (void)toTemporary;

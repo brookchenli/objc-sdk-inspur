@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNDnsCacheFile : NSObject<InspurRecorderDelegate>
+@interface InspurDnsCacheFile : NSObject<InspurRecorderDelegate>
 
 /// DNS解析信息本地缓存路径
 @property(nonatomic,  copy, readonly)NSString *directory;

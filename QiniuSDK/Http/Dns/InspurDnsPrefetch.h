@@ -6,7 +6,7 @@
 //  Copyright © 2020 com.qiniu. All rights reserved.
 //
 
-#import "QNDns.h"
+#import "InspurDns.h"
 #import "InspurUpToken.h"
 #import "InspurConfiguration.h"
 #import "InspurTransactionManager.h"
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 添加检测并预取dns事务 如果未开启DNS 或 事务队列中存在token对应的事务未处理，则返回NO
 /// @param currentZone 当前区域
 /// @param token token信息
-- (BOOL)addDnsCheckAndPrefetchTransaction:(QNZone *)currentZone token:(InspurUpToken *)token;
+- (BOOL)addDnsCheckAndPrefetchTransaction:(InspurZone *)currentZone token:(InspurUpToken *)token;
 
 /// 设置定时事务：检测已缓存DNS有效情况事务 无效会重新预取
 - (void)setDnsCheckWhetherCachedValidTransactionAction;

@@ -6,7 +6,7 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "NSData+QNMD5.h"
+#import "NSData+InspurMD5.h"
 #import "InspurMutableArray.h"
 #import "InspurUploadInfoV2.h"
 

@@ -6,11 +6,11 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNZone.h"
+#import "InspurZone.h"
 #import "InspurUpToken.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 
-@implementation QNZone
+@implementation InspurZone
 
 - (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token {
     return [self getZonesInfoWithToken:token actionType:QNActionTypeNone];
@@ -22,13 +22,13 @@
 }
 
 - (void)preQuery:(InspurUpToken *)token
-              on:(QNPrequeryReturn)ret {
+              on:(InspurPrequeryReturn)ret {
     [self preQuery:token actionType:QNActionTypeNone on:ret];
 }
 
 - (void)preQuery:(InspurUpToken *)token
       actionType:(QNActionType)actionType
-              on:(QNPrequeryReturn)ret {
+              on:(InspurPrequeryReturn)ret {
     ret(0, nil, nil);
 }
 

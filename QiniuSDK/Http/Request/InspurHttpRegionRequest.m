@@ -14,10 +14,10 @@
 #import "InspurHttpRegionRequest.h"
 #import "InspurConfiguration.h"
 #import "InspurUploadOption.h"
-#import "NSURLRequest+QNRequest.h"
-#import "QNZoneInfo.h"
+#import "NSURLRequest+InspurRequest.h"
+#import "InspurZoneInfo.h"
 
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 #import "InspurResponseInfo.h"
 
 @interface InspurHttpRegionRequest()
@@ -27,7 +27,7 @@
 @property(nonatomic, strong)InspurUploadRequestInfo *requestInfo;
 @property(nonatomic, strong)InspurUploadRequestState *requestState;
 
-@property(nonatomic, strong)QNUploadRegionRequestMetrics *requestMetrics;
+@property(nonatomic, strong)InspurUploadRegionRequestMetrics *requestMetrics;
 @property(nonatomic, strong)InspurHttpSingleRequest *singleRequest;
 
 @property(nonatomic, strong)id <InspurUploadServer> currentServer;
@@ -62,7 +62,7 @@
 shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
    complete:(QNRegionRequestCompleteHandler)complete{
     
-    self.requestMetrics = [[QNUploadRegionRequestMetrics alloc] initWithRegion:self.region];
+    self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
     [self performRequest:[self getNextServer:nil]
                   action:action
@@ -81,7 +81,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
     progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
     complete:(QNRegionRequestCompleteHandler)complete{
     
-    self.requestMetrics = [[QNUploadRegionRequestMetrics alloc] initWithRegion:self.region];
+    self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
     [self performRequest:[self getNextServer:nil]
                   action:action
@@ -101,7 +101,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
    progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
    complete:(QNRegionRequestCompleteHandler)complete{
     
-    self.requestMetrics = [[QNUploadRegionRequestMetrics alloc] initWithRegion:self.region];
+    self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
     [self performRequest:[self getNextServer:nil]
                   action:action
@@ -158,7 +158,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
                          server:server
                     shouldRetry:shouldRetry
                        progress:progress
-                       complete:^(InspurResponseInfo * _Nullable responseInfo, NSArray<QNUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response) {
+                       complete:^(InspurResponseInfo * _Nullable responseInfo, NSArray<InspurUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         
         [self.requestMetrics addMetricsList:metrics];

@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "InspurHttpSingleRequest.h"
-#import "QNUploadRegionInfo.h"
+#import "InspurUploadRegionInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, QNUploadRegionRequestMetrics;
+@class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, InspurUploadRegionRequestMetrics;
 
-typedef void(^QNRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
+typedef void(^QNRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
 
 @interface InspurHttpRegionRequest : NSObject
 

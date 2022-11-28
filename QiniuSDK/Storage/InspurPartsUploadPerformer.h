@@ -17,7 +17,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol InspurUploadRegion;
-@class InspurUploadInfo, InspurRequestTransaction, QNUploadRegionRequestMetrics;
+@class InspurUploadInfo, InspurRequestTransaction, InspurUploadRegionRequestMetrics;
 
 @interface InspurPartsUploadPerformer : NSObject
 
@@ -70,16 +70,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 上传前，服务端配置工作 【子类实现】
 - (void)serverInit:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                            QNUploadRegionRequestMetrics * _Nullable metrics,
+                            InspurUploadRegionRequestMetrics * _Nullable metrics,
                             NSDictionary * _Nullable response))completeHandler;
 /// 上传文件分片 【子类实现】
 - (void)uploadNextData:(void(^)(BOOL stop,
                                 InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler;
 /// 完成上传，服务端组织文件信息 【子类实现】
 - (void)completeUpload:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler;
 
 @end

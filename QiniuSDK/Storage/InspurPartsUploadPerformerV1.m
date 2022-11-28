@@ -28,7 +28,7 @@
 }
 
 - (void)serverInit:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                            QNUploadRegionRequestMetrics * _Nullable metrics,
+                            InspurUploadRegionRequestMetrics * _Nullable metrics,
                             NSDictionary * _Nullable response))completeHandler {
     InspurResponseInfo *responseInfo = [InspurResponseInfo successResponse];
     completeHandler(responseInfo, nil, nil);
@@ -36,7 +36,7 @@
 
 - (void)uploadNextData:(void(^)(BOOL stop,
                                 InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler {
     InspurUploadInfoV1 *uploadInfo = (InspurUploadInfoV1 *)self.uploadInfo;
     
@@ -83,7 +83,7 @@
         [self notifyProgress:false];
     };
     
-    void (^completeHandlerP)(InspurResponseInfo *, QNUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    void (^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         
         NSString *blockContext = response[@"ctx"];
@@ -110,7 +110,7 @@
 }
 
 - (void)completeUpload:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                                QNUploadRegionRequestMetrics * _Nullable metrics,
+                                InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler {
     InspurUploadInfoV1 *uploadInfo = (InspurUploadInfoV1 *)self.uploadInfo;
     
@@ -121,7 +121,7 @@
     [transaction makeFile:[uploadInfo getSourceSize]
                  fileName:self.fileName
             blockContexts:[uploadInfo allBlocksContexts]
-                 complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                 complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
         if (responseInfo.isOK) {
@@ -139,7 +139,7 @@
          progress:(void(^)(long long totalBytesWritten,
                            long long totalBytesExpectedToWrite))progress
   completeHandler:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                           QNUploadRegionRequestMetrics * _Nullable metrics,
+                           InspurUploadRegionRequestMetrics * _Nullable metrics,
                            NSDictionary * _Nullable response))completeHandler {
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
@@ -149,7 +149,7 @@
                  blockSize:block.size
             firstChunkData:chunkData
                   progress:progress
-                  complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                  complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
         
@@ -165,7 +165,7 @@
            progress:(void(^)(long long totalBytesWritten,
                              long long totalBytesExpectedToWrite))progress
     completeHandler:(void(^)(InspurResponseInfo * _Nullable responseInfo,
-                             QNUploadRegionRequestMetrics * _Nullable metrics,
+                             InspurUploadRegionRequestMetrics * _Nullable metrics,
                              NSDictionary * _Nullable response))completeHandler {
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
@@ -176,7 +176,7 @@
                    chunkData:chunkData
                  chunkOffset:chunk.offset
                     progress:progress
-                    complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         kQNStrongSelf;
         kQNStrongObj(transaction);
         

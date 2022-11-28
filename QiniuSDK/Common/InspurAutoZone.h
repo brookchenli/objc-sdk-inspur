@@ -6,11 +6,11 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNZone.h"
+#import "InspurZone.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNAutoZone : QNZone
+@interface InspurAutoZone : InspurZone
 
 + (instancetype)zoneWithUcHosts:(NSArray *)ucHosts;
 

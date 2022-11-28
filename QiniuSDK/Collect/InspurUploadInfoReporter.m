@@ -6,7 +6,7 @@
 //  Copyright © 2019 Qiniu. All rights reserved.
 //
 #import "QNDefine.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurUploadInfoReporter.h"
 #import "InspurResponseInfo.h"
 #import "InspurUtils.h"
@@ -16,7 +16,7 @@
 #import "QNAsyncRun.h"
 #import "QNVersion.h"
 #import "InspurReportConfig.h"
-#import "NSData+QNGZip.h"
+#import "NSData+InspurGZip.h"
 #import "InspurTransactionManager.h"
 #import "InspurRequestTransaction.h"
 
@@ -200,7 +200,7 @@
     self.isReporting = YES;
     logData = [NSData qn_gZip:logData];
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
-    [transaction reportLog:logData logClientId:self.X_Log_Client_Id complete:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    [transaction reportLog:logData logClientId:self.X_Log_Client_Id complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         if (responseInfo.isOK) {
             self.lastReportTime = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
             if (!self.X_Log_Client_Id) {

@@ -1,5 +1,5 @@
 //
-//  QNUploadRequestMetrics.h
+//  InspurUploadRequestMetrics.h
 //  QiniuSDK
 //
 //  Created by yangsen on 2020/4/29.
@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QNUploadRegionInfo.h"
+#import "InspurUploadRegionInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNUploadMetrics : NSObject
+@interface InspurUploadMetrics : NSObject
 
 @property (nonatomic, nullable, strong, readonly) NSDate *startDate;
 @property (nonatomic, nullable, strong, readonly) NSDate *endDate;
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define kQNMetricsRequestHijacked @"forsure"
 #define kQNMetricsRequestMaybeHijacked @"maybe"
 
-@interface QNUploadSingleRequestMetrics : QNUploadMetrics
+@interface InspurUploadSingleRequestMetrics : InspurUploadMetrics
 
 // 请求的 httpVersion
 @property (nonatomic,  copy)NSString *httpVersion;
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSError *syncDnsError;
 
 // 只有进行网络检测才会有 connectCheckMetrics
-@property (nonatomic, nullable , strong) QNUploadSingleRequestMetrics *connectCheckMetrics;
+@property (nonatomic, nullable , strong) InspurUploadSingleRequestMetrics *connectCheckMetrics;
 
 // 错误信息
 @property (nonatomic, nullable , strong) NSError *error;
@@ -91,37 +91,37 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface QNUploadRegionRequestMetrics : QNUploadMetrics
+@interface InspurUploadRegionRequestMetrics : InspurUploadMetrics
 
 @property (nonatomic, strong, readonly) NSNumber *requestCount;
 @property (nonatomic, strong, readonly) NSNumber *bytesSend;
 @property (nonatomic, strong, readonly) id <InspurUploadRegion> region;
-@property (nonatomic, strong, readonly) QNUploadSingleRequestMetrics *lastMetrics;
-@property (nonatomic,   copy, readonly) NSArray<QNUploadSingleRequestMetrics *> *metricsList;
+@property (nonatomic, strong, readonly) InspurUploadSingleRequestMetrics *lastMetrics;
+@property (nonatomic,   copy, readonly) NSArray<InspurUploadSingleRequestMetrics *> *metricsList;
 
 //MARK:-- 构造
 - (instancetype)initWithRegion:(id <InspurUploadRegion>)region;
 
-- (void)addMetricsList:(NSArray <QNUploadSingleRequestMetrics *> *)metricsList;
-- (void)addMetrics:(QNUploadRegionRequestMetrics*)metrics;
+- (void)addMetricsList:(NSArray <InspurUploadSingleRequestMetrics *> *)metricsList;
+- (void)addMetrics:(InspurUploadRegionRequestMetrics*)metrics;
 
 @end
 
 
-@interface QNUploadTaskMetrics : QNUploadMetrics
+@interface InspurUploadTaskMetrics : InspurUploadMetrics
 
 @property (nonatomic,   copy, readonly) NSString *upType;
 @property (nonatomic, strong, readonly) NSNumber *requestCount;
 @property (nonatomic, strong, readonly) NSNumber *bytesSend;
 @property (nonatomic, strong, readonly) NSNumber *regionCount;
-@property (nonatomic, strong, readonly) QNUploadRegionRequestMetrics *lastMetrics;
+@property (nonatomic, strong, readonly) InspurUploadRegionRequestMetrics *lastMetrics;
 
-@property (nonatomic, strong) QNUploadRegionRequestMetrics *ucQueryMetrics;
+@property (nonatomic, strong) InspurUploadRegionRequestMetrics *ucQueryMetrics;
 @property (nonatomic, strong) NSArray<id <InspurUploadRegion>> *regions;
 
 + (instancetype)taskMetrics:(NSString *)upType;
 
-- (void)addMetrics:(QNUploadRegionRequestMetrics *)metrics;
+- (void)addMetrics:(InspurUploadRegionRequestMetrics *)metrics;
 
 @end
 

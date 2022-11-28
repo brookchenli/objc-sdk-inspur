@@ -7,7 +7,7 @@
 //
 
 #import "InspurReportConfig.h"
-#import "QNConfig.h"
+#import "InspurConfig.h"
 #import "InspurUtils.h"
 
 @implementation InspurReportConfig

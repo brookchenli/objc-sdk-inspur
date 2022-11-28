@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "InspurRecorderDelegate.h"
-#import "QNDns.h"
+#import "InspurDns.h"
 
 /**
  * 断点上传时的分块大小
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, QNResumeUploadVersion){
 };
 
 @class InspurConfigurationBuilder;
-@class QNZone;
+@class InspurZone;
 @class InspurReportConfig;
 
 /**
@@ -50,7 +50,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *    存储区域
  */
-@property (copy, nonatomic, readonly) QNZone *zone;
+@property (copy, nonatomic, readonly) InspurZone *zone;
 
 /**
  *    断点上传时的分片大小
@@ -177,7 +177,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *   自定义DNS解析客户端host
  */
-@property(nonatomic, strong) id <QNDnsDelegate> dns;
+@property(nonatomic, strong) id <InspurDnsDelegate> dns;
 
 /**
  *   dns解析结果本地缓存路径
@@ -264,7 +264,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *    默认上传服务器地址
  */
-@property (nonatomic, strong) QNZone *zone;
+@property (nonatomic, strong) InspurZone *zone;
 
 /**
  *    断点上传时的分片大小

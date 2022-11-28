@@ -8,12 +8,12 @@
 
 #import "InspurUploadSystemClient.h"
 #import "InspurUserAgent.h"
-#import "NSURLRequest+QNRequest.h"
+#import "NSURLRequest+InspurRequest.h"
 
 @interface InspurUploadSystemClient()<NSURLSessionDelegate>
 
 @property(nonatomic, strong)NSURLRequest *request;
-@property(nonatomic, strong)QNUploadSingleRequestMetrics *requestMetrics;
+@property(nonatomic, strong)InspurUploadSingleRequestMetrics *requestMetrics;
 @property(nonatomic, strong)NSURLSessionDataTask *uploadTask;
 @property(nonatomic, strong)NSMutableData *responseData;
 @property(nonatomic,  copy)void(^progress)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
@@ -44,7 +44,7 @@ connectionProxy:(NSDictionary *)connectionProxy
         self.request = request;
     }
 
-    self.requestMetrics = [QNUploadSingleRequestMetrics emptyMetrics];
+    self.requestMetrics = [InspurUploadSingleRequestMetrics emptyMetrics];
     self.requestMetrics.remoteAddress = self.request.qn_isHttps ? nil : server.ip;
     self.requestMetrics.remotePort = self.request.qn_isHttps ? @443 : @80;
     [self.requestMetrics start];

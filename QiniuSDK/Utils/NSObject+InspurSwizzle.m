@@ -5,7 +5,7 @@
 //  Created by yangsen on 2020/4/13.
 //
 
-#import "NSObject+QNSwizzle.h"
+#import "NSObject+InspurSwizzle.h"
 #import <objc/runtime.h>
 
 @implementation NSObject(InspurSwizzle)

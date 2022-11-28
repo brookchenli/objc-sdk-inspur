@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDns.h"
+#import "InspurDns.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

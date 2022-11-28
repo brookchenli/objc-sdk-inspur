@@ -49,7 +49,7 @@
 
 #import "InspurServerConfigMonitor.h"
 #import "InspurDnsPrefetch.h"
-#import "QNZone.h"
+#import "InspurZone.h"
 
 #import "InspurUploadSourceFile.h"
 #import "InspurUploadSourceStream.h"
@@ -148,7 +148,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
     InspurServerConfigMonitor.token = [t toString];
     [[InspurTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
     
-    QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, QNUploadTaskMetrics *metrics, NSDictionary *resp) {
+    QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
         [InspurUploadManager complete:[t toString]
                               key:key
                            source:data
@@ -358,7 +358,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
         }
 
 
-        QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, QNUploadTaskMetrics *metrics, NSDictionary *resp) {
+        QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
             [InspurUploadManager complete:[t toString]
                                   key:key
                                source:source
@@ -482,7 +482,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
           source:(NSObject *)source
     responseInfo:(InspurResponseInfo *)responseInfo
         response:(NSDictionary *)response
-     taskMetrics:(QNUploadTaskMetrics *)taskMetrics
+     taskMetrics:(InspurUploadTaskMetrics *)taskMetrics
         complete:(QNUpCompletionHandler)completionHandler {
     
     //[QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
@@ -499,11 +499,11 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
 + (void)reportQuality:(NSString *)key
                source:(NSObject *)source
          responseInfo:(InspurResponseInfo *)responseInfo
-          taskMetrics:(QNUploadTaskMetrics *)taskMetrics
+          taskMetrics:(InspurUploadTaskMetrics *)taskMetrics
                 token:(NSString *)token{
     
     InspurUpToken *upToken = [InspurUpToken parse:token];
-    QNUploadTaskMetrics *taskMetricsP = taskMetrics ?: [QNUploadTaskMetrics emptyMetrics];
+    InspurUploadTaskMetrics *taskMetricsP = taskMetrics ?: [InspurUploadTaskMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
     [item setReportValue:QNReportLogTypeQuality forKey:QNReportQualityKeyLogType];

@@ -6,14 +6,14 @@
 //  Copyright © 2020 com.qiniu. All rights reserved.
 //
 
-#import "QNDnsCacheFile.h"
+#import "InspurDnsCacheFile.h"
 
-@interface QNDnsCacheFile()
+@interface InspurDnsCacheFile()
 
 @property(nonatomic,  copy)NSString *directory;
 
 @end
-@implementation QNDnsCacheFile
+@implementation InspurDnsCacheFile
 
 + (instancetype)dnsCacheFile:(NSString *)directory
                        error:(NSError **)error{
@@ -24,7 +24,7 @@
         return nil;
     }
     
-    QNDnsCacheFile *f = [[QNDnsCacheFile alloc] init];
+    InspurDnsCacheFile *f = [[InspurDnsCacheFile alloc] init];
     f.directory = directory;
     return f;
 }
@@ -80,7 +80,7 @@
 }
 
 - (NSString *)pathOfKey:(NSString *)key {
-    return [QNDnsCacheFile pathJoin:key path:_directory];
+    return [InspurDnsCacheFile pathJoin:key path:_directory];
 }
 
 + (NSString *)pathJoin:(NSString *)key

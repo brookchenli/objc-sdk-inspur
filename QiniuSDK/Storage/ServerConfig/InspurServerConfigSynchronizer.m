@@ -6,9 +6,9 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNConfig.h"
+#import "InspurConfig.h"
 #import "InspurUpToken.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurResponseInfo.h"
 #import "InspurRequestTransaction.h"
 #import "InspurServerConfigSynchronizer.h"
@@ -33,7 +33,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
         return;
     }
     
-    [transaction serverConfig:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    [transaction serverConfig:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         if (responseInfo.isOK && response != nil) {
             complete([InspurServerConfig config:response]);
         } else {
@@ -84,7 +84,7 @@ static InspurRequestTransaction *serverUserConfigTransaction = nil;
         return;
     }
     
-    [transaction serverUserConfig:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+    [transaction serverUserConfig:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         if (responseInfo.isOK && response != nil) {
             complete([InspurServerUserConfig config:response]);
         } else {

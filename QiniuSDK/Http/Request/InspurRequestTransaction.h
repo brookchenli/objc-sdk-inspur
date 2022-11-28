@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QNUploadRegionInfo.h"
+#import "InspurUploadRegionInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class InspurUpToken, InspurConfiguration, InspurUploadOption, InspurResponseInfo, QNUploadRegionRequestMetrics;
+@class InspurUpToken, InspurConfiguration, InspurUploadOption, InspurResponseInfo, InspurUploadRegionRequestMetrics;
 
-typedef void(^QNRequestTransactionCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
+typedef void(^QNRequestTransactionCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
 
 // 单个对象只能执行一个事务，多个事务需要创建多个事务对象完成
 @interface InspurRequestTransaction : NSObject

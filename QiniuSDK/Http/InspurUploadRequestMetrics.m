@@ -7,17 +7,17 @@
 //
 
 #import "InspurUtils.h"
-#import "QNUploadRequestMetrics.h"
-#import "NSURLRequest+QNRequest.h"
-#import "QNZoneInfo.h"
+#import "InspurUploadRequestMetrics.h"
+#import "NSURLRequest+InspurRequest.h"
+#import "InspurZoneInfo.h"
 
-@interface QNUploadMetrics()
+@interface InspurUploadMetrics()
 
 @property (nullable, strong) NSDate *startDate;
 @property (nullable, strong) NSDate *endDate;
 
 @end
-@implementation QNUploadMetrics
+@implementation InspurUploadMetrics
 //MARK:-- 构造
 + (instancetype)emptyMetrics {
     return [[self alloc] init];
@@ -36,14 +36,14 @@
 }
 @end
 
-@interface QNUploadSingleRequestMetrics()
+@interface InspurUploadSingleRequestMetrics()
 @property (nonatomic, assign) int64_t countOfRequestHeaderBytes;
 @property (nonatomic, assign) int64_t countOfRequestBodyBytes;
 @end
-@implementation QNUploadSingleRequestMetrics
+@implementation InspurUploadSingleRequestMetrics
 
 + (instancetype)emptyMetrics{
-    QNUploadSingleRequestMetrics *metrics = [[QNUploadSingleRequestMetrics alloc] init];
+    InspurUploadSingleRequestMetrics *metrics = [[InspurUploadSingleRequestMetrics alloc] init];
     return metrics;
 }
 
@@ -155,16 +155,16 @@
 @end
 
 
-@interface QNUploadRegionRequestMetrics()
+@interface InspurUploadRegionRequestMetrics()
 
 @property (nonatomic, strong) id <InspurUploadRegion> region;
-@property (nonatomic,   copy) NSMutableArray<QNUploadSingleRequestMetrics *> *metricsListInter;
+@property (nonatomic,   copy) NSMutableArray<InspurUploadSingleRequestMetrics *> *metricsListInter;
 
 @end
-@implementation QNUploadRegionRequestMetrics
+@implementation InspurUploadRegionRequestMetrics
 
 + (instancetype)emptyMetrics{
-    QNUploadRegionRequestMetrics *metrics = [[QNUploadRegionRequestMetrics alloc] init];
+    InspurUploadRegionRequestMetrics *metrics = [[InspurUploadRegionRequestMetrics alloc] init];
     return metrics;
 }
 
@@ -176,7 +176,7 @@
     return self;
 }
 
-- (QNUploadSingleRequestMetrics *)lastMetrics {
+- (InspurUploadSingleRequestMetrics *)lastMetrics {
     @synchronized (self) {
         return self.metricsListInter.lastObject;
     }
@@ -193,7 +193,7 @@
 - (NSNumber *)bytesSend{
     if (self.metricsList) {
         long long bytes = 0;
-        for (QNUploadSingleRequestMetrics *metrics in self.metricsList) {
+        for (InspurUploadSingleRequestMetrics *metrics in self.metricsList) {
             bytes += metrics.bytesSend.longLongValue;
         }
         return @(bytes);
@@ -202,13 +202,13 @@
     }
 }
 
-- (void)addMetricsList:(NSArray<QNUploadSingleRequestMetrics *> *)metricsList{
+- (void)addMetricsList:(NSArray<InspurUploadSingleRequestMetrics *> *)metricsList{
     @synchronized (self) {
         [_metricsListInter addObjectsFromArray:metricsList];
     }
 }
 
-- (void)addMetrics:(QNUploadRegionRequestMetrics*)metrics{
+- (void)addMetrics:(InspurUploadRegionRequestMetrics*)metrics{
     if ([metrics.region.zoneInfo.regionId isEqualToString:self.region.zoneInfo.regionId]) {
         @synchronized (self) {
             [_metricsListInter addObjectsFromArray:metrics.metricsListInter];
@@ -216,7 +216,7 @@
     }
 }
 
-- (NSArray<QNUploadSingleRequestMetrics *> *)metricsList{
+- (NSArray<InspurUploadSingleRequestMetrics *> *)metricsList{
     @synchronized (self) {
         return [_metricsListInter copy];
     }
@@ -225,22 +225,22 @@
 @end
 
 
-@interface QNUploadTaskMetrics()
+@interface InspurUploadTaskMetrics()
 
 @property (nonatomic,   copy) NSString *upType;
 @property (nonatomic,   copy) NSMutableArray<NSString *> *metricsKeys;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, QNUploadRegionRequestMetrics *> *metricsInfo;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, InspurUploadRegionRequestMetrics *> *metricsInfo;
 
 @end
-@implementation QNUploadTaskMetrics
+@implementation InspurUploadTaskMetrics
 
 + (instancetype)emptyMetrics{
-    QNUploadTaskMetrics *metrics = [[QNUploadTaskMetrics alloc] init];
+    InspurUploadTaskMetrics *metrics = [[InspurUploadTaskMetrics alloc] init];
     return metrics;
 }
 
 + (instancetype)taskMetrics:(NSString *)upType {
-    QNUploadTaskMetrics *metrics = [self emptyMetrics];
+    InspurUploadTaskMetrics *metrics = [self emptyMetrics];
     metrics.upType = upType;
     return metrics;
 }
@@ -253,7 +253,7 @@
     return self;
 }
 
-- (QNUploadRegionRequestMetrics *)lastMetrics {
+- (InspurUploadRegionRequestMetrics *)lastMetrics {
     if (self.metricsKeys.count < 1) {
         return nil;
     }
@@ -270,7 +270,7 @@
     NSDictionary *metricsInfo = [self syncCopyMetricsInfo];
     if (metricsInfo) {
         double time = 0;
-        for (QNUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
+        for (InspurUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
             time += metrics.totalElapsedTime.doubleValue;
         }
         return time > 0 ? @(time) : nil;
@@ -283,7 +283,7 @@
     NSDictionary *metricsInfo = [self syncCopyMetricsInfo];
     if (metricsInfo) {
         NSInteger count = 0;
-        for (QNUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
+        for (InspurUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
             count += metrics.requestCount.integerValue;
         }
         return @(count);
@@ -296,7 +296,7 @@
     NSDictionary *metricsInfo = [self syncCopyMetricsInfo];
     if (metricsInfo) {
         long long bytes = 0;
-        for (QNUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
+        for (InspurUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
             bytes += metrics.bytesSend.longLongValue;
         }
         return @(bytes);
@@ -309,7 +309,7 @@
     NSDictionary *metricsInfo = [self syncCopyMetricsInfo];
     if (metricsInfo) {
         int count = 0;
-        for (QNUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
+        for (InspurUploadRegionRequestMetrics *metrics in metricsInfo.allValues) {
             if (![metrics.region.zoneInfo.regionId isEqualToString:QNZoneInfoEmptyRegionId]) {
                 count += 1;
             }
@@ -320,18 +320,18 @@
     }
 }
 
-- (void)setUcQueryMetrics:(QNUploadRegionRequestMetrics *)ucQueryMetrics {
+- (void)setUcQueryMetrics:(InspurUploadRegionRequestMetrics *)ucQueryMetrics {
     _ucQueryMetrics = ucQueryMetrics;
     [self addMetrics:ucQueryMetrics];
 }
 
-- (void)addMetrics:(QNUploadRegionRequestMetrics *)metrics{
+- (void)addMetrics:(InspurUploadRegionRequestMetrics *)metrics{
     NSString *regionId = metrics.region.zoneInfo.regionId;
     if (!regionId) {
         return;
     }
     @synchronized (self) {
-        QNUploadRegionRequestMetrics *metricsOld = self.metricsInfo[regionId];
+        InspurUploadRegionRequestMetrics *metricsOld = self.metricsInfo[regionId];
         if (metricsOld) {
             [metricsOld addMetrics:metrics];
         } else {
@@ -341,7 +341,7 @@
     }
 }
 
-- (NSDictionary<NSString *, QNUploadRegionRequestMetrics *> *)syncCopyMetricsInfo {
+- (NSDictionary<NSString *, InspurUploadRegionRequestMetrics *> *)syncCopyMetricsInfo {
     @synchronized (self) {
         return [_metricsInfo copy];
     }

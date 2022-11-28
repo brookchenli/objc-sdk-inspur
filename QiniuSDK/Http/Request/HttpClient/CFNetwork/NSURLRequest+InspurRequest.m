@@ -7,7 +7,7 @@
 //
 
 #import <objc/runtime.h>
-#import "NSURLRequest+QNRequest.h"
+#import "NSURLRequest+InspurRequest.h"
 
 
 @implementation NSURLRequest(InspurRequest)

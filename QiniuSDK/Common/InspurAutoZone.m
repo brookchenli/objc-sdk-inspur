@@ -7,15 +7,15 @@
 //
 
 #import "QNDefine.h"
-#import "QNAutoZone.h"
-#import "QNConfig.h"
+#import "InspurAutoZone.h"
+#import "InspurConfig.h"
 #import "InspurRequestTransaction.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 #import "InspurUpToken.h"
 #import "InspurResponseInfo.h"
-#import "QNFixedZone.h"
+#import "InspurFixedZone.h"
 #import "InspurSingleFlight.h"
-#import "QNUploadRequestMetrics.h"
+#import "InspurUploadRequestMetrics.h"
 
 
 @interface QNAutoZoneCache : NSObject
@@ -88,19 +88,19 @@
 
 @property(nonatomic, strong)InspurResponseInfo *responseInfo;
 @property(nonatomic, strong)NSDictionary *response;
-@property(nonatomic, strong)QNUploadRegionRequestMetrics *metrics;
+@property(nonatomic, strong)InspurUploadRegionRequestMetrics *metrics;
 
 @end
 @implementation QNUCQuerySingleFlightValue
 @end
 
-@interface QNAutoZone()
+@interface InspurAutoZone()
 
 @property(nonatomic, strong)NSArray *ucHosts;
 @property(nonatomic, strong)NSMutableArray <InspurRequestTransaction *> *transactions;
 
 @end
-@implementation QNAutoZone
+@implementation InspurAutoZone
 
 + (InspurSingleFlight *)UCQuerySingleFlight {
     static InspurSingleFlight *singleFlight = nil;
@@ -112,7 +112,7 @@
 }
 
 + (instancetype)zoneWithUcHosts:(NSArray *)ucHosts {
-    QNAutoZone *zone = [[self alloc] init];
+    InspurAutoZone *zone = [[self alloc] init];
     zone.ucHosts = [ucHosts copy];
     return zone;
 }
@@ -138,14 +138,14 @@
     return zonesInfo;
 }
 
-- (void)preQuery:(InspurUpToken *)token actionType:(QNActionType)actionType on:(QNPrequeryReturn)ret {
+- (void)preQuery:(InspurUpToken *)token actionType:(QNActionType)actionType on:(InspurPrequeryReturn)ret {
 
     if (token == nil || ![token isValid]) {
         ret(-1, [InspurResponseInfo responseInfoWithInvalidToken:@"invalid token"], nil);
         return;
     }
     
-    QNUploadRegionRequestMetrics *cacheMetrics = [QNUploadRegionRequestMetrics emptyMetrics];
+    InspurUploadRegionRequestMetrics *cacheMetrics = [InspurUploadRegionRequestMetrics emptyMetrics];
     [cacheMetrics start];
     
     NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
@@ -159,14 +159,14 @@
     }
     
     kQNWeakSelf;
-    InspurSingleFlight *singleFlight = [QNAutoZone UCQuerySingleFlight];
+    InspurSingleFlight *singleFlight = [InspurAutoZone UCQuerySingleFlight];
     [singleFlight perform:token.index action:^(QNSingleFlightComplete  _Nonnull complete) {
         kQNStrongSelf;
         InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
         
         kQNWeakSelf;
         kQNWeakObj(transaction);
-        [transaction queryUploadHosts:^(InspurResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+        [transaction queryUploadHosts:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
             kQNStrongSelf;
             kQNStrongObj(transaction);
             
@@ -182,7 +182,7 @@
     } complete:^(id  _Nullable value, NSError * _Nullable error) {
         InspurResponseInfo *responseInfo = [(QNUCQuerySingleFlightValue *)value responseInfo];
         NSDictionary *response = [(QNUCQuerySingleFlightValue *)value response];
-        QNUploadRegionRequestMetrics *metrics = [(QNUCQuerySingleFlightValue *)value metrics];
+        InspurUploadRegionRequestMetrics *metrics = [(QNUCQuerySingleFlightValue *)value metrics];
 
         if (responseInfo && responseInfo.isOK) {
             QNZonesInfo *zonesInfo = [QNZonesInfo infoWithDictionary:response actionType:actionType];
@@ -196,7 +196,7 @@
             if (responseInfo.isConnectionBroken) {
                 ret(kQNNetworkError, responseInfo, metrics);
             } else {
-                QNZonesInfo *zonesInfo = [[QNFixedZone localsZoneInfo] getZonesInfoWithToken:token];
+                QNZonesInfo *zonesInfo = [[InspurFixedZone localsZoneInfo] getZonesInfoWithToken:token];
                 if ([zonesInfo isValid]) {
                     [[QNAutoZoneCache share] cache:zonesInfo forKey:cacheKey];
                     ret(0, responseInfo, metrics);

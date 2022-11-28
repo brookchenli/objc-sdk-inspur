@@ -6,22 +6,22 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNFixedZone.h"
-#import "QNZoneInfo.h"
+#import "InspurFixedZone.h"
+#import "InspurZoneInfo.h"
 
-@interface QNFixedZone ()
+@interface InspurFixedZone ()
 
 @property (nonatomic, strong) QNZonesInfo *zonesInfo;
 
 @end
 
-@implementation QNFixedZone
+@implementation InspurFixedZone
 
 + (instancetype)zone0 {
-    static QNFixedZone *z0 = nil;
+    static InspurFixedZone *z0 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        z0 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload.qiniup.com", @"up.qiniup.com"]
+        z0 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload.qiniup.com", @"up.qiniup.com"]
                                              oldUpList:@[@"upload.qbox.me", @"up.qbox.me"]
                                               regionId:@"z0"];
     });
@@ -29,10 +29,10 @@
 }
 
 + (instancetype)north3 {
-    static QNFixedZone *north3 = nil;
+    static InspurFixedZone *north3 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        north3 = [[QNFixedZone alloc] initWithUpDomainList:@[@"inspurcloudoss.com"]
+        north3 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"inspurcloudoss.com"]
                                              oldUpList:@[@"inspurcloudoss.com"]
                                               regionId:@"oss.cn-north-3"];
     });
@@ -40,10 +40,10 @@
 }
 
 + (instancetype)zoneCnEast2 {
-    static QNFixedZone *zoneCnEast2 = nil;
+    static InspurFixedZone *zoneCnEast2 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        zoneCnEast2 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-cn-east-2.qiniup.com", @"up-cn-east-2.qiniup.com"]
+        zoneCnEast2 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-cn-east-2.qiniup.com", @"up-cn-east-2.qiniup.com"]
                                                       oldUpList:nil
                                                        regionId:@"cn-east-2"];
     });
@@ -51,10 +51,10 @@
 }
 
 + (instancetype)zone1 {
-    static QNFixedZone *z1 = nil;
+    static InspurFixedZone *z1 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        z1 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-z1.qiniup.com", @"up-z1.qiniup.com"]
+        z1 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-z1.qiniup.com", @"up-z1.qiniup.com"]
                                              oldUpList:@[@"upload-z1.qbox.me", @"up-z1.qbox.me"]
                                               regionId:@"z1"];
     });
@@ -62,10 +62,10 @@
 }
 
 + (instancetype)zone2 {
-    static QNFixedZone *z2 = nil;
+    static InspurFixedZone *z2 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        z2 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-z2.qiniup.com", @"up-z2.qiniup.com"]
+        z2 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-z2.qiniup.com", @"up-z2.qiniup.com"]
                                              oldUpList:@[@"upload-z2.qbox.me", @"up-z2.qbox.me"]
                                               regionId:@"z2"];
     });
@@ -73,10 +73,10 @@
 }
 
 + (instancetype)zoneApNorthEast1 {
-    static QNFixedZone *zoneNorthEast1 = nil;
+    static InspurFixedZone *zoneNorthEast1 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        zoneNorthEast1 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-ap-northeast-1.qiniup.com", @"up-ap-northeast-1.qiniup.com"]
+        zoneNorthEast1 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-ap-northeast-1.qiniup.com", @"up-ap-northeast-1.qiniup.com"]
                                                          oldUpList:nil
                                                           regionId:@"ap-northeast-1"];
     });
@@ -84,10 +84,10 @@
 }
 
 + (instancetype)zoneNa0 {
-    static QNFixedZone *zNa0 = nil;
+    static InspurFixedZone *zNa0 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        zNa0 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-na0.qiniup.com", @"up-na0.qiniup.com"]
+        zNa0 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-na0.qiniup.com", @"up-na0.qiniup.com"]
                                                oldUpList:@[@"upload-na0.qbox.me", @"up-na0.qbox.me"]
                                                 regionId:@"na0"];
     });
@@ -95,41 +95,41 @@
 }
 
 + (instancetype)zoneAs0 {
-    static QNFixedZone *zAs0 = nil;
+    static InspurFixedZone *zAs0 = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        zAs0 = [[QNFixedZone alloc] initWithUpDomainList:@[@"upload-as0.qiniup.com", @"up-as0.qiniup.com"]
+        zAs0 = [[InspurFixedZone alloc] initWithUpDomainList:@[@"upload-as0.qiniup.com", @"up-as0.qiniup.com"]
                                                oldUpList:@[@"upload-as0.qbox.me", @"up-as0.qbox.me"]
                                                 regionId:@"as0"];;
     });
     return zAs0;
 }
 
-+ (QNFixedZone *)localsZoneInfo{
++ (InspurFixedZone *)localsZoneInfo{
 
-    NSArray *zones = @[[QNFixedZone zone0],
-                       [QNFixedZone zone1],
-                       [QNFixedZone zone2],
-                       [QNFixedZone zoneCnEast2],
-                       [QNFixedZone zoneNa0],
-                       [QNFixedZone zoneApNorthEast1],
-                       [QNFixedZone zoneAs0]];
+    NSArray *zones = @[[InspurFixedZone zone0],
+                       [InspurFixedZone zone1],
+                       [InspurFixedZone zone2],
+                       [InspurFixedZone zoneCnEast2],
+                       [InspurFixedZone zoneNa0],
+                       [InspurFixedZone zoneApNorthEast1],
+                       [InspurFixedZone zoneAs0]];
     
-    NSMutableArray <QNZoneInfo *> *zoneInfoArray = [NSMutableArray array];
-    for (QNFixedZone *zone in zones) {
+    NSMutableArray <InspurZoneInfo *> *zoneInfoArray = [NSMutableArray array];
+    for (InspurFixedZone *zone in zones) {
         if (zone.zonesInfo.zonesInfo) {
             [zoneInfoArray addObjectsFromArray:zone.zonesInfo.zonesInfo];
         }
     }
     
-    QNFixedZone *fixedZone = [[QNFixedZone alloc] init];
+    InspurFixedZone *fixedZone = [[InspurFixedZone alloc] init];
     fixedZone.zonesInfo = [[QNZonesInfo alloc] initWithZonesInfo:[zoneInfoArray copy]];
     [fixedZone.zonesInfo toTemporary];
     return fixedZone;
 }
 
 + (instancetype)createWithHost:(NSArray<NSString *> *)upList {
-    return [[QNFixedZone alloc] initWithUpDomainList:upList oldUpList:nil regionId:nil];
+    return [[InspurFixedZone alloc] initWithUpDomainList:upList oldUpList:nil regionId:nil];
 }
 
 - (QNZonesInfo *)createZonesInfo:(NSArray <NSString *> *)upDomains
@@ -144,7 +144,7 @@
         return nil;
     }
 
-    QNZoneInfo *zoneInfo = [QNZoneInfo zoneInfoWithMainHosts:upDomains oldHosts:oldUpDomains regionId:regionId];
+    InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoWithMainHosts:upDomains oldHosts:oldUpDomains regionId:regionId];
     QNZonesInfo *zonesInfo = [[QNZonesInfo alloc] initWithZonesInfo:@[zoneInfo]];
     return zonesInfo;
 }

@@ -10,15 +10,15 @@
 #import "InspurDnsPrefetch.h"
 #import "InspurInetAddress.h"
 #import "InspurDnsCacheInfo.h"
-#import "QNZoneInfo.h"
+#import "InspurZoneInfo.h"
 
 #import "QNDefine.h"
-#import "QNConfig.h"
-#import "QNDnsCacheFile.h"
+#import "InspurConfig.h"
+#import "InspurDnsCacheFile.h"
 #import "InspurUtils.h"
 #import "QNAsyncRun.h"
-#import "QNFixedZone.h"
-#import "QNAutoZone.h"
+#import "InspurFixedZone.h"
+#import "InspurAutoZone.h"
 #import <HappyDNS/HappyDNS.h>
 
 
@@ -175,11 +175,11 @@
 @end
 
 @interface QNInternalDns : NSObject
-@property(nonatomic, strong)id<QNDnsDelegate> dns;
+@property(nonatomic, strong)id<InspurDnsDelegate> dns;
 @property(nonatomic, strong)id<QNResolverDelegate> resolver;
 @end
 @implementation QNInternalDns
-+ (instancetype)dnsWithDns:(id<QNDnsDelegate>)dns {
++ (instancetype)dnsWithDns:(id<InspurDnsDelegate>)dns {
     QNInternalDns *interDns = [[QNInternalDns alloc] init];
     interDns.dns = dns;
     return interDns;
@@ -233,7 +233,7 @@
 /// 缓存DNS解析结果
 /// 线程安全：内部方法均是在同一线程执行，读写不必加锁，对外开放接口读操作 需要和内部写操作枷锁
 @property(nonatomic, strong)NSMutableDictionary <NSString *, NSArray<QNDnsNetworkAddress *>*> *addressDictionary;
-@property(nonatomic, strong)QNDnsCacheFile *diskCache;
+@property(nonatomic, strong)InspurDnsCacheFile *diskCache;
 
 @end
 
@@ -262,7 +262,7 @@
     id <InspurRecorderDelegate> recorder = nil;
     
     NSError *error;
-    recorder = [QNDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
+    recorder = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
                                       error:&error];
     if (error) {
         return YES;
@@ -303,7 +303,7 @@
 }
 //MARK: -- 检测并预取
 /// 根据token检测Dns缓存信息时效，无效则预取。 完成预取操作返回YES，反之返回NO
-- (void)checkAndPrefetchDnsIfNeed:(QNZone *)currentZone token:(InspurUpToken *)token{
+- (void)checkAndPrefetchDnsIfNeed:(InspurZone *)currentZone token:(InspurUpToken *)token{
     if ([self prepareToPreFetch] == NO) {
         return;
     }
@@ -607,7 +607,7 @@
     }
 
     NSError *error;
-    id <InspurRecorderDelegate> recorder = [QNDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
+    id <InspurRecorderDelegate> recorder = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
                                                              error:&error];
     if (error) {
         return NO;
@@ -673,12 +673,12 @@
     return [localHosts copy];
 }
 
-- (NSArray <NSString *> *)getCurrentZoneHosts:(QNZone *)currentZone
+- (NSArray <NSString *> *)getCurrentZoneHosts:(InspurZone *)currentZone
                                         token:(InspurUpToken *)token{
     if (!currentZone || !token || !token.token) {
         return nil;
     }
-    [currentZone preQuery:token on:^(int code, InspurResponseInfo *responseInfo, QNUploadRegionRequestMetrics *metrics) {
+    [currentZone preQuery:token on:^(int code, InspurResponseInfo *responseInfo, InspurUploadRegionRequestMetrics *metrics) {
         dispatch_semaphore_signal(self.semaphore);
     }];
     dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
@@ -686,7 +686,7 @@
     QNZonesInfo *autoZonesInfo = [currentZone getZonesInfoWithToken:token];
     NSMutableArray *autoHosts = [NSMutableArray array];
     NSArray *zoneInfoList = autoZonesInfo.zonesInfo;
-    for (QNZoneInfo *info in zoneInfoList) {
+    for (InspurZoneInfo *info in zoneInfoList) {
         if (info.allHosts) {
             [autoHosts addObjectsFromArray:info.allHosts];
         }
@@ -720,10 +720,10 @@
     return _getAutoZoneSemaphore;
 }
 
-- (QNDnsCacheFile *)diskCache {
+- (InspurDnsCacheFile *)diskCache {
     if (!_diskCache) {
         NSError *error;
-        QNDnsCacheFile *cache = [QNDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir error:&error];
+        InspurDnsCacheFile *cache = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir error:&error];
         if (!error) {
             _diskCache = cache;
         }
@@ -779,7 +779,7 @@
     });
 }
 
-- (BOOL)addDnsCheckAndPrefetchTransaction:(QNZone *)currentZone token:(InspurUpToken *)token{
+- (BOOL)addDnsCheckAndPrefetchTransaction:(InspurZone *)currentZone token:(InspurUpToken *)token{
     if (!token) {
         return NO;
     }

@@ -10,8 +10,8 @@
 #import "InspurResponseInfo.h"
 #import "InspurUpToken.h"
 #import "InspurReportConfig.h"
-#import "QNAutoZone.h"
-#import "QNFixedZone.h"
+#import "InspurAutoZone.h"
+#import "InspurFixedZone.h"
 
 const UInt32 kQNBlockSize = 4 * 1024 * 1024;
 const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
@@ -157,7 +157,7 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
 - (instancetype)init {
     if (self = [super init]) {
         //_zone = [[QNAutoZone alloc] init];
-        _zone = [QNFixedZone north3];
+        _zone = [InspurFixedZone north3];
         _chunkSize = 5 * 1024 * 1024;
         _putThreshold = 5 * 1024 * 1024;
         _retryMax = 1;
