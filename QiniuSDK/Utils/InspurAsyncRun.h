@@ -13,7 +13,7 @@
 
 typedef void (^QNRun)(void);
 
-void QNAsyncRun(QNRun run);
+void InspurAsyncRun(QNRun run);
 
 void QNAsyncRunInMain(QNRun run);
 

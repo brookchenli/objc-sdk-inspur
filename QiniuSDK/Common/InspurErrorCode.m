@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNErrorCode.h"
+#import "InspurErrorCode.h"
 
 const int kQNUnexpectedSysCallError = -10;
 const int kQNNoUsableHostError = -9;

@@ -32,7 +32,7 @@
 
 #import "InspurUploadManager.h"
 
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurConfiguration.h"
 #import "InspurCrc32.h"
 #import "InspurFile.h"
@@ -105,7 +105,7 @@
          bucket:(NSString *)bucket
             key:(NSString *)key
         accessKey:(NSString *)accessKey
-signatureHanlder:(QNUpSignatureHandler)signatureHandler
+signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
     [self putData:data bucket:bucket fileName:nil key:key accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
@@ -116,7 +116,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
        fileName:(NSString *)fileName
             key:(NSString *)key
       accessKey:(NSString *)accessKey
-signatureHanlder:(QNUpSignatureHandler)signatureHandler
+signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
 
@@ -164,7 +164,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                                                    option:option
                                             configuration:self.config
                                         completionHandler:complete];
-    QNAsyncRun(^{
+    InspurAsyncRun(^{
         [up run];
     });
 }
@@ -192,7 +192,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
          bucket:(NSString *)bucket
             key:(NSString *)key
       accessKey:(NSString *)accessKey
-signatureHanlder:(QNUpSignatureHandler)signatureHandler
+signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
     
@@ -313,7 +313,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                     key:(NSString *)key
                  bucket:(NSString *)bucket
               accessKey:(NSString *)accessKey
-        signatureHanlder:(QNUpSignatureHandler)signatureHandler
+        signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                complete:(QNUpCompletionHandler)completionHandler
                  option:(InspurUploadOption *)option {
     [self putInternal:[InspurUploadSourceFile file:file]
@@ -329,7 +329,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                 key:(NSString *)key
              bucket:(NSString *)bucket
           accessKey:(NSString *)accessKey
-    signatureHanlder:(QNUpSignatureHandler)signatureHandler
+    signatureHanlder:(InspurUpSignatureHandler)signatureHandler
            complete:(QNUpCompletionHandler)completionHandler
              option:(InspurUploadOption *)option {
     
@@ -421,7 +421,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                                             recorder:self.config.recorder
                                             recorderKey:recorderKey
                                             completionHandler:complete];
-            QNAsyncRun(^{
+            InspurAsyncRun(^{
                 [up run];
             });
         } else {
@@ -434,7 +434,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
                                  recorder:self.config.recorder
                                  recorderKey:recorderKey
                                  completionHandler:complete];
-            QNAsyncRun(^{
+            InspurAsyncRun(^{
                 [up run];
             });
         }
@@ -506,28 +506,28 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
     InspurUploadTaskMetrics *taskMetricsP = taskMetrics ?: [InspurUploadTaskMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeQuality forKey:QNReportQualityKeyLogType];
-    [item setReportValue:taskMetricsP.upType forKey:QNReportQualityKeyUpType];
-    [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:QNReportQualityKeyUpTime];
-    [item setReportValue:responseInfo.qualityResult forKey:QNReportQualityKeyResult];
-    [item setReportValue:upToken.bucket forKey:QNReportQualityKeyTargetBucket];
-    [item setReportValue:key forKey:QNReportQualityKeyTargetKey];
-    [item setReportValue:taskMetricsP.totalElapsedTime forKey:QNReportQualityKeyTotalElapsedTime];
-    [item setReportValue:taskMetricsP.ucQueryMetrics.totalElapsedTime forKey:QNReportQualityKeyUcQueryElapsedTime];
-    [item setReportValue:taskMetricsP.requestCount forKey:QNReportQualityKeyRequestsCount];
-    [item setReportValue:taskMetricsP.regionCount forKey:QNReportQualityKeyRegionsCount];
-    [item setReportValue:taskMetricsP.bytesSend forKey:QNReportQualityKeyBytesSent];
+    [item setReportValue:QNReportLogTypeQuality forKey:InspurReportQualityKeyLogType];
+    [item setReportValue:taskMetricsP.upType forKey:InspurReportQualityKeyUpType];
+    [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:InspurReportQualityKeyUpTime];
+    [item setReportValue:responseInfo.qualityResult forKey:InspurReportQualityKeyResult];
+    [item setReportValue:upToken.bucket forKey:InspurReportQualityKeyTargetBucket];
+    [item setReportValue:key forKey:InspurReportQualityKeyTargetKey];
+    [item setReportValue:taskMetricsP.totalElapsedTime forKey:InspurReportQualityKeyTotalElapsedTime];
+    [item setReportValue:taskMetricsP.ucQueryMetrics.totalElapsedTime forKey:InspurReportQualityKeyUcQueryElapsedTime];
+    [item setReportValue:taskMetricsP.requestCount forKey:InspurReportQualityKeyRequestsCount];
+    [item setReportValue:taskMetricsP.regionCount forKey:InspurReportQualityKeyRegionsCount];
+    [item setReportValue:taskMetricsP.bytesSend forKey:InspurReportQualityKeyBytesSent];
     
-    [item setReportValue:[InspurUtils systemName] forKey:QNReportQualityKeyOsName];
-    [item setReportValue:[InspurUtils systemVersion] forKey:QNReportQualityKeyOsVersion];
-    [item setReportValue:[InspurUtils sdkLanguage] forKey:QNReportQualityKeySDKName];
-    [item setReportValue:[InspurUtils sdkVersion] forKey:QNReportQualityKeySDKVersion];
+    [item setReportValue:[InspurUtils systemName] forKey:InspurReportQualityKeyOsName];
+    [item setReportValue:[InspurUtils systemVersion] forKey:InspurReportQualityKeyOsVersion];
+    [item setReportValue:[InspurUtils sdkLanguage] forKey:InspurReportQualityKeySDKName];
+    [item setReportValue:[InspurUtils sdkVersion] forKey:InspurReportQualityKeySDKVersion];
     
-    [item setReportValue:responseInfo.requestReportErrorType forKey:QNReportQualityKeyErrorType];
+    [item setReportValue:responseInfo.requestReportErrorType forKey:InspurReportQualityKeyErrorType];
     NSString *errorDesc = responseInfo.requestReportErrorType ? responseInfo.message : nil;
-    [item setReportValue:errorDesc forKey:QNReportQualityKeyErrorDescription];
+    [item setReportValue:errorDesc forKey:InspurReportQualityKeyErrorDescription];
     
-    [item setReportValue:taskMetricsP.lastMetrics.lastMetrics.hijacked forKey:QNReportBlockKeyHijacking];
+    [item setReportValue:taskMetricsP.lastMetrics.lastMetrics.hijacked forKey:InspurReportBlockKeyHijacking];
     
     long long fileSize = -1;
     if ([source conformsToProtocol:@protocol(InspurUploadSource)]) {
@@ -535,13 +535,13 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
     } else if ([source isKindOfClass:[NSData class]]) {
         fileSize = [(NSData *)source length];
     }
-    [item setReportValue:@(fileSize) forKey:QNReportQualityKeyFileSize];
+    [item setReportValue:@(fileSize) forKey:InspurReportQualityKeyFileSize];
     if (responseInfo.isOK && fileSize > 0 && taskMetrics.totalElapsedTime) {
         NSNumber *speed = [InspurUtils calculateSpeed:fileSize totalTime:taskMetrics.totalElapsedTime.longLongValue];
-        [item setReportValue:speed forKey:QNReportQualityKeyPerceptiveSpeed];
+        [item setReportValue:speed forKey:InspurReportQualityKeyPerceptiveSpeed];
     }
     
-    [kQNReporter reportItem:item token:token];
+    [kInspurReporter reportItem:item token:token];
 }
 
 @end

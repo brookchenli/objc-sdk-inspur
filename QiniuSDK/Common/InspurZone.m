@@ -12,11 +12,11 @@
 
 @implementation InspurZone
 
-- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token {
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token {
     return [self getZonesInfoWithToken:token actionType:QNActionTypeNone];
 }
 
-- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
                             actionType:(QNActionType)actionType {
     return nil;
 }

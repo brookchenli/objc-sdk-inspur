@@ -6,6 +6,6 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 
 

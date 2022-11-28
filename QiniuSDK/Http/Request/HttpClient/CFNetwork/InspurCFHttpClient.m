@@ -6,14 +6,14 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurCFHttpClient.h"
 #import "InspurCFHttpClientInner.h"
 #import "NSURLRequest+InspurRequest.h"
 #import "InspurUploadRequestMetrics.h"
 #import "InspurCFHttpThreadPool.h"
 
-@interface InspurCFHttpClient() <QNCFHttpClientInnerDelegate>
+@interface InspurCFHttpClient() <InspurCFHttpClientInnerDelegate>
 
 @property(nonatomic, assign)BOOL hasCallBack;
 @property(nonatomic, assign)NSInteger redirectCount;
@@ -61,7 +61,7 @@ connectionProxy:(NSDictionary *)connectionProxy
         urlString = [urlString stringByReplacingOccurrencesOfString:server.host withString:server.ip];
         NSMutableURLRequest *requestNew = [request mutableCopy];
         requestNew.URL = [NSURL URLWithString:urlString];
-        requestNew.qn_domain = server.host;
+        requestNew.inspur_domain = server.host;
         self.request = [requestNew copy];
     } else {
         self.request = request;

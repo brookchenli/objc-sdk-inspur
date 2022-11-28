@@ -9,13 +9,13 @@
 #import "InspurConfiguration.h"
 #import "InspurUploadServerFreezeManager.h"
 
-@interface QNUploadServerFreezeItem : NSObject
+@interface InspurUploadServerFreezeItem : NSObject
 @property(nonatomic,   copy)NSString *type;
 @property(nonatomic, strong)NSDate *freezeDate;
 @end
-@implementation QNUploadServerFreezeItem
+@implementation InspurUploadServerFreezeItem
 + (instancetype)item:(NSString *)type{
-    QNUploadServerFreezeItem *item = [[QNUploadServerFreezeItem alloc] init];
+    InspurUploadServerFreezeItem *item = [[InspurUploadServerFreezeItem alloc] init];
     item.type = type;
     return item;
 }
@@ -55,7 +55,7 @@
     }
     
     BOOL isFrozen = true;
-    QNUploadServerFreezeItem *item = nil;
+    InspurUploadServerFreezeItem *item = nil;
     @synchronized (self) {
         item = self.freezeInfo[type];
     }
@@ -72,11 +72,11 @@
         return;
     }
     
-    QNUploadServerFreezeItem *item = nil;
+    InspurUploadServerFreezeItem *item = nil;
     @synchronized (self) {
         item = self.freezeInfo[type];
         if (!item) {
-            item = [QNUploadServerFreezeItem item:type];
+            item = [InspurUploadServerFreezeItem item:type];
             self.freezeInfo[type] = item;
         }
     }

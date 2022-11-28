@@ -8,7 +8,7 @@
 
 #import "InspurUtils.h"
 #include <pthread.h>
-#import "QNVersion.h"
+#import "InspurVersion.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 #import <UIKit/UIKit.h>

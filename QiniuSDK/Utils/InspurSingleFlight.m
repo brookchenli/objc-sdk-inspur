@@ -6,26 +6,26 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurSingleFlight.h"
 
-@interface QNSingleFlightTask : NSObject
+@interface InspurSingleFlightTask : NSObject
 @property(nonatomic,  copy)QNSingleFlightComplete complete;
 @end
-@implementation QNSingleFlightTask
+@implementation InspurSingleFlightTask
 @end
 
-@interface QNSingleFlightCall : NSObject
+@interface InspurSingleFlightCall : NSObject
 @property(nonatomic, assign)BOOL isComplete;
-@property(nonatomic, strong)NSMutableArray <QNSingleFlightTask *> *tasks;
+@property(nonatomic, strong)NSMutableArray <InspurSingleFlightTask *> *tasks;
 @property(nonatomic, strong)id value;
 @property(nonatomic, strong)NSError *error;
 @end
-@implementation QNSingleFlightCall
+@implementation InspurSingleFlightCall
 @end
 
 @interface InspurSingleFlight()
-@property(nonatomic, strong)NSMutableDictionary <NSString *, QNSingleFlightCall *> *callInfo;
+@property(nonatomic, strong)NSMutableDictionary <NSString *, InspurSingleFlightCall *> *callInfo;
 @end
 @implementation InspurSingleFlight
 
@@ -38,7 +38,7 @@
 
     BOOL isFirstTask = false;
     BOOL shouldComplete = false;
-    QNSingleFlightCall *call = nil;
+    InspurSingleFlightCall *call = nil;
     @synchronized (self) {
         if (!self.callInfo) {
             self.callInfo = [NSMutableDictionary dictionary];
@@ -49,7 +49,7 @@
         }
         
         if (!call) {
-            call = [[QNSingleFlightCall alloc] init];
+            call = [[InspurSingleFlightCall alloc] init];
             call.isComplete = false;
             call.tasks = [NSMutableArray array];
             if (key) {
@@ -61,7 +61,7 @@
         @synchronized (call) {
             shouldComplete = call.isComplete;
             if (!shouldComplete) {
-                QNSingleFlightTask *task = [[QNSingleFlightTask alloc] init];
+                InspurSingleFlightTask *task = [[InspurSingleFlightTask alloc] init];
                 task.complete = complete;
                 [call.tasks addObject:task];
             }
@@ -78,11 +78,11 @@
         return;
     }
     
-    kQNWeakSelf;
-    kQNWeakObj(call);
+    kInspurWeakSelf;
+    kInspurWeakObj(call);
     action(^(id value, NSError *error){
-        kQNStrongSelf;
-        kQNStrongObj(call);
+        kInspurStrongSelf;
+        kInspurStrongObj(call);
         
         NSArray *tasksP = nil;
         @synchronized (call) {
@@ -101,7 +101,7 @@
             }
         }
         
-        for (QNSingleFlightTask *task in tasksP) {
+        for (InspurSingleFlightTask *task in tasksP) {
             if (task.complete) {
                 task.complete(value, error);
             }

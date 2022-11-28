@@ -6,8 +6,8 @@
 //  Copyright © 2020 com.qiniu. All rights reserved.
 //
 
-#import "QNErrorCode.h"
-#import "QNDefine.h"
+#import "InspurErrorCode.h"
+#import "InspurDefine.h"
 #import "InspurCFHttpClientInner.h"
 #import "NSURLRequest+InspurRequest.h"
 #import <sys/errno.h>
@@ -55,7 +55,7 @@
         self.inputStream = [self createInputStream:self.request];
     }
     
-    NSString *host = [self.request qn_domain];
+    NSString *host = [self.request inspur_domain];
     if ([self.request qn_isHttps]) {
        [self setInputStreamSNI:self.inputStream sni:host];
     }
@@ -346,7 +346,7 @@
         [self invalidateTimer];
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     NSTimer *timer = [NSTimer timerWithTimeInterval:0.3
                                              target:weak_self
                                            selector:@selector(timerAction)

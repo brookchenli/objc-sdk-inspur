@@ -7,7 +7,7 @@
 //
 
 #import "InspurLogUtil.h"
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurRequestTransaction.h"
 #import "InspurUploadInfoV2.h"
 #import "InspurPartsUploadPerformerV2.h"
@@ -38,11 +38,11 @@
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
 
-    kQNWeakSelf;
-    kQNWeakObj(transaction);
+    kInspurWeakSelf;
+    kInspurWeakObj(transaction);
     [transaction initPart:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
                 
         NSString *uploadId = response[@"InitiateMultipartUploadResult"][@"UploadId"][@"text"];
         NSNumber *expireAt = @(self.token.deadline);
@@ -89,23 +89,23 @@
         return;
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void (^progress)(long long, long long) = ^(long long totalBytesWritten, long long totalBytesExpectedToWrite){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         data.uploadSize = totalBytesWritten;
         [self notifyProgress:false];
     };
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
     
-    kQNWeakObj(transaction);
+    kInspurWeakObj(transaction);
     [transaction uploadPart:uploadInfo.uploadId
                   partIndex:[uploadInfo getPartIndexOfData:data]
                    partData:data.data
                    progress:progress
                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
 
         NSString *etag = responseInfo.responseHeader[@"etag"];
         etag = [etag stringByReplacingOccurrencesOfString:@"\"" withString:@""];
@@ -131,11 +131,11 @@
     NSArray *partInfoArray = [uploadInfo getPartInfoArray];
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
     
-    kQNWeakSelf;
-    kQNWeakObj(transaction);
+    kInspurWeakSelf;
+    kInspurWeakObj(transaction);
     [transaction completeParts:self.fileName uploadId:uploadInfo.uploadId partInfoArray:partInfoArray complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
         if (responseInfo.isOK) {
             [self notifyProgress:true];
         }

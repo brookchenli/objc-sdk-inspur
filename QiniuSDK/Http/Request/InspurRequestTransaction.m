@@ -8,7 +8,7 @@
 
 #import "InspurRequestTransaction.h"
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurUtils.h"
 #import "InspurCrc32.h"
 #import "NSData+InspurMD5.h"
@@ -141,10 +141,10 @@
         return (BOOL)!responseInfo.isOK;
     };
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     NSString *contentNeedSignature = [self.signatureContentGenerator putData];
     self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         [action appendFormat:@"&Signature=%@", signature ?: @""];
         [self.regionRequest put:action
                         headers:header
@@ -253,9 +253,9 @@
     
     NSString *chunkCrc = [NSString stringWithFormat:@"%u", (unsigned int)[InspurCrc32 data:firstChunkData]];
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         NSString *ctx = response[@"ctx"];
         NSString *crcServer = [NSString stringWithFormat:@"%@", response[@"crc32"]];
@@ -290,9 +290,9 @@
     
     NSString *chunkCrc = [NSString stringWithFormat:@"%u", (unsigned int)[InspurCrc32 data:chunkData]];
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         NSString *ctx = response[@"ctx"];
         NSString *crcServer = [NSString stringWithFormat:@"%@", response[@"crc32"]];
@@ -376,10 +376,10 @@
         return (BOOL)(!responseInfo.isOK);
     };
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
         [action appendFormat:@"&Signature=%@", signature ?: @""];
-        kQNStrongSelf;
+        kInspurStrongSelf;
         [self.regionRequest post:action
                          headers:header
                             body:nil
@@ -429,9 +429,9 @@
         return (BOOL)(!responseInfo.isOK );
     };
     NSString *contentNeedSignature = [self.signatureContentGenerator partUpload:uploadId partIndex:partNumber];
-    kQNWeakSelf;
+    kInspurWeakSelf;
     self.token.signatureHandler(contentNeedSignature, ^(NSString *signture, NSError * _Nullable error) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         [self.regionRequest put:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
                         headers:header
                            body:partData
@@ -487,9 +487,9 @@
     };
     
     NSString *contentNeedSignatue = [self.signatureContentGenerator completeUpload:uploadId];
-    kQNWeakSelf;
+    kInspurWeakSelf;
     self.token.signatureHandler(contentNeedSignatue, ^(NSString *signture, NSError * _Nullable error) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         [self.regionRequest post:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
                          headers:header

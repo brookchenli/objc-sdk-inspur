@@ -7,16 +7,16 @@
 
 @class InspurResponseInfo;
 
-typedef void (^QNInternalProgressBlock)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
-typedef void (^QNCompleteBlock)(InspurResponseInfo *httpResponseInfo, NSDictionary *respBody);
-typedef BOOL (^QNCancelBlock)(void);
+typedef void (^InspurInternalProgressBlock)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
+typedef void (^InspurCompleteBlock)(InspurResponseInfo *httpResponseInfo, NSDictionary *respBody);
+typedef BOOL (^InspurCancelBlock)(void);
 
 
 @interface InspurSessionManager : NSObject
 
 - (instancetype)initWithProxy:(NSDictionary *)proxyDict
                       timeout:(UInt32)timeout
-                 urlConverter:(QNUrlConvert)converter;
+                 urlConverter:(InspurUrlConvert)converter;
 
 - (void)multipartPost:(NSString *)url
              withData:(NSData *)data
@@ -24,9 +24,9 @@ typedef BOOL (^QNCancelBlock)(void);
          withFileName:(NSString *)key
          withMimeType:(NSString *)mime
    withIdentifier:(NSString *)identifier
-    withCompleteBlock:(QNCompleteBlock)completeBlock
-    withProgressBlock:(QNInternalProgressBlock)progressBlock
-      withCancelBlock:(QNCancelBlock)cancelBlock
+    withCompleteBlock:(InspurCompleteBlock)completeBlock
+    withProgressBlock:(InspurInternalProgressBlock)progressBlock
+      withCancelBlock:(InspurCancelBlock)cancelBlock
            withAccess:(NSString *)access;
 
 - (void)post:(NSString *)url
@@ -34,14 +34,14 @@ typedef BOOL (^QNCancelBlock)(void);
            withParams:(NSDictionary *)params
           withHeaders:(NSDictionary *)headers
     withIdentifier:(NSString *)identifier
-    withCompleteBlock:(QNCompleteBlock)completeBlock
-    withProgressBlock:(QNInternalProgressBlock)progressBlock
-      withCancelBlock:(QNCancelBlock)cancelBlock
+    withCompleteBlock:(InspurCompleteBlock)completeBlock
+    withProgressBlock:(InspurInternalProgressBlock)progressBlock
+      withCancelBlock:(InspurCancelBlock)cancelBlock
            withAccess:(NSString *)access;
 
 - (void)get:(NSString *)url
           withHeaders:(NSDictionary *)headers
-    withCompleteBlock:(QNCompleteBlock)completeBlock;
+    withCompleteBlock:(InspurCompleteBlock)completeBlock;
 
 - (void)invalidateSessionWithIdentifier:(NSString *)identifier;
 

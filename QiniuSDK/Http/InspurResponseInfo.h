@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Qiniu. All rights reserved.
 //
 
-#import "QNErrorCode.h"
+#import "InspurErrorCode.h"
 
 /**
  *    上传完成后返回的状态信息

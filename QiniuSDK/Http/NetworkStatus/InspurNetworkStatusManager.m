@@ -7,15 +7,15 @@
 //
 
 #import "InspurUtils.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurFileRecorder.h"
 #import "InspurRecorderDelegate.h"
 #import "InspurNetworkStatusManager.h"
 
-@interface QNNetworkStatus()
+@interface InspurNetworkStatus()
 @property(nonatomic, assign)int speed;
 @end
-@implementation QNNetworkStatus
+@implementation InspurNetworkStatus
 - (instancetype)init{
     if (self = [super init]) {
         _speed = 200;
@@ -27,8 +27,8 @@
     [dictionary setObject:@(self.speed) forKey:@"speed"];
     return dictionary;
 }
-+ (QNNetworkStatus *)statusFromDictionary:(NSDictionary *)dictionary{
-    QNNetworkStatus *status = [[QNNetworkStatus alloc] init];
++ (InspurNetworkStatus *)statusFromDictionary:(NSDictionary *)dictionary{
+    InspurNetworkStatus *status = [[InspurNetworkStatus alloc] init];
     status.speed = [dictionary[@"speed"] intValue];
     return status;
 }
@@ -39,7 +39,7 @@
 
 @property(nonatomic, assign)BOOL isHandlingNetworkInfoOfDisk;
 @property(nonatomic, strong)id<InspurRecorderDelegate> recorder;
-@property(nonatomic, strong)NSMutableDictionary<NSString *, QNNetworkStatus *> *networkStatusInfo;
+@property(nonatomic, strong)NSMutableDictionary<NSString *, InspurNetworkStatus *> *networkStatusInfo;
 
 @end
 @implementation InspurNetworkStatusManager
@@ -66,16 +66,16 @@
     return [InspurUtils getIpType:ip host:host];
 }
 
-- (QNNetworkStatus *)getNetworkStatus:(NSString *)type{
+- (InspurNetworkStatus *)getNetworkStatus:(NSString *)type{
     if (type == nil || type.length == 0) {
         return nil;
     }
-    QNNetworkStatus *status = nil;
+    InspurNetworkStatus *status = nil;
     @synchronized (self) {
         status = self.networkStatusInfo[type];
     }
     if (status == nil) {
-        status = [[QNNetworkStatus alloc] init];
+        status = [[InspurNetworkStatus alloc] init];
     }
     return status;
 }
@@ -86,9 +86,9 @@
     }
     
     @synchronized (self) {
-        QNNetworkStatus *status = self.networkStatusInfo[type];
+        InspurNetworkStatus *status = self.networkStatusInfo[type];
         if (status == nil) {
-            status = [[QNNetworkStatus alloc] init];
+            status = [[InspurNetworkStatus alloc] init];
             self.networkStatusInfo[type] = status;
         }
         status.speed = speed;
@@ -107,7 +107,7 @@
         }
         self.isHandlingNetworkInfoOfDisk = YES;
     }
-    QNAsyncRun(^{
+    InspurAsyncRun(^{
         [self recordNetworkStatusInfo];
         self.isHandlingNetworkInfoOfDisk = NO;
     });
@@ -120,7 +120,7 @@
         }
         self.isHandlingNetworkInfoOfDisk = YES;
     }
-    QNAsyncRun(^{
+    InspurAsyncRun(^{
         [self recoverNetworkStatusFromDisk];
         self.isHandlingNetworkInfoOfDisk = NO;
     });
@@ -168,7 +168,7 @@
     NSMutableDictionary *networkStatusInfo = [NSMutableDictionary dictionary];
     for (NSString *key in statusInfo.allKeys) {
         NSDictionary *value = statusInfo[key];
-        QNNetworkStatus *status = [QNNetworkStatus statusFromDictionary:value];
+        InspurNetworkStatus *status = [InspurNetworkStatus statusFromDictionary:value];
         if (status) {
             [networkStatusInfo setObject:status forKey:key];
         }

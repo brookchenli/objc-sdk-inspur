@@ -7,7 +7,7 @@
 //
 
 #import "InspurLogUtil.h"
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurRequestTransaction.h"
 #import "InspurUploadInfoV1.h"
 #import "InspurPartsUploadPerformerV1.h"
@@ -76,15 +76,15 @@
         return;
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void (^progress)(long long, long long) = ^(long long totalBytesWritten, long long totalBytesExpectedToWrite){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         chunk.uploadSize = totalBytesWritten;
         [self notifyProgress:false];
     };
     
     void (^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         NSString *blockContext = response[@"ctx"];
         NSNumber *expiredAt = response[@"expired_at"];
@@ -116,14 +116,14 @@
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
     
-    kQNWeakSelf;
-    kQNWeakObj(transaction);
+    kInspurWeakSelf;
+    kInspurWeakObj(transaction);
     [transaction makeFile:[uploadInfo getSourceSize]
                  fileName:self.fileName
             blockContexts:[uploadInfo allBlocksContexts]
                  complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
         if (responseInfo.isOK) {
             [self notifyProgress:true];
         }
@@ -143,15 +143,15 @@
                            NSDictionary * _Nullable response))completeHandler {
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
-    kQNWeakSelf;
-    kQNWeakObj(transaction);
+    kInspurWeakSelf;
+    kInspurWeakObj(transaction);
     [transaction makeBlock:block.offset
                  blockSize:block.size
             firstChunkData:chunkData
                   progress:progress
                   complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
         
         completeHandler(responseInfo, metrics, response);
         [self destroyUploadRequestTransaction:transaction];
@@ -169,16 +169,16 @@
                              NSDictionary * _Nullable response))completeHandler {
     
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction];
-    kQNWeakSelf;
-    kQNWeakObj(transaction);
+    kInspurWeakSelf;
+    kInspurWeakObj(transaction);
     [transaction uploadChunk:block.context
                  blockOffset:block.offset
                    chunkData:chunkData
                  chunkOffset:chunk.offset
                     progress:progress
                     complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
-        kQNStrongObj(transaction);
+        kInspurStrongSelf;
+        kInspurStrongObj(transaction);
         
         completeHandler(responseInfo, metrics, response);
         [self destroyUploadRequestTransaction:transaction];

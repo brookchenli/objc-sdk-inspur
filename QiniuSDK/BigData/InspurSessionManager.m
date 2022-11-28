@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Qiniu. All rights reserved.
 //
 
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurConfiguration.h"
 #import "InspurSessionManager.h"
 #import "InspurUserAgent.h"
@@ -16,17 +16,17 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-typedef void (^QNSessionComplete)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
-@interface QNSessionDelegateHandler : NSObject <NSURLSessionDataDelegate>
+typedef void (^InspurSessionComplete)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
+@interface InspurSessionDelegateHandler : NSObject <NSURLSessionDataDelegate>
 
-@property (nonatomic, copy) QNInternalProgressBlock progressBlock;
-@property (nonatomic, copy) QNCancelBlock cancelBlock;
-@property (nonatomic, copy) QNSessionComplete completeBlock;
+@property (nonatomic, copy) InspurInternalProgressBlock progressBlock;
+@property (nonatomic, copy) InspurCancelBlock cancelBlock;
+@property (nonatomic, copy) InspurSessionComplete completeBlock;
 @property (nonatomic, strong) NSData *responseData;
 
 @end
 
-@implementation QNSessionDelegateHandler
+@implementation InspurSessionDelegateHandler
 
 #pragma mark - NSURLSessionDataDelegate
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
@@ -68,7 +68,7 @@ didCompleteWithError:(nullable NSError *)error {
 
 @interface InspurSessionManager ()
 @property UInt32 timeout;
-@property (nonatomic, strong) QNUrlConvert converter;
+@property (nonatomic, strong) InspurUrlConvert converter;
 @property (nonatomic, strong) NSDictionary *proxyDict;
 @property (nonatomic, strong) NSOperationQueue *delegateQueue;
 @property (nonatomic, strong) NSMutableArray *sessionArray;
@@ -79,7 +79,7 @@ didCompleteWithError:(nullable NSError *)error {
 
 - (instancetype)initWithProxy:(NSDictionary *)proxyDict
                       timeout:(UInt32)timeout
-                 urlConverter:(QNUrlConvert)converter {
+                 urlConverter:(InspurUrlConvert)converter {
     if (self = [super init]) {
         _delegateQueue = [[NSOperationQueue alloc] init];
         _timeout = timeout;
@@ -98,9 +98,9 @@ didCompleteWithError:(nullable NSError *)error {
 
 - (void)sendRequest:(NSMutableURLRequest *)request
      withIdentifier:(NSString *)identifier
-  withCompleteBlock:(QNCompleteBlock)completeBlock
-  withProgressBlock:(QNInternalProgressBlock)progressBlock
-    withCancelBlock:(QNCancelBlock)cancelBlock
+  withCompleteBlock:(InspurCompleteBlock)completeBlock
+  withProgressBlock:(InspurInternalProgressBlock)progressBlock
+    withCancelBlock:(InspurCancelBlock)cancelBlock
          withAccess:(NSString *)access {
     
     NSString *domain = request.URL.host;
@@ -112,12 +112,12 @@ didCompleteWithError:(nullable NSError *)error {
         domain = url.host;
     }
 
-    request.qn_domain = request.URL.host;
+    request.inspur_domain = request.URL.host;
     [request setTimeoutInterval:_timeout];
     [request setValue:[[InspurUserAgent sharedInstance] getUserAgent:access] forHTTPHeaderField:@"User-Agent"];
     [request setValue:nil forHTTPHeaderField:@"Accept-Language"];
     
-    QNSessionDelegateHandler *delegate = [[QNSessionDelegateHandler alloc] init];
+    InspurSessionDelegateHandler *delegate = [[InspurSessionDelegateHandler alloc] init];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.connectionProxyDictionary = _proxyDict ? _proxyDict : nil;
 
@@ -130,7 +130,7 @@ didCompleteWithError:(nullable NSError *)error {
     delegate.completeBlock = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         [self finishSession:session];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        InspurResponseInfo *info = [[InspurResponseInfo alloc] initWithResponseInfoHost:request.qn_domain response:httpResponse body:data error:error];
+        InspurResponseInfo *info = [[InspurResponseInfo alloc] initWithResponseInfoHost:request.inspur_domain response:httpResponse body:data error:error];
         completeBlock(info, info.responseDictionary);
     };
     
@@ -144,9 +144,9 @@ didCompleteWithError:(nullable NSError *)error {
          withFileName:(NSString *)key
          withMimeType:(NSString *)mime
        withIdentifier:(NSString *)identifier
-    withCompleteBlock:(QNCompleteBlock)completeBlock
-    withProgressBlock:(QNInternalProgressBlock)progressBlock
-      withCancelBlock:(QNCancelBlock)cancelBlock
+    withCompleteBlock:(InspurCompleteBlock)completeBlock
+    withProgressBlock:(InspurInternalProgressBlock)progressBlock
+      withCancelBlock:(InspurCancelBlock)cancelBlock
            withAccess:(NSString *)access {
     NSURL *URL = [[NSURL alloc] initWithString:url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
@@ -184,9 +184,9 @@ didCompleteWithError:(nullable NSError *)error {
            withParams:(NSDictionary *)params
           withHeaders:(NSDictionary *)headers
 withIdentifier:(NSString *)identifier
-    withCompleteBlock:(QNCompleteBlock)completeBlock
-    withProgressBlock:(QNInternalProgressBlock)progressBlock
-      withCancelBlock:(QNCancelBlock)cancelBlock
+    withCompleteBlock:(InspurCompleteBlock)completeBlock
+    withProgressBlock:(InspurInternalProgressBlock)progressBlock
+      withCancelBlock:(InspurCancelBlock)cancelBlock
            withAccess:(NSString *)access {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:url]];
     if (headers) {
@@ -198,7 +198,7 @@ withIdentifier:(NSString *)identifier
     }
     [request setHTTPBody:data];
     identifier = !identifier ? [[NSUUID UUID] UUIDString] : identifier;
-    QNAsyncRun(^{
+    InspurAsyncRun(^{
         [self sendRequest:request
            withIdentifier:identifier
             withCompleteBlock:completeBlock
@@ -210,14 +210,14 @@ withIdentifier:(NSString *)identifier
 
 - (void)get:(NSString *)url
           withHeaders:(NSDictionary *)headers
-    withCompleteBlock:(QNCompleteBlock)completeBlock {
-    QNAsyncRun(^{
+    withCompleteBlock:(InspurCompleteBlock)completeBlock {
+    InspurAsyncRun(^{
         NSURL *URL = [NSURL URLWithString:url];
 
 //        NSString *domain = URL.host;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-        request.qn_domain = URL.host;
-        QNSessionDelegateHandler *delegate = [[QNSessionDelegateHandler alloc] init];
+        request.inspur_domain = URL.host;
+        InspurSessionDelegateHandler *delegate = [[InspurSessionDelegateHandler alloc] init];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         __block NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:delegate delegateQueue:self.delegateQueue];
         NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request];
@@ -226,7 +226,7 @@ withIdentifier:(NSString *)identifier
         delegate.completeBlock = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             [self finishSession:session];
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            InspurResponseInfo *info = [[InspurResponseInfo alloc] initWithResponseInfoHost:request.qn_domain response:httpResponse body:data error:error];
+            InspurResponseInfo *info = [[InspurResponseInfo alloc] initWithResponseInfoHost:request.inspur_domain response:httpResponse body:data error:error];
             completeBlock(info, info.responseDictionary);
         };
         [dataTask resume];

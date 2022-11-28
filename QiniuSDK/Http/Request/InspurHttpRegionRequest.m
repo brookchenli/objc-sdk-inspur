@@ -6,9 +6,9 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurLogUtil.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurDnsPrefetch.h"
 #import "InspurUploadRequestState.h"
 #import "InspurHttpRegionRequest.h"
@@ -153,13 +153,13 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
     
     NSLog(@"key:%@ url:%@", self.requestInfo.key, request.URL);
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     [self.singleRequest request:request
                          server:server
                     shouldRetry:shouldRetry
                        progress:progress
                        complete:^(InspurResponseInfo * _Nullable responseInfo, NSArray<InspurUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         [self.requestMetrics addMetricsList:metrics];
         

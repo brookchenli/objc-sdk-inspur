@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNServerRegionConfig : NSObject
+@interface InspurServerRegionConfig : NSObject
 
 @property(nonatomic, assign, readonly)long clearId;
 @property(nonatomic, assign, readonly)BOOL clearCache;
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface QNServerDnsServer : NSObject
+@interface InspurServerDnsServer : NSObject
 
 @property(nonatomic, assign, readonly)BOOL isOverride;
 @property(nonatomic, strong, readonly)NSArray <NSString *> *servers;
@@ -29,35 +29,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface QNServerDohConfig : NSObject
+@interface InspurServerDohConfig : NSObject
 
 @property(nonatomic, strong, readonly)NSNumber *enable;
-@property(nonatomic, strong, readonly)QNServerDnsServer *ipv4Server;
-@property(nonatomic, strong, readonly)QNServerDnsServer *ipv6Server;
+@property(nonatomic, strong, readonly)InspurServerDnsServer *ipv4Server;
+@property(nonatomic, strong, readonly)InspurServerDnsServer *ipv6Server;
 
 + (instancetype)config:(NSDictionary *)info;
 
 @end
 
 
-@interface QNServerUdpDnsConfig : NSObject
+@interface InspurServerUdpDnsConfig : NSObject
 
 @property(nonatomic, strong, readonly)NSNumber *enable;
-@property(nonatomic, strong, readonly)QNServerDnsServer *ipv4Server;
-@property(nonatomic, strong, readonly)QNServerDnsServer *ipv6Server;
+@property(nonatomic, strong, readonly)InspurServerDnsServer *ipv4Server;
+@property(nonatomic, strong, readonly)InspurServerDnsServer *ipv6Server;
 
 + (instancetype)config:(NSDictionary *)info;
 
 @end
 
 
-@interface QNServerDnsConfig : NSObject
+@interface InspurServerDnsConfig : NSObject
 
 @property(nonatomic, strong, readonly)NSNumber *enable;
 @property(nonatomic, assign, readonly)long clearId;
 @property(nonatomic, assign, readonly)BOOL clearCache;
-@property(nonatomic, strong, readonly)QNServerUdpDnsConfig *udpConfig;
-@property(nonatomic, strong, readonly)QNServerDohConfig *dohConfig;
+@property(nonatomic, strong, readonly)InspurServerUdpDnsConfig *udpConfig;
+@property(nonatomic, strong, readonly)InspurServerDohConfig *dohConfig;
 
 + (instancetype)config:(NSDictionary *)info;
 
@@ -68,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign, readonly)BOOL isValid;
 @property(nonatomic, assign, readonly)long ttl;
-@property(nonatomic, strong, readonly)QNServerRegionConfig *regionConfig;
-@property(nonatomic, strong, readonly)QNServerDnsConfig *dnsConfig;
+@property(nonatomic, strong, readonly)InspurServerRegionConfig *regionConfig;
+@property(nonatomic, strong, readonly)InspurServerDnsConfig *dnsConfig;
 
 @property(nonatomic, strong, readonly)NSDictionary *info;
 

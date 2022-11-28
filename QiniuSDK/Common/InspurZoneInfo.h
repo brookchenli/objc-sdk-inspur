@@ -39,7 +39,7 @@ extern NSString *const QNZoneInfoEmptyRegionId;
 
 @end
 
-@interface QNZonesInfo : NSObject
+@interface InspurZonesInfo : NSObject
 
 @property (nonatomic, assign, readonly) BOOL isTemporary;
 @property (nonatomic, assign, readonly) BOOL isValid;

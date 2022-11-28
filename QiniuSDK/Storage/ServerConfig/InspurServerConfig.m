@@ -8,26 +8,26 @@
 
 #import "InspurServerConfig.h"
 
-@interface QNServerRegionConfig()
+@interface InspurServerRegionConfig()
 @property(nonatomic, assign)long clearId;
 @property(nonatomic, assign)BOOL clearCache;
 @end
-@implementation QNServerRegionConfig
+@implementation InspurServerRegionConfig
 + (instancetype)config:(NSDictionary *)info {
-    QNServerRegionConfig *config = [[QNServerRegionConfig alloc] init];
+    InspurServerRegionConfig *config = [[InspurServerRegionConfig alloc] init];
     config.clearId = [info[@"clear_id"] longValue];
     config.clearCache = [info[@"clear_cache"] longValue];
     return config;
 }
 @end
 
-@interface QNServerDnsServer()
+@interface InspurServerDnsServer()
 @property(nonatomic, assign)BOOL isOverride;
 @property(nonatomic, strong)NSArray <NSString *> *servers;
 @end
-@implementation QNServerDnsServer
+@implementation InspurServerDnsServer
 + (instancetype)config:(NSDictionary *)info {
-    QNServerDnsServer *config = [[QNServerDnsServer alloc] init];
+    InspurServerDnsServer *config = [[InspurServerDnsServer alloc] init];
     config.isOverride = [info[@"override_default"] boolValue];
     if (info[@"ips"] && [info[@"ips"] isKindOfClass:[NSArray class]]) {
         config.servers = info[@"ips"];
@@ -38,52 +38,52 @@
 }
 @end
 
-@interface QNServerDohConfig()
+@interface InspurServerDohConfig()
 @property(nonatomic, strong)NSNumber *enable;
-@property(nonatomic, strong)QNServerDnsServer *ipv4Server;
-@property(nonatomic, strong)QNServerDnsServer *ipv6Server;
+@property(nonatomic, strong)InspurServerDnsServer *ipv4Server;
+@property(nonatomic, strong)InspurServerDnsServer *ipv6Server;
 @end
-@implementation QNServerDohConfig
+@implementation InspurServerDohConfig
 + (instancetype)config:(NSDictionary *)info {
-    QNServerDohConfig *config = [[QNServerDohConfig alloc] init];
+    InspurServerDohConfig *config = [[InspurServerDohConfig alloc] init];
     config.enable = info[@"enabled"];
-    config.ipv4Server = [QNServerDnsServer config:info[@"ipv4"]];
-    config.ipv6Server = [QNServerDnsServer config:info[@"ipv6"]];
+    config.ipv4Server = [InspurServerDnsServer config:info[@"ipv4"]];
+    config.ipv6Server = [InspurServerDnsServer config:info[@"ipv6"]];
     return config;
 }
 @end
 
-@interface QNServerUdpDnsConfig()
+@interface InspurServerUdpDnsConfig()
 @property(nonatomic, strong)NSNumber *enable;
-@property(nonatomic, strong)QNServerDnsServer *ipv4Server;
-@property(nonatomic, strong)QNServerDnsServer *ipv6Server;
+@property(nonatomic, strong)InspurServerDnsServer *ipv4Server;
+@property(nonatomic, strong)InspurServerDnsServer *ipv6Server;
 @end
-@implementation QNServerUdpDnsConfig
+@implementation InspurServerUdpDnsConfig
 + (instancetype)config:(NSDictionary *)info {
-    QNServerUdpDnsConfig *config = [[QNServerUdpDnsConfig alloc] init];
+    InspurServerUdpDnsConfig *config = [[InspurServerUdpDnsConfig alloc] init];
     config.enable = info[@"enabled"];
-    config.ipv4Server = [QNServerDnsServer config:info[@"ipv4"]];
-    config.ipv6Server = [QNServerDnsServer config:info[@"ipv6"]];
+    config.ipv4Server = [InspurServerDnsServer config:info[@"ipv4"]];
+    config.ipv6Server = [InspurServerDnsServer config:info[@"ipv6"]];
     return config;
 }
 @end
 
 
-@interface QNServerDnsConfig()
+@interface InspurServerDnsConfig()
 @property(nonatomic, strong)NSNumber *enable;
 @property(nonatomic, assign)long clearId;
 @property(nonatomic, assign)BOOL clearCache;
-@property(nonatomic, strong)QNServerUdpDnsConfig *udpConfig;
-@property(nonatomic, strong)QNServerDohConfig *dohConfig;
+@property(nonatomic, strong)InspurServerUdpDnsConfig *udpConfig;
+@property(nonatomic, strong)InspurServerDohConfig *dohConfig;
 @end
-@implementation QNServerDnsConfig
+@implementation InspurServerDnsConfig
 + (instancetype)config:(NSDictionary *)info {
-    QNServerDnsConfig *config = [[QNServerDnsConfig alloc] init];
+    InspurServerDnsConfig *config = [[InspurServerDnsConfig alloc] init];
     config.enable = info[@"enabled"];
     config.clearId = [info[@"clear_id"] longValue];
     config.clearCache = [info[@"clear_cache"] longValue];
-    config.dohConfig = [QNServerDohConfig config:info[@"doh"]];
-    config.udpConfig = [QNServerUdpDnsConfig config:info[@"udp"]];
+    config.dohConfig = [InspurServerDohConfig config:info[@"doh"]];
+    config.udpConfig = [InspurServerUdpDnsConfig config:info[@"udp"]];
     return config;
 }
 @end
@@ -93,16 +93,16 @@
 @property(nonatomic, strong)NSDictionary *info;
 @property(nonatomic, assign)double timestamp;
 @property(nonatomic, assign)long ttl;
-@property(nonatomic, strong)QNServerRegionConfig *regionConfig;
-@property(nonatomic, strong)QNServerDnsConfig *dnsConfig;
+@property(nonatomic, strong)InspurServerRegionConfig *regionConfig;
+@property(nonatomic, strong)InspurServerDnsConfig *dnsConfig;
 @end
 @implementation InspurServerConfig
 
 + (instancetype)config:(NSDictionary *)info {
     InspurServerConfig *config = [[InspurServerConfig alloc] init];
     config.ttl = [info[@"ttl"] longValue];
-    config.regionConfig = [QNServerRegionConfig config:info[@"region"]];
-    config.dnsConfig = [QNServerDnsConfig config:info[@"dns"]];
+    config.regionConfig = [InspurServerRegionConfig config:info[@"region"]];
+    config.dnsConfig = [InspurServerDnsConfig config:info[@"dns"]];
     
     if (config.ttl < 10) {
         config.ttl = 10;

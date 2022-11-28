@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurAutoZone.h"
 #import "InspurConfig.h"
 #import "InspurRequestTransaction.h"
@@ -18,16 +18,16 @@
 #import "InspurUploadRequestMetrics.h"
 
 
-@interface QNAutoZoneCache : NSObject
+@interface InspurAutoZoneCache : NSObject
 @property(nonatomic, strong)NSMutableDictionary *cache;
 @end
-@implementation QNAutoZoneCache
+@implementation InspurAutoZoneCache
 
 + (instancetype)share {
-    static QNAutoZoneCache *cache = nil;
+    static InspurAutoZoneCache *cache = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        cache = [[QNAutoZoneCache alloc] init];
+        cache = [[InspurAutoZoneCache alloc] init];
         [cache setupData];
     });
     return cache;
@@ -37,7 +37,7 @@
     self.cache = [NSMutableDictionary dictionary];
 }
 
-- (void)cache:(QNZonesInfo *)zonesInfo forKey:(NSString *)cacheKey{
+- (void)cache:(InspurZonesInfo *)zonesInfo forKey:(NSString *)cacheKey{
     
     if (!cacheKey || [cacheKey isEqualToString:@""] || zonesInfo == nil) {
         return;
@@ -48,7 +48,7 @@
     }
 }
 
-- (QNZonesInfo *)cacheForKey:(NSString *)cacheKey{
+- (InspurZonesInfo *)cacheForKey:(NSString *)cacheKey{
     
     if (!cacheKey || [cacheKey isEqualToString:@""]) {
         return nil;
@@ -59,13 +59,13 @@
     }
 }
 
-- (QNZonesInfo *)zonesInfoForKey:(NSString *)cacheKey{
+- (InspurZonesInfo *)zonesInfoForKey:(NSString *)cacheKey{
     
     if (!cacheKey || [cacheKey isEqualToString:@""]) {
         return nil;
     }
     
-    QNZonesInfo *zonesInfo = nil;
+    InspurZonesInfo *zonesInfo = nil;
     @synchronized (self) {
         zonesInfo = self.cache[cacheKey];
     }
@@ -76,7 +76,7 @@
 - (void)clearCache {
     @synchronized (self) {
         for (NSString *key in self.cache.allKeys) {
-            QNZonesInfo *info = self.cache[key];
+            InspurZonesInfo *info = self.cache[key];
             [info toTemporary];
         }
     }
@@ -84,14 +84,14 @@
 
 @end
 
-@interface QNUCQuerySingleFlightValue : NSObject
+@interface InspurUCQuerySingleFlightValue : NSObject
 
 @property(nonatomic, strong)InspurResponseInfo *responseInfo;
 @property(nonatomic, strong)NSDictionary *response;
 @property(nonatomic, strong)InspurUploadRegionRequestMetrics *metrics;
 
 @end
-@implementation QNUCQuerySingleFlightValue
+@implementation InspurUCQuerySingleFlightValue
 @end
 
 @interface InspurAutoZone()
@@ -118,7 +118,7 @@
 }
 
 + (void)clearCache {
-    [[QNAutoZoneCache share] clearCache];
+    [[InspurAutoZoneCache share] clearCache];
 }
 
 - (instancetype)init{
@@ -128,12 +128,12 @@
     return self;
 }
 
-- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken * _Nullable)token
                             actionType:(QNActionType)actionType {
     
     if (token == nil) return nil;
     NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
-    QNZonesInfo *zonesInfo = [[QNAutoZoneCache share] cacheForKey:cacheKey];
+    InspurZonesInfo *zonesInfo = [[InspurAutoZoneCache share] cacheForKey:cacheKey];
     zonesInfo = [zonesInfo copy];
     return zonesInfo;
 }
@@ -149,7 +149,7 @@
     [cacheMetrics start];
     
     NSString *cacheKey = [NSString stringWithFormat:@"%@%@", token.index, [InspurApiType actionTypeString:actionType]] ;
-    QNZonesInfo *zonesInfo = [[QNAutoZoneCache share] zonesInfoForKey:cacheKey];
+    InspurZonesInfo *zonesInfo = [[InspurAutoZoneCache share] zonesInfoForKey:cacheKey];
     
     // 临时的 zonesInfo 仅能使用一次
     if (zonesInfo != nil && zonesInfo.isValid && !zonesInfo.isTemporary) {
@@ -158,19 +158,19 @@
         return;
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     InspurSingleFlight *singleFlight = [InspurAutoZone UCQuerySingleFlight];
     [singleFlight perform:token.index action:^(QNSingleFlightComplete  _Nonnull complete) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
         
-        kQNWeakSelf;
-        kQNWeakObj(transaction);
+        kInspurWeakSelf;
+        kInspurWeakObj(transaction);
         [transaction queryUploadHosts:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-            kQNStrongSelf;
-            kQNStrongObj(transaction);
+            kInspurStrongSelf;
+            kInspurStrongObj(transaction);
             
-            QNUCQuerySingleFlightValue *value = [[QNUCQuerySingleFlightValue alloc] init];
+            InspurUCQuerySingleFlightValue *value = [[InspurUCQuerySingleFlightValue alloc] init];
             value.responseInfo = responseInfo;
             value.response = response;
             value.metrics = metrics;
@@ -180,14 +180,14 @@
         }];
         
     } complete:^(id  _Nullable value, NSError * _Nullable error) {
-        InspurResponseInfo *responseInfo = [(QNUCQuerySingleFlightValue *)value responseInfo];
-        NSDictionary *response = [(QNUCQuerySingleFlightValue *)value response];
-        InspurUploadRegionRequestMetrics *metrics = [(QNUCQuerySingleFlightValue *)value metrics];
+        InspurResponseInfo *responseInfo = [(InspurUCQuerySingleFlightValue *)value responseInfo];
+        NSDictionary *response = [(InspurUCQuerySingleFlightValue *)value response];
+        InspurUploadRegionRequestMetrics *metrics = [(InspurUCQuerySingleFlightValue *)value metrics];
 
         if (responseInfo && responseInfo.isOK) {
-            QNZonesInfo *zonesInfo = [QNZonesInfo infoWithDictionary:response actionType:actionType];
+            InspurZonesInfo *zonesInfo = [InspurZonesInfo infoWithDictionary:response actionType:actionType];
             if ([zonesInfo isValid]) {
-                [[QNAutoZoneCache share] cache:zonesInfo forKey:cacheKey];
+                [[InspurAutoZoneCache share] cache:zonesInfo forKey:cacheKey];
                 ret(0, responseInfo, metrics);
             } else {
                 ret(-1, responseInfo, metrics);
@@ -196,9 +196,9 @@
             if (responseInfo.isConnectionBroken) {
                 ret(kQNNetworkError, responseInfo, metrics);
             } else {
-                QNZonesInfo *zonesInfo = [[InspurFixedZone localsZoneInfo] getZonesInfoWithToken:token];
+                InspurZonesInfo *zonesInfo = [[InspurFixedZone localsZoneInfo] getZonesInfoWithToken:token];
                 if ([zonesInfo isValid]) {
-                    [[QNAutoZoneCache share] cache:zonesInfo forKey:cacheKey];
+                    [[InspurAutoZoneCache share] cache:zonesInfo forKey:cacheKey];
                     ret(0, responseInfo, metrics);
                 } else {
                     ret(-1, responseInfo, metrics);

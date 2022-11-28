@@ -11,7 +11,7 @@
 
 @interface InspurFixedZone ()
 
-@property (nonatomic, strong) QNZonesInfo *zonesInfo;
+@property (nonatomic, strong) InspurZonesInfo *zonesInfo;
 
 @end
 
@@ -123,7 +123,7 @@
     }
     
     InspurFixedZone *fixedZone = [[InspurFixedZone alloc] init];
-    fixedZone.zonesInfo = [[QNZonesInfo alloc] initWithZonesInfo:[zoneInfoArray copy]];
+    fixedZone.zonesInfo = [[InspurZonesInfo alloc] initWithZonesInfo:[zoneInfoArray copy]];
     [fixedZone.zonesInfo toTemporary];
     return fixedZone;
 }
@@ -132,12 +132,12 @@
     return [[InspurFixedZone alloc] initWithUpDomainList:upList oldUpList:nil regionId:nil];
 }
 
-- (QNZonesInfo *)createZonesInfo:(NSArray <NSString *> *)upDomains
+- (InspurZonesInfo *)createZonesInfo:(NSArray <NSString *> *)upDomains
                         regionId:(NSString *)regionId {
     return [self createZonesInfo:upDomains oldUpDomains:nil regionId:regionId];
 }
 
-- (QNZonesInfo *)createZonesInfo:(NSArray <NSString *> *)upDomains
+- (InspurZonesInfo *)createZonesInfo:(NSArray <NSString *> *)upDomains
                     oldUpDomains:(NSArray <NSString *> *)oldUpDomains
                         regionId:(NSString *)regionId {
     if (!upDomains && upDomains.count == 0) {
@@ -145,7 +145,7 @@
     }
 
     InspurZoneInfo *zoneInfo = [InspurZoneInfo zoneInfoWithMainHosts:upDomains oldHosts:oldUpDomains regionId:regionId];
-    QNZonesInfo *zonesInfo = [[QNZonesInfo alloc] initWithZonesInfo:@[zoneInfo]];
+    InspurZonesInfo *zonesInfo = [[InspurZonesInfo alloc] initWithZonesInfo:@[zoneInfo]];
     return zonesInfo;
 }
 
@@ -171,7 +171,7 @@
     return self;
 }
 
-- (QNZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token actionType:(QNActionType)actionType {
+- (InspurZonesInfo *)getZonesInfoWithToken:(InspurUpToken *)token actionType:(QNActionType)actionType {
     return self.zonesInfo;
 }
 

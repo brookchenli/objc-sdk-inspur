@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 Qiniu. All rights reserved.
 //
 
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import <Foundation/Foundation.h>
 
-void QNAsyncRun(QNRun run) {
+void InspurAsyncRun(QNRun run) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         run();
     });

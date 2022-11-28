@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QNNetworkStatus : NSObject
+@interface InspurNetworkStatus : NSObject
 
 /// 网速 单位：kb/s   默认：200kb/s
 @property(nonatomic, assign, readonly)int speed;
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getNetworkStatusType:(NSString *)host
                                 ip:(NSString *)ip;
 
-- (QNNetworkStatus *)getNetworkStatus:(NSString *)type;
+- (InspurNetworkStatus *)getNetworkStatus:(NSString *)type;
 
 - (void)updateNetworkStatus:(NSString *)type
                       speed:(int)speed;

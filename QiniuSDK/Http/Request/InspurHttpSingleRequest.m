@@ -6,9 +6,9 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
-#import "QNAsyncRun.h"
-#import "QNVersion.h"
+#import "InspurDefine.h"
+#import "InspurAsyncRun.h"
+#import "InspurVersion.h"
 #import "InspurUtils.h"
 #import "InspurLogUtil.h"
 #import "InspurHttpSingleRequest.h"
@@ -90,9 +90,9 @@
         }
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     BOOL (^checkCancelHandler)(void) = ^{
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         BOOL isCancelled = self.requestState.isUserCancel;
         if (!isCancelled && self.uploadOption.cancellationSignal) {
@@ -104,7 +104,7 @@
     QNLogInfo(@"key:%@ retry:%d url:%@", self.requestInfo.key, self.currentRetryTime, request.URL);
     
     [self.client request:request server:server connectionProxy:self.config.proxy progress:^(long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (progress) {
             progress(totalBytesWritten, totalBytesExpectedToWrite);
@@ -115,7 +115,7 @@
             [self.client cancel];
         }
     } complete:^(NSURLResponse *response, InspurUploadSingleRequestMetrics *metrics, NSData * responseData, NSError * error) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (metrics) {
             [self.requestMetricsList addObject:metrics];
@@ -257,53 +257,53 @@
     
     NSInteger currentTimestamp = [InspurUtils currentTimestamp];
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeRequest forKey:QNReportRequestKeyLogType];
-    [item setReportValue:@(currentTimestamp/1000) forKey:QNReportRequestKeyUpTime];
-    [item setReportValue:info.requestReportStatusCode forKey:QNReportRequestKeyStatusCode];
-    [item setReportValue:info.reqId forKey:QNReportRequestKeyRequestId];
-    [item setReportValue:requestMetricsP.request.qn_domain forKey:QNReportRequestKeyHost];
-    [item setReportValue:requestMetricsP.remoteAddress forKey:QNReportRequestKeyRemoteIp];
-    [item setReportValue:requestMetricsP.remotePort forKey:QNReportRequestKeyPort];
-    [item setReportValue:self.requestInfo.bucket forKey:QNReportRequestKeyTargetBucket];
-    [item setReportValue:self.requestInfo.key forKey:QNReportRequestKeyTargetKey];
-    [item setReportValue:requestMetricsP.totalElapsedTime forKey:QNReportRequestKeyTotalElapsedTime];
-    [item setReportValue:requestMetricsP.totalDnsTime forKey:QNReportRequestKeyDnsElapsedTime];
-    [item setReportValue:requestMetricsP.totalConnectTime forKey:QNReportRequestKeyConnectElapsedTime];
-    [item setReportValue:requestMetricsP.totalSecureConnectTime forKey:QNReportRequestKeyTLSConnectElapsedTime];
-    [item setReportValue:requestMetricsP.totalRequestTime forKey:QNReportRequestKeyRequestElapsedTime];
-    [item setReportValue:requestMetricsP.totalWaitTime forKey:QNReportRequestKeyWaitElapsedTime];
-    [item setReportValue:requestMetricsP.totalWaitTime forKey:QNReportRequestKeyResponseElapsedTime];
-    [item setReportValue:requestMetricsP.totalResponseTime forKey:QNReportRequestKeyResponseElapsedTime];
-    [item setReportValue:self.requestInfo.fileOffset forKey:QNReportRequestKeyFileOffset];
-    [item setReportValue:requestMetricsP.bytesSend forKey:QNReportRequestKeyBytesSent];
-    [item setReportValue:requestMetricsP.totalBytes forKey:QNReportRequestKeyBytesTotal];
-    [item setReportValue:@([InspurUtils getCurrentProcessID]) forKey:QNReportRequestKeyPid];
-    [item setReportValue:@([InspurUtils getCurrentThreadID]) forKey:QNReportRequestKeyTid];
-    [item setReportValue:self.requestInfo.targetRegionId forKey:QNReportRequestKeyTargetRegionId];
-    [item setReportValue:self.requestInfo.currentRegionId forKey:QNReportRequestKeyCurrentRegionId];
-    [item setReportValue:info.requestReportErrorType forKey:QNReportRequestKeyErrorType];
+    [item setReportValue:QNReportLogTypeRequest forKey:InspurReportRequestKeyLogType];
+    [item setReportValue:@(currentTimestamp/1000) forKey:InspurReportRequestKeyUpTime];
+    [item setReportValue:info.requestReportStatusCode forKey:InspurReportRequestKeyStatusCode];
+    [item setReportValue:info.reqId forKey:InspurReportRequestKeyRequestId];
+    [item setReportValue:requestMetricsP.request.qn_domain forKey:InspurReportRequestKeyHost];
+    [item setReportValue:requestMetricsP.remoteAddress forKey:InspurReportRequestKeyRemoteIp];
+    [item setReportValue:requestMetricsP.remotePort forKey:InspurReportRequestKeyPort];
+    [item setReportValue:self.requestInfo.bucket forKey:InspurReportRequestKeyTargetBucket];
+    [item setReportValue:self.requestInfo.key forKey:InspurReportRequestKeyTargetKey];
+    [item setReportValue:requestMetricsP.totalElapsedTime forKey:InspurReportRequestKeyTotalElapsedTime];
+    [item setReportValue:requestMetricsP.totalDnsTime forKey:InspurReportRequestKeyDnsElapsedTime];
+    [item setReportValue:requestMetricsP.totalConnectTime forKey:InspurReportRequestKeyConnectElapsedTime];
+    [item setReportValue:requestMetricsP.totalSecureConnectTime forKey:InspurReportRequestKeyTLSConnectElapsedTime];
+    [item setReportValue:requestMetricsP.totalRequestTime forKey:InspurReportRequestKeyRequestElapsedTime];
+    [item setReportValue:requestMetricsP.totalWaitTime forKey:InspurReportRequestKeyWaitElapsedTime];
+    [item setReportValue:requestMetricsP.totalWaitTime forKey:InspurReportRequestKeyResponseElapsedTime];
+    [item setReportValue:requestMetricsP.totalResponseTime forKey:InspurReportRequestKeyResponseElapsedTime];
+    [item setReportValue:self.requestInfo.fileOffset forKey:InspurReportRequestKeyFileOffset];
+    [item setReportValue:requestMetricsP.bytesSend forKey:InspurReportRequestKeyBytesSent];
+    [item setReportValue:requestMetricsP.totalBytes forKey:InspurReportRequestKeyBytesTotal];
+    [item setReportValue:@([InspurUtils getCurrentProcessID]) forKey:InspurReportRequestKeyPid];
+    [item setReportValue:@([InspurUtils getCurrentThreadID]) forKey:InspurReportRequestKeyTid];
+    [item setReportValue:self.requestInfo.targetRegionId forKey:InspurReportRequestKeyTargetRegionId];
+    [item setReportValue:self.requestInfo.currentRegionId forKey:InspurReportRequestKeyCurrentRegionId];
+    [item setReportValue:info.requestReportErrorType forKey:InspurReportRequestKeyErrorType];
     NSString *errorDesc = info.requestReportErrorType ? info.message : nil;
-    [item setReportValue:errorDesc forKey:QNReportRequestKeyErrorDescription];
-    [item setReportValue:self.requestInfo.requestType forKey:QNReportRequestKeyUpType];
-    [item setReportValue:[InspurUtils systemName] forKey:QNReportRequestKeyOsName];
-    [item setReportValue:[InspurUtils systemVersion] forKey:QNReportRequestKeyOsVersion];
-    [item setReportValue:[InspurUtils sdkLanguage] forKey:QNReportRequestKeySDKName];
-    [item setReportValue:[InspurUtils sdkVersion] forKey:QNReportRequestKeySDKVersion];
-    [item setReportValue:@([InspurUtils currentTimestamp]) forKey:QNReportRequestKeyClientTime];
-    [item setReportValue:[InspurUtils getCurrentNetworkType] forKey:QNReportRequestKeyNetworkType];
-    [item setReportValue:[InspurUtils getCurrentSignalStrength] forKey:QNReportRequestKeySignalStrength];
+    [item setReportValue:errorDesc forKey:InspurReportRequestKeyErrorDescription];
+    [item setReportValue:self.requestInfo.requestType forKey:InspurReportRequestKeyUpType];
+    [item setReportValue:[InspurUtils systemName] forKey:InspurReportRequestKeyOsName];
+    [item setReportValue:[InspurUtils systemVersion] forKey:InspurReportRequestKeyOsVersion];
+    [item setReportValue:[InspurUtils sdkLanguage] forKey:InspurReportRequestKeySDKName];
+    [item setReportValue:[InspurUtils sdkVersion] forKey:InspurReportRequestKeySDKVersion];
+    [item setReportValue:@([InspurUtils currentTimestamp]) forKey:InspurReportRequestKeyClientTime];
+    [item setReportValue:[InspurUtils getCurrentNetworkType] forKey:InspurReportRequestKeyNetworkType];
+    [item setReportValue:[InspurUtils getCurrentSignalStrength] forKey:InspurReportRequestKeySignalStrength];
     
-    [item setReportValue:server.source forKey:QNReportRequestKeyPrefetchedDnsSource];
+    [item setReportValue:server.source forKey:InspurReportRequestKeyPrefetchedDnsSource];
     if (server.ipPrefetchedTime) {
         NSInteger prefetchTime = currentTimestamp/1000 - [server.ipPrefetchedTime integerValue];
-        [item setReportValue:@(prefetchTime) forKey:QNReportRequestKeyPrefetchedBefore];
+        [item setReportValue:@(prefetchTime) forKey:InspurReportRequestKeyPrefetchedBefore];
     }
-    [item setReportValue:kQNDnsPrefetch.lastPrefetchedErrorMessage forKey:QNReportRequestKeyPrefetchedErrorMessage];
+    [item setReportValue:kQNDnsPrefetch.lastPrefetchedErrorMessage forKey:InspurReportRequestKeyPrefetchedErrorMessage];
     
-    [item setReportValue:requestMetricsP.httpVersion forKey:QNReportRequestKeyHttpVersion];
+    [item setReportValue:requestMetricsP.httpVersion forKey:InspurReportRequestKeyHttpVersion];
 
     if (!kQNGlobalConfiguration.connectCheckEnable) {
-        [item setReportValue:@"disable" forKey:QNReportRequestKeyNetworkMeasuring];
+        [item setReportValue:@"disable" forKey:InspurReportRequestKeyNetworkMeasuring];
     } else if (requestMetricsP.connectCheckMetrics) {
         InspurUploadSingleRequestMetrics *metrics = requestMetricsP.connectCheckMetrics;
         NSString *connectCheckDuration = [NSString stringWithFormat:@"%.2lf", [metrics.totalElapsedTime doubleValue]];
@@ -314,21 +314,21 @@
             connectCheckStatusCode = [NSString stringWithFormat:@"%ld", (long)metrics.error.code];
         }
         NSString *networkMeasuring = [NSString stringWithFormat:@"duration:%@ status_code:%@",connectCheckDuration, connectCheckStatusCode];
-        [item setReportValue:networkMeasuring forKey:QNReportRequestKeyNetworkMeasuring];
+        [item setReportValue:networkMeasuring forKey:InspurReportRequestKeyNetworkMeasuring];
     }
     // 劫持标记
-    [item setReportValue:requestMetricsP.hijacked forKey:QNReportRequestKeyHijacking];
-    [item setReportValue:requestMetricsP.syncDnsSource forKey:QNReportRequestKeyDnsSource];
-    [item setReportValue:[requestMetricsP.syncDnsError description] forKey:QNReportRequestKeyDnsErrorMessage];
+    [item setReportValue:requestMetricsP.hijacked forKey:InspurReportRequestKeyHijacking];
+    [item setReportValue:requestMetricsP.syncDnsSource forKey:InspurReportRequestKeyDnsSource];
+    [item setReportValue:[requestMetricsP.syncDnsError description] forKey:InspurReportRequestKeyDnsErrorMessage];
     
     // 成功统计速度
     if (info.isOK) {
-        [item setReportValue:requestMetricsP.perceptiveSpeed forKey:QNReportRequestKeyPerceptiveSpeed];
+        [item setReportValue:requestMetricsP.perceptiveSpeed forKey:InspurReportRequestKeyPerceptiveSpeed];
     }
     
-    [item setReportValue:self.client.clientId forKey:QNReportRequestKeyHttpClient];
+    [item setReportValue:self.client.clientId forKey:InspurReportRequestKeyHttpClient];
     
-    [kQNReporter reportItem:item token:self.token.token];
+    [kInspurReporter reportItem:item token:self.token.token];
 }
 
 @end

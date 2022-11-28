@@ -93,7 +93,7 @@
 
 @implementation NSMutableURLRequest(QNRequest)
 
-- (void)setQn_domain:(NSString *)qn_domain{
+- (void)setInspur_domain:(NSString *)qn_domain{
     if (qn_domain) {
         [self addValue:qn_domain forHTTPHeaderField:kQNURLRequestHostKey];
     } else {

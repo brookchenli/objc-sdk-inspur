@@ -5,7 +5,7 @@
 //  Created by bailong on 15/1/4.
 //  Copyright (c) 2015年 Qiniu. All rights reserved.
 //
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurLogUtil.h"
 #import "InspurFormUpload.h"
 #import "InspurResponseInfo.h"
@@ -34,9 +34,9 @@
                                                                       key:self.key
                                                                     token:self.token];
 
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void(^progressHandler)(long long totalBytesWritten, long long totalBytesExpectedToWrite) = ^(long long totalBytesWritten, long long totalBytesExpectedToWrite){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         [self.progress progress:self.key uploadBytes:totalBytesWritten totalBytes:totalBytesExpectedToWrite];
     };
     
@@ -44,7 +44,7 @@
                            fileName:self.fileName
                            progress:progressHandler
                            complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         [self addRegionRequestMetricsOfOneFlow:metrics];
         
@@ -64,7 +64,7 @@
                                   fileName:self.fileName
                                   progress:progressHandler
                                   complete:^(QNResponseInfo * _Nullable responseInfo, QNUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         [self addRegionRequestMetricsOfOneFlow:metrics];
         

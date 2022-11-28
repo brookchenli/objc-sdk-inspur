@@ -7,7 +7,7 @@
 //
 
 #import "InspurReportItem.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurLogUtil.h"
 
 @interface InspurReportItem()
@@ -71,7 +71,7 @@
 @implementation InspurUploadInfoReporter(ReportItem)
 
 - (void)reportItem:(InspurReportItem *)item token:(NSString *)token{
-    QNAsyncRun(^{
+    InspurAsyncRun(^{
         NSString *itemJsonString = [item toJson];
         QNLogInfo(@"up log:%@", itemJsonString);
         if (itemJsonString && ![itemJsonString isEqualToString:@"{}"]) {
@@ -165,92 +165,92 @@ NSString * const QNReportLogTypeQuality = @"quality";
 
 
 //MARK:-- 请求信息打点⽇志
-NSString * const QNReportRequestKeyLogType = @"log_type";
-NSString * const QNReportRequestKeyUpTime = @"up_time";
-NSString * const QNReportRequestKeyStatusCode = @"status_code";
-NSString * const QNReportRequestKeyRequestId = @"req_id";
-NSString * const QNReportRequestKeyHost = @"host";
-NSString * const QNReportRequestKeyHttpVersion = @"http_version";
-NSString * const QNReportRequestKeyRemoteIp = @"remote_ip";
-NSString * const QNReportRequestKeyPort = @"port";
-NSString * const QNReportRequestKeyTargetBucket = @"target_bucket";
-NSString * const QNReportRequestKeyTargetKey = @"target_key";
-NSString * const QNReportRequestKeyTotalElapsedTime = @"total_elapsed_time";
-NSString * const QNReportRequestKeyDnsElapsedTime = @"dns_elapsed_time";
-NSString * const QNReportRequestKeyConnectElapsedTime = @"connect_elapsed_time";
-NSString * const QNReportRequestKeyTLSConnectElapsedTime = @"tls_connect_elapsed_time";
-NSString * const QNReportRequestKeyRequestElapsedTime = @"request_elapsed_time";
-NSString * const QNReportRequestKeyWaitElapsedTime = @"wait_elapsed_time";
-NSString * const QNReportRequestKeyResponseElapsedTime = @"response_elapsed_time";
-NSString * const QNReportRequestKeyFileOffset = @"file_offset";
-NSString * const QNReportRequestKeyBytesSent = @"bytes_sent";
-NSString * const QNReportRequestKeyBytesTotal = @"bytes_total";
-NSString * const QNReportRequestKeyPid = @"pid";
-NSString * const QNReportRequestKeyTid = @"tid";
-NSString * const QNReportRequestKeyTargetRegionId = @"target_region_id";
-NSString * const QNReportRequestKeyCurrentRegionId = @"current_region_id";
-NSString * const QNReportRequestKeyErrorType = @"error_type";
-NSString * const QNReportRequestKeyErrorDescription = @"error_description";
-NSString * const QNReportRequestKeyUpType = @"up_type";
-NSString * const QNReportRequestKeyOsName = @"os_name";
-NSString * const QNReportRequestKeyOsVersion = @"os_version";
-NSString * const QNReportRequestKeySDKName = @"sdk_name";
-NSString * const QNReportRequestKeySDKVersion = @"sdk_version";
-NSString * const QNReportRequestKeyClientTime = @"client_time";
-NSString * const QNReportRequestKeyHttpClient = @"http_client";
-NSString * const QNReportRequestKeyNetworkType = @"network_type";
-NSString * const QNReportRequestKeySignalStrength = @"signal_strength";
-NSString * const QNReportRequestKeyPrefetchedDnsSource = @"prefetched_dns_source";
-NSString * const QNReportRequestKeyDnsSource = @"dns_source";
-NSString * const QNReportRequestKeyDnsErrorMessage = @"dns_error_message";
-NSString * const QNReportRequestKeyPrefetchedBefore = @"prefetched_before";
-NSString * const QNReportRequestKeyPrefetchedErrorMessage = @"prefetched_error_message";
-NSString * const QNReportRequestKeyNetworkMeasuring = @"network_measuring";
-NSString * const QNReportRequestKeyPerceptiveSpeed = @"perceptive_speed";
-NSString * const QNReportRequestKeyHijacking = @"hijacking";
+NSString * const InspurReportRequestKeyLogType = @"log_type";
+NSString * const InspurReportRequestKeyUpTime = @"up_time";
+NSString * const InspurReportRequestKeyStatusCode = @"status_code";
+NSString * const InspurReportRequestKeyRequestId = @"req_id";
+NSString * const InspurReportRequestKeyHost = @"host";
+NSString * const InspurReportRequestKeyHttpVersion = @"http_version";
+NSString * const InspurReportRequestKeyRemoteIp = @"remote_ip";
+NSString * const InspurReportRequestKeyPort = @"port";
+NSString * const InspurReportRequestKeyTargetBucket = @"target_bucket";
+NSString * const InspurReportRequestKeyTargetKey = @"target_key";
+NSString * const InspurReportRequestKeyTotalElapsedTime = @"total_elapsed_time";
+NSString * const InspurReportRequestKeyDnsElapsedTime = @"dns_elapsed_time";
+NSString * const InspurReportRequestKeyConnectElapsedTime = @"connect_elapsed_time";
+NSString * const InspurReportRequestKeyTLSConnectElapsedTime = @"tls_connect_elapsed_time";
+NSString * const InspurReportRequestKeyRequestElapsedTime = @"request_elapsed_time";
+NSString * const InspurReportRequestKeyWaitElapsedTime = @"wait_elapsed_time";
+NSString * const InspurReportRequestKeyResponseElapsedTime = @"response_elapsed_time";
+NSString * const InspurReportRequestKeyFileOffset = @"file_offset";
+NSString * const InspurReportRequestKeyBytesSent = @"bytes_sent";
+NSString * const InspurReportRequestKeyBytesTotal = @"bytes_total";
+NSString * const InspurReportRequestKeyPid = @"pid";
+NSString * const InspurReportRequestKeyTid = @"tid";
+NSString * const InspurReportRequestKeyTargetRegionId = @"target_region_id";
+NSString * const InspurReportRequestKeyCurrentRegionId = @"current_region_id";
+NSString * const InspurReportRequestKeyErrorType = @"error_type";
+NSString * const InspurReportRequestKeyErrorDescription = @"error_description";
+NSString * const InspurReportRequestKeyUpType = @"up_type";
+NSString * const InspurReportRequestKeyOsName = @"os_name";
+NSString * const InspurReportRequestKeyOsVersion = @"os_version";
+NSString * const InspurReportRequestKeySDKName = @"sdk_name";
+NSString * const InspurReportRequestKeySDKVersion = @"sdk_version";
+NSString * const InspurReportRequestKeyClientTime = @"client_time";
+NSString * const InspurReportRequestKeyHttpClient = @"http_client";
+NSString * const InspurReportRequestKeyNetworkType = @"network_type";
+NSString * const InspurReportRequestKeySignalStrength = @"signal_strength";
+NSString * const InspurReportRequestKeyPrefetchedDnsSource = @"prefetched_dns_source";
+NSString * const InspurReportRequestKeyDnsSource = @"dns_source";
+NSString * const InspurReportRequestKeyDnsErrorMessage = @"dns_error_message";
+NSString * const InspurReportRequestKeyPrefetchedBefore = @"prefetched_before";
+NSString * const InspurReportRequestKeyPrefetchedErrorMessage = @"prefetched_error_message";
+NSString * const InspurReportRequestKeyNetworkMeasuring = @"network_measuring";
+NSString * const InspurReportRequestKeyPerceptiveSpeed = @"perceptive_speed";
+NSString * const InspurReportRequestKeyHijacking = @"hijacking";
 
 //MARK:-- 分块上传统计⽇志
-NSString * const QNReportBlockKeyLogType = @"log_type";
-NSString * const QNReportBlockKeyUpTime = @"up_time";
-NSString * const QNReportBlockKeyTargetBucket = @"target_bucket";
-NSString * const QNReportBlockKeyTargetKey = @"target_key";
-NSString * const QNReportBlockKeyTargetRegionId = @"target_region_id";
-NSString * const QNReportBlockKeyCurrentRegionId = @"current_region_id";
-NSString * const QNReportBlockKeyTotalElapsedTime = @"total_elapsed_time";
-NSString * const QNReportBlockKeyBytesSent = @"bytes_sent";
-NSString * const QNReportBlockKeyRecoveredFrom = @"recovered_from";
-NSString * const QNReportBlockKeyFileSize = @"file_size";
-NSString * const QNReportBlockKeyPid = @"pid";
-NSString * const QNReportBlockKeyTid = @"tid";
-NSString * const QNReportBlockKeyUpApiVersion = @"up_api_version";
-NSString * const QNReportBlockKeyClientTime = @"client_time";
-NSString * const QNReportBlockKeyOsName = @"os_name";
-NSString * const QNReportBlockKeyOsVersion = @"os_version";
-NSString * const QNReportBlockKeySDKName = @"sdk_name";
-NSString * const QNReportBlockKeySDKVersion = @"sdk_version";
-NSString * const QNReportBlockKeyPerceptiveSpeed = @"perceptive_speed";
-NSString * const QNReportBlockKeyHijacking = @"hijacking";
+NSString * const InspurReportBlockKeyLogType = @"log_type";
+NSString * const InspurReportBlockKeyUpTime = @"up_time";
+NSString * const InspurReportBlockKeyTargetBucket = @"target_bucket";
+NSString * const InspurReportBlockKeyTargetKey = @"target_key";
+NSString * const InspurReportBlockKeyTargetRegionId = @"target_region_id";
+NSString * const InspurReportBlockKeyCurrentRegionId = @"current_region_id";
+NSString * const InspurReportBlockKeyTotalElapsedTime = @"total_elapsed_time";
+NSString * const InspurReportBlockKeyBytesSent = @"bytes_sent";
+NSString * const InspurReportBlockKeyRecoveredFrom = @"recovered_from";
+NSString * const InspurReportBlockKeyFileSize = @"file_size";
+NSString * const InspurReportBlockKeyPid = @"pid";
+NSString * const InspurReportBlockKeyTid = @"tid";
+NSString * const InspurReportBlockKeyUpApiVersion = @"up_api_version";
+NSString * const InspurReportBlockKeyClientTime = @"client_time";
+NSString * const InspurReportBlockKeyOsName = @"os_name";
+NSString * const InspurReportBlockKeyOsVersion = @"os_version";
+NSString * const InspurReportBlockKeySDKName = @"sdk_name";
+NSString * const InspurReportBlockKeySDKVersion = @"sdk_version";
+NSString * const InspurReportBlockKeyPerceptiveSpeed = @"perceptive_speed";
+NSString * const InspurReportBlockKeyHijacking = @"hijacking";
 
 
 //MARK:-- 上传质量统计
-NSString * const QNReportQualityKeyLogType = @"log_type";
-NSString * const QNReportQualityKeyUpType = @"up_type";
-NSString * const QNReportQualityKeyUpTime = @"up_time";
-NSString * const QNReportQualityKeyResult = @"result";
-NSString * const QNReportQualityKeyTargetBucket = @"target_bucket";
-NSString * const QNReportQualityKeyTargetKey = @"target_key";
-NSString * const QNReportQualityKeyTotalElapsedTime = @"total_elapsed_time";
-NSString * const QNReportQualityKeyUcQueryElapsedTime = @"uc_query_elapsed_time";
-NSString * const QNReportQualityKeyRequestsCount = @"requests_count";
-NSString * const QNReportQualityKeyRegionsCount = @"regions_count";
-NSString * const QNReportQualityKeyBytesSent = @"bytes_sent";
-NSString * const QNReportQualityKeyFileSize = @"file_size";
-NSString * const QNReportQualityKeyCloudType = @"cloud_type";
-NSString * const QNReportQualityKeyErrorType = @"error_type";
-NSString * const QNReportQualityKeyErrorDescription = @"error_description";
-NSString * const QNReportQualityKeyOsName = @"os_name";
-NSString * const QNReportQualityKeyOsVersion = @"os_version";
-NSString * const QNReportQualityKeySDKName = @"sdk_name";
-NSString * const QNReportQualityKeySDKVersion = @"sdk_version";
-NSString * const QNReportQualityKeyPerceptiveSpeed = @"perceptive_speed";
-NSString * const QNReportQualityKeyHijacking = @"hijacking";
+NSString * const InspurReportQualityKeyLogType = @"log_type";
+NSString * const InspurReportQualityKeyUpType = @"up_type";
+NSString * const InspurReportQualityKeyUpTime = @"up_time";
+NSString * const InspurReportQualityKeyResult = @"result";
+NSString * const InspurReportQualityKeyTargetBucket = @"target_bucket";
+NSString * const InspurReportQualityKeyTargetKey = @"target_key";
+NSString * const InspurReportQualityKeyTotalElapsedTime = @"total_elapsed_time";
+NSString * const InspurReportQualityKeyUcQueryElapsedTime = @"uc_query_elapsed_time";
+NSString * const InspurReportQualityKeyRequestsCount = @"requests_count";
+NSString * const InspurReportQualityKeyRegionsCount = @"regions_count";
+NSString * const InspurReportQualityKeyBytesSent = @"bytes_sent";
+NSString * const InspurReportQualityKeyFileSize = @"file_size";
+NSString * const InspurReportQualityKeyCloudType = @"cloud_type";
+NSString * const InspurReportQualityKeyErrorType = @"error_type";
+NSString * const InspurReportQualityKeyErrorDescription = @"error_description";
+NSString * const InspurReportQualityKeyOsName = @"os_name";
+NSString * const InspurReportQualityKeyOsVersion = @"os_version";
+NSString * const InspurReportQualityKeySDKName = @"sdk_name";
+NSString * const InspurReportQualityKeySDKVersion = @"sdk_version";
+NSString * const InspurReportQualityKeyPerceptiveSpeed = @"perceptive_speed";
+NSString * const InspurReportQualityKeyHijacking = @"hijacking";

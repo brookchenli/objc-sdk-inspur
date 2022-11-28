@@ -12,7 +12,7 @@
 #import "InspurRecorderDelegate.h"
 #import "InspurUpToken.h"
 #import "InspurUrlSafeBase64.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurUploadManager.h"
 #import "InspurUploadOption.h"
 #import "InspurZone.h"

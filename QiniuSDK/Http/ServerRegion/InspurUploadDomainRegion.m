@@ -16,15 +16,15 @@
 #import "InspurDnsPrefetch.h"
 #import "InspurLogUtil.h"
 #import "InspurUtils.h"
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurUploadServerNetworkStatus.h"
 
-@interface QNUploadIpGroup : NSObject
+@interface InspurUploadIpGroup : NSObject
 @property(nonatomic, assign)int ipIndex;
 @property(nonatomic,   copy, readonly)NSString *groupType;
 @property(nonatomic, strong, readonly)NSArray <id <InspurIDnsNetworkAddress> > *ipList;
 @end
-@implementation QNUploadIpGroup
+@implementation InspurUploadIpGroup
 - (instancetype)initWithGroupType:(NSString *)groupType
                            ipList:(NSArray <id <InspurIDnsNetworkAddress> > *)ipList{
     if (self = [super init]) {
@@ -46,14 +46,14 @@
 }
 @end
 
-@interface QNUploadServerDomain: NSObject
+@interface InspurUploadServerDomain: NSObject
 @property(nonatomic,   copy)NSString *host;
-@property(nonatomic, strong)NSArray <QNUploadIpGroup *> *ipGroupList;
+@property(nonatomic, strong)NSArray <InspurUploadIpGroup *> *ipGroupList;
 @end
-@implementation QNUploadServerDomain
+@implementation InspurUploadServerDomain
 
-+ (QNUploadServerDomain *)domain:(NSString *)host{
-    QNUploadServerDomain *domain = [[QNUploadServerDomain alloc] init];
++ (InspurUploadServerDomain *)domain:(NSString *)host{
+    InspurUploadServerDomain *domain = [[InspurUploadServerDomain alloc] init];
     domain.host = host;
     return domain;
 }
@@ -70,7 +70,7 @@
     
     // Host解析出IP时:
     if (self.ipGroupList && self.ipGroupList.count > 0) {
-        for (QNUploadIpGroup *ipGroup in self.ipGroupList) {
+        for (InspurUploadIpGroup *ipGroup in self.ipGroupList) {
             
             id <InspurIDnsNetworkAddress> inetAddress = [ipGroup getServerIP];
             InspurUploadServer *filterServer = [InspurUploadServer server:self.host
@@ -107,7 +107,7 @@
     }
     if (self.ipGroupList && self.ipGroupList.count > 0) {
         NSInteger index = arc4random()%self.ipGroupList.count;
-        QNUploadIpGroup *ipGroup = self.ipGroupList[index];
+        InspurUploadIpGroup *ipGroup = self.ipGroupList[index];
         id <InspurIDnsNetworkAddress> inetAddress = [ipGroup getServerIP];
         InspurUploadServer *server = [InspurUploadServer server:self.host ip:inetAddress.ipValue source:inetAddress.sourceValue ipPrefetchedTime:inetAddress.timestampValue];;
         return server;
@@ -151,7 +151,7 @@
         NSMutableArray *ipGroupList = [NSMutableArray array];
         for (NSString *groupType in ipGroupInfos.allKeys) {
             NSArray *ipList = ipGroupInfos[groupType];
-            QNUploadIpGroup *ipGroup = [[QNUploadIpGroup alloc] initWithGroupType:groupType ipList:ipList];
+            InspurUploadIpGroup *ipGroup = [[InspurUploadIpGroup alloc] initWithGroupType:groupType ipList:ipList];
             [ipGroupList addObject:ipGroup];
         }
         
@@ -174,9 +174,9 @@
 @property(nonatomic, strong)InspurUploadServerFreezeManager *partialHttp2Freezer;
 @property(nonatomic, strong)InspurUploadServerFreezeManager *partialHttp3Freezer;
 @property(nonatomic, strong)NSArray <NSString *> *domainHostList;
-@property(nonatomic, strong)NSDictionary <NSString *, QNUploadServerDomain *> *domainDictionary;
+@property(nonatomic, strong)NSDictionary <NSString *, InspurUploadServerDomain *> *domainDictionary;
 @property(nonatomic, strong)NSArray <NSString *> *oldDomainHostList;
-@property(nonatomic, strong)NSDictionary <NSString *, QNUploadServerDomain *> *oldDomainDictionary;
+@property(nonatomic, strong)NSDictionary <NSString *, InspurUploadServerDomain *> *oldDomainDictionary;
 
 @property(nonatomic, strong, nullable)InspurZoneInfo *zoneInfo;
 @end
@@ -221,7 +221,7 @@
     NSMutableDictionary *domainDictionary = [NSMutableDictionary dictionary];
     
     for (NSString *host in hosts) {
-        QNUploadServerDomain *domain = [QNUploadServerDomain domain:host];
+        InspurUploadServerDomain *domain = [InspurUploadServerDomain domain:host];
         [domainDictionary setObject:domain forKey:host];
     }
     return [domainDictionary copy];
@@ -285,9 +285,9 @@
     
     // 2. 挑选http2
     for (NSString *host in hostList) {
-        kQNWeakSelf;
+        kInspurWeakSelf;
         InspurUploadServer *domainServer = [domainInfo[host] getServerWithCondition:^BOOL(NSString *host, InspurUploadServer *serverP, InspurUploadServer *filterServer) {
-            kQNStrongSelf;
+            kInspurStrongSelf;
             
             // 2.1 剔除冻结对象
             NSString *frozenType = QNUploadFrozenType(host, filterServer.ip);

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "QNErrorCode.h"
+#import "InspurErrorCode.h"
 #import "InspurDns.h"
 #import "InspurZone.h"
 #import "InspurFixedZone.h"

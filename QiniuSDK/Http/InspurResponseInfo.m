@@ -5,7 +5,7 @@
 //  Created by bailong on 14/10/2.
 //  Copyright (c) 2014年 Qiniu. All rights reserved.
 //
-#import "QNErrorCode.h"
+#import "InspurErrorCode.h"
 #import "InspurResponseInfo.h"
 #import "InspurUserAgent.h"
 #import "InspurUtils.h"

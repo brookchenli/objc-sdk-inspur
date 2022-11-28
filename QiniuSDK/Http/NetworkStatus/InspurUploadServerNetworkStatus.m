@@ -31,8 +31,8 @@
         return YES;
     }
     
-    QNNetworkStatus *serverStatusA = [kQNNetworkStatusManager getNetworkStatus:serverTypeA];
-    QNNetworkStatus *serverStatusB = [kQNNetworkStatusManager getNetworkStatus:serverTypeB];
+    InspurNetworkStatus *serverStatusA = [kQNNetworkStatusManager getNetworkStatus:serverTypeA];
+    InspurNetworkStatus *serverStatusB = [kQNNetworkStatusManager getNetworkStatus:serverTypeB];
 
     return serverStatusB.speed < serverStatusA.speed;
 }

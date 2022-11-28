@@ -12,7 +12,7 @@
 
 #import "InspurPipeline.h"
 
-@implementation QNPipelineConfig
+@implementation InspurPipelineConfig
 
 - (instancetype)init {
     return [self initWithHost:@"https://pipeline.qiniu.com"];
@@ -31,7 +31,7 @@
 @interface InspurPipeline ()
 
 @property (nonatomic) InspurSessionManager *httpManager;
-@property (nonatomic) QNPipelineConfig* config;
+@property (nonatomic) InspurPipelineConfig* config;
 
 + (NSDateFormatter*)dateFormatter;
 
@@ -92,10 +92,10 @@ static NSMutableString* formatPoints(NSArray<NSDictionary*>* events) {
 
 @implementation InspurPipeline
 
-- (instancetype)init:(QNPipelineConfig*)config {
+- (instancetype)init:(InspurPipelineConfig*)config {
     if (self = [super init]) {
         if (config == nil) {
-            config = [QNPipelineConfig new];
+            config = [InspurPipelineConfig new];
         }
         _config = config;
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
@@ -108,7 +108,7 @@ static NSMutableString* formatPoints(NSArray<NSDictionary*>* events) {
 - (void)pumpRepo:(NSString*)repo
            event:(NSDictionary*)data
            token:(NSString*)token
-         handler:(QNPipelineCompletionHandler)handler {
+         handler:(InspurPipelineCompletionHandler)handler {
     NSMutableString* str = [NSMutableString new];
     formatPoint(data, str);
     [self pumpRepo:repo string:str token:token handler:handler];
@@ -117,7 +117,7 @@ static NSMutableString* formatPoints(NSArray<NSDictionary*>* events) {
 - (void)pumpRepo:(NSString*)repo
           events:(NSArray<NSDictionary*>*)data
            token:(NSString*)token
-         handler:(QNPipelineCompletionHandler)handler {
+         handler:(InspurPipelineCompletionHandler)handler {
     NSMutableString* str = formatPoints(data);
     [self pumpRepo:repo string:str token:token handler:handler];
 }
@@ -129,7 +129,7 @@ static NSMutableString* formatPoints(NSArray<NSDictionary*>* events) {
 - (void)pumpRepo:(NSString*)repo
           string:(NSString*)str
            token:(NSString*)token
-         handler:(QNPipelineCompletionHandler)handler {
+         handler:(InspurPipelineCompletionHandler)handler {
     NSDictionary* headers = @{ @"Authorization" : token,
                                @"Content-Type" : @"text/plain" };
     [_httpManager post:[self url:repo] withData:[str dataUsingEncoding:NSUTF8StringEncoding] withParams:nil withHeaders:headers withIdentifier:nil withCompleteBlock:^(InspurResponseInfo *httpResponseInfo, NSDictionary *respBody) {

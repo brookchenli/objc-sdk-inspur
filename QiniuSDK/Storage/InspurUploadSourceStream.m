@@ -6,7 +6,7 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNErrorCode.h"
+#import "InspurErrorCode.h"
 #import "InspurUploadSourceStream.h"
 
 @interface InspurUploadSourceStream()

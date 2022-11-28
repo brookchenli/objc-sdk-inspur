@@ -8,7 +8,7 @@
 
 #import "InspurZoneInfo.h"
 #import "InspurResponseInfo.h"
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurBaseUpload.h"
 #import "InspurUploadDomainRegion.h"
 
@@ -104,9 +104,9 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 - (void)run {
     [self.metrics start];
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     [_config.zone preQuery:self.token actionType:[self actionType] on:^(int code, InspurResponseInfo *responseInfo, InspurUploadRegionRequestMetrics *metrics) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         self.metrics.ucQueryMetrics = metrics;
         
         if (code == 0) {

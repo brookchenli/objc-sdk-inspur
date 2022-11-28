@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurUtils.h"
 #import "InspurLogUtil.h"
 #import "InspurPartsUpload.h"
@@ -126,9 +126,9 @@
     QNLogInfo(@"key:%@ serverInit", self.key);
     
     // 1. 启动upload
-    kQNWeakSelf;
+    kInspurWeakSelf;
     [self serverInit:^(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (!responseInfo.isOK) {
             if (![self switchRegionAndUploadIfNeededWithErrorResponse:responseInfo]) {
@@ -140,9 +140,9 @@
         QNLogInfo(@"key:%@ uploadRestData", self.key);
         
         // 2. 上传数据
-        kQNWeakSelf;
+        kInspurWeakSelf;
         [self uploadRestData:^{
-            kQNStrongSelf;
+            kInspurStrongSelf;
             
             if (![self isAllUploaded]) {
                 if (![self switchRegionAndUploadIfNeededWithErrorResponse:self.uploadDataErrorResponseInfo]) {
@@ -161,9 +161,9 @@
             QNLogInfo(@"key:%@ completeUpload errorResponseInfo:%@", self.key, self.uploadDataErrorResponseInfo);
             
             // 3. 组装文件
-            kQNWeakSelf;
+            kInspurWeakSelf;
             [self completeUpload:^(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response) {
-                kQNStrongSelf;
+                kInspurStrongSelf;
                                 
                 if (!responseInfo.isOK) {
                     if (![self switchRegionAndUploadIfNeededWithErrorResponse:responseInfo]) {
@@ -188,9 +188,9 @@
         return;
     }
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     [self uploadNextData:^(BOOL stop, InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (stop || !responseInfo.isOK) {
             completeHandler();
@@ -203,9 +203,9 @@
 //MARK:-- concurrent upload model API
 - (void)serverInit:(void(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void(^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (!responseInfo.isOK) {
             [self setErrorResponseInfo:responseInfo errorResponse:response];
@@ -219,9 +219,9 @@
 
 - (void)uploadNextData:(void(^)(BOOL stop, InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void(^completeHandlerP)(BOOL, InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(BOOL stop, InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (!responseInfo.isOK) {
             [self setErrorResponseInfo:responseInfo errorResponse:response];
@@ -235,9 +235,9 @@
 
 - (void)completeUpload:(void(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))completeHandler {
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     void(^completeHandlerP)(InspurResponseInfo *, InspurUploadRegionRequestMetrics *, NSDictionary *) = ^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response){
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         if (!responseInfo.isOK) {
             [self setErrorResponseInfo:responseInfo errorResponse:response];
@@ -270,40 +270,40 @@
     InspurUploadRegionRequestMetrics *metrics = self.currentRegionRequestMetrics ?: [InspurUploadRegionRequestMetrics emptyMetrics];
     
     InspurReportItem *item = [InspurReportItem item];
-    [item setReportValue:QNReportLogTypeBlock forKey:QNReportBlockKeyLogType];
-    [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:QNReportBlockKeyUpTime];
-    [item setReportValue:self.token.bucket forKey:QNReportBlockKeyTargetBucket];
-    [item setReportValue:self.key forKey:QNReportBlockKeyTargetKey];
-    [item setReportValue:[self getTargetRegion].zoneInfo.regionId forKey:QNReportBlockKeyTargetRegionId];
-    [item setReportValue:[self getCurrentRegion].zoneInfo.regionId forKey:QNReportBlockKeyCurrentRegionId];
-    [item setReportValue:metrics.totalElapsedTime forKey:QNReportBlockKeyTotalElapsedTime];
-    [item setReportValue:metrics.bytesSend forKey:QNReportBlockKeyBytesSent];
-    [item setReportValue:self.uploadPerformer.recoveredFrom forKey:QNReportBlockKeyRecoveredFrom];
-    [item setReportValue:@([self.uploadSource getSize]) forKey:QNReportBlockKeyFileSize];
-    [item setReportValue:@([InspurUtils getCurrentProcessID]) forKey:QNReportBlockKeyPid];
-    [item setReportValue:@([InspurUtils getCurrentThreadID]) forKey:QNReportBlockKeyTid];
+    [item setReportValue:QNReportLogTypeBlock forKey:InspurReportBlockKeyLogType];
+    [item setReportValue:@([[NSDate date] timeIntervalSince1970]) forKey:InspurReportBlockKeyUpTime];
+    [item setReportValue:self.token.bucket forKey:InspurReportBlockKeyTargetBucket];
+    [item setReportValue:self.key forKey:InspurReportBlockKeyTargetKey];
+    [item setReportValue:[self getTargetRegion].zoneInfo.regionId forKey:InspurReportBlockKeyTargetRegionId];
+    [item setReportValue:[self getCurrentRegion].zoneInfo.regionId forKey:InspurReportBlockKeyCurrentRegionId];
+    [item setReportValue:metrics.totalElapsedTime forKey:InspurReportBlockKeyTotalElapsedTime];
+    [item setReportValue:metrics.bytesSend forKey:InspurReportBlockKeyBytesSent];
+    [item setReportValue:self.uploadPerformer.recoveredFrom forKey:InspurReportBlockKeyRecoveredFrom];
+    [item setReportValue:@([self.uploadSource getSize]) forKey:InspurReportBlockKeyFileSize];
+    [item setReportValue:@([InspurUtils getCurrentProcessID]) forKey:InspurReportBlockKeyPid];
+    [item setReportValue:@([InspurUtils getCurrentThreadID]) forKey:InspurReportBlockKeyTid];
     
-    [item setReportValue:metrics.metricsList.lastObject.hijacked forKey:QNReportBlockKeyHijacking];
+    [item setReportValue:metrics.metricsList.lastObject.hijacked forKey:InspurReportBlockKeyHijacking];
     
     // 统计当前 region 上传速度 文件大小 / 总耗时
     if (self.uploadDataErrorResponseInfo == nil && [self.uploadSource getSize] > 0 && [metrics totalElapsedTime] > 0) {
         NSNumber *speed = [InspurUtils calculateSpeed:[self.uploadSource getSize] totalTime:[metrics totalElapsedTime].longLongValue];
-        [item setReportValue:speed forKey:QNReportBlockKeyPerceptiveSpeed];
+        [item setReportValue:speed forKey:InspurReportBlockKeyPerceptiveSpeed];
     }
 
     if (self.config.resumeUploadVersion == QNResumeUploadVersionV1) {
-        [item setReportValue:@(1) forKey:QNReportBlockKeyUpApiVersion];
+        [item setReportValue:@(1) forKey:InspurReportBlockKeyUpApiVersion];
     } else {
-        [item setReportValue:@(2) forKey:QNReportBlockKeyUpApiVersion];
+        [item setReportValue:@(2) forKey:InspurReportBlockKeyUpApiVersion];
     }
     
-    [item setReportValue:[InspurUtils getCurrentNetworkType] forKey:QNReportBlockKeyClientTime];
-    [item setReportValue:[InspurUtils systemName] forKey:QNReportBlockKeyOsName];
-    [item setReportValue:[InspurUtils systemVersion] forKey:QNReportBlockKeyOsVersion];
-    [item setReportValue:[InspurUtils sdkLanguage] forKey:QNReportBlockKeySDKName];
-    [item setReportValue:[InspurUtils sdkVersion] forKey:QNReportBlockKeySDKVersion];
+    [item setReportValue:[InspurUtils getCurrentNetworkType] forKey:InspurReportBlockKeyClientTime];
+    [item setReportValue:[InspurUtils systemName] forKey:InspurReportBlockKeyOsName];
+    [item setReportValue:[InspurUtils systemVersion] forKey:InspurReportBlockKeyOsVersion];
+    [item setReportValue:[InspurUtils sdkLanguage] forKey:InspurReportBlockKeySDKName];
+    [item setReportValue:[InspurUtils sdkVersion] forKey:InspurReportBlockKeySDKVersion];
     
-    [kQNReporter reportItem:item token:self.token.token];
+    [kInspurReporter reportItem:item token:self.token.token];
 }
 
 - (NSString *)upType {

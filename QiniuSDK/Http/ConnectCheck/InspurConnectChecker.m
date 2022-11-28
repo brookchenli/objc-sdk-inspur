@@ -6,7 +6,7 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurLogUtil.h"
 #import "InspurConfiguration.h"
 #import "InspurSingleFlight.h"
@@ -54,9 +54,9 @@
 + (void)check:(void (^)(InspurUploadSingleRequestMetrics *))complete {
     InspurSingleFlight *singleFlight = [self singleFlight];
     
-    kQNWeakSelf;
+    kInspurWeakSelf;
     [singleFlight perform:@"connect_check" action:^(QNSingleFlightComplete  _Nonnull singleFlightComplete) {
-        kQNStrongSelf;
+        kInspurStrongSelf;
         
         [self checkAllHosts:^(InspurUploadSingleRequestMetrics *metrics) {
             singleFlightComplete(metrics, nil);
@@ -74,11 +74,11 @@
     
     __block int completeCount = 0;
     __block BOOL isCompleted = false;
-    kQNWeakSelf;
+    kInspurWeakSelf;
     NSArray *allHosts = [kQNGlobalConfiguration.connectCheckURLStrings copy];
     for (NSString *host in allHosts) {
         [self checkHost:host complete:^(InspurUploadSingleRequestMetrics *metrics) {
-            kQNStrongSelf;
+            kInspurStrongSelf;
             
             BOOL isHostConnected = [self isConnected:metrics];
             @synchronized (self) {

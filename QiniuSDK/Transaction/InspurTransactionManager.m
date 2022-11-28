@@ -6,7 +6,7 @@
 //  Copyright © 2020 Qiniu. All rights reserved.
 //
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurTransactionManager.h"
 
 //MARK: -- 事务对象
@@ -107,12 +107,12 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 
 
 //MARK: -- 事务链表
-@interface QNTransactionList : NSObject
+@interface InspurTransactionList : NSObject
 
 @property(nonatomic, strong)InspurTransaction *header;
 
 @end
-@implementation QNTransactionList
+@implementation InspurTransactionList
 
 - (BOOL)isEmpty{
     if (self.header == nil) {
@@ -208,7 +208,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 // 事务处理线程
 @property(nonatomic, strong)NSThread *thread;
 // 事务链表
-@property(nonatomic, strong)QNTransactionList *transactionList;
+@property(nonatomic, strong)InspurTransactionList *transactionList;
 
 // 事务定时器
 @property(nonatomic, strong)NSTimer *timer;
@@ -226,7 +226,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 }
 - (instancetype)init{
     if (self = [super init]) {
-        _transactionList = [[QNTransactionList alloc] init];
+        _transactionList = [[InspurTransactionList alloc] init];
     }
     return self;
 }
@@ -302,7 +302,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 - (void)createThread{
     @synchronized (self) {
         if (self.thread == nil) {
-            kQNWeakSelf;
+            kInspurWeakSelf;
             self.thread = [[NSThread alloc] initWithTarget:weak_self
                                                   selector:@selector(threadAction)
                                                      object:nil];
@@ -328,7 +328,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 
 //MARK: -- timer
 - (void)createTimer{
-    kQNWeakSelf;
+    kInspurWeakSelf;
     NSTimer *timer = [NSTimer timerWithTimeInterval:1
                                              target:weak_self
                                            selector:@selector(timerAction)

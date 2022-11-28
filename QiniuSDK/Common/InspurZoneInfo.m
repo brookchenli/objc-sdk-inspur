@@ -124,11 +124,11 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
 
 @end
 
-@interface QNZonesInfo()
+@interface InspurZonesInfo()
 @property (nonatomic, assign) BOOL isTemporary;
 @property (nonatomic, strong) NSArray<InspurZoneInfo *> *zonesInfo;
 @end
-@implementation QNZonesInfo
+@implementation InspurZonesInfo
 
 - (instancetype)initWithZonesInfo:(NSArray<InspurZoneInfo *> *)zonesInfo{
     self = [super init];
@@ -199,7 +199,7 @@ NSString * const QNZoneInfoEmptyRegionId = @"none";
     for (InspurZoneInfo *info in self.zonesInfo) {
         [zonesInfoArray addObject:[info copy]];
     }
-    QNZonesInfo *zonesInfo = [[QNZonesInfo allocWithZone:zone] init];
+    InspurZonesInfo *zonesInfo = [[InspurZonesInfo allocWithZone:zone] init];
     zonesInfo.zonesInfo = [zonesInfoArray copy];
     zonesInfo.isTemporary = self.isTemporary;
     return zonesInfo;

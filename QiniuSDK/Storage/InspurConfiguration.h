@@ -27,7 +27,7 @@ extern const UInt32 kQNDefaultDnsCacheTime;
  *
  *    @return 根据上传url算出代理url
  */
-typedef NSString * (^QNUrlConvert)(NSString *url);
+typedef NSString * (^InspurUrlConvert)(NSString *url);
 
 typedef NS_ENUM(NSInteger, QNResumeUploadVersion){
     QNResumeUploadVersionV1, // 分片v1
@@ -123,7 +123,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *  上传URL转换，使url转换为用户需要的url
  */
-@property (nonatomic, readonly) QNUrlConvert converter;
+@property (nonatomic, readonly) InspurUrlConvert converter;
 
 /**
  *  签名有效时间
@@ -144,8 +144,8 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 @end
 
 
-#define kQNGlobalConfiguration [QNGlobalConfiguration shared]
-@interface QNGlobalConfiguration : NSObject
+#define kQNGlobalConfiguration [InspurGlobalConfiguration shared]
+@interface InspurGlobalConfiguration : NSObject
 
 /**
  *   是否开启dns预解析 默认开启
@@ -336,7 +336,7 @@ typedef void (^QNConfigurationBuilderBlock)(InspurConfigurationBuilder *builder)
 /**
  *  上传URL转换，使url转换为用户需要的url
  */
-@property (nonatomic, strong) QNUrlConvert converter;
+@property (nonatomic, strong) InspurUrlConvert converter;
 /**
  *  签名有效时间
  */

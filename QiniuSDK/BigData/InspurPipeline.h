@@ -6,12 +6,12 @@
 //  Copyright © 2017年 Qiniu. All rights reserved.
 //
 
-#ifndef QNPipeline_h
-#define QNPipeline_h
+#ifndef InspurPipeline_h
+#define InspurPipeline_h
 
 @class InspurResponseInfo;
 
-@interface QNPipelineConfig : NSObject
+@interface InspurPipelineConfig : NSObject
 
 /**
  * 上报打点域名
@@ -34,22 +34,22 @@
  *
  *    @param info 上下文信息，包括状态码，错误值
  */
-typedef void (^QNPipelineCompletionHandler)(InspurResponseInfo *info);
+typedef void (^InspurPipelineCompletionHandler)(InspurResponseInfo *info);
 
 @interface InspurPipeline : NSObject
 
-- (instancetype)init:(QNPipelineConfig *)config;
+- (instancetype)init:(InspurPipelineConfig *)config;
 
 - (void)pumpRepo:(NSString *)repo
            event:(NSDictionary *)data
            token:(NSString *)token
-         handler:(QNPipelineCompletionHandler)handler;
+         handler:(InspurPipelineCompletionHandler)handler;
 
 - (void)pumpRepo:(NSString *)repo
           events:(NSArray<NSDictionary *> *)data
            token:(NSString *)token
-         handler:(QNPipelineCompletionHandler)handler;
+         handler:(InspurPipelineCompletionHandler)handler;
 
 @end
 
-#endif /* QNPipeline_h */
+#endif /* InspurPipeline_h */

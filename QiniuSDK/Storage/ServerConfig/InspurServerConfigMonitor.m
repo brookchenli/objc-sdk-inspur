@@ -6,7 +6,7 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 #import "InspurLogUtil.h"
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurAutoZone.h"
 #import "InspurDnsPrefetch.h"
 #import "InspurConfiguration.h"
@@ -17,13 +17,13 @@
 
 #define kQNServerConfigTransactionKey @"QNServerConfig"
 
-@interface QNGlobalConfiguration(DnsDefaultServer)
+@interface InspurGlobalConfiguration(DnsDefaultServer)
 @property(nonatomic, strong)NSArray *defaultDohIpv4Servers;
 @property(nonatomic, strong)NSArray *defaultDohIpv6Servers;
 @property(nonatomic, strong)NSArray *defaultUdpDnsIpv4Servers;
 @property(nonatomic, strong)NSArray *defaultUdpDnsIpv6Servers;
 @end
-@implementation QNGlobalConfiguration(DnsDefaultServer)
+@implementation InspurGlobalConfiguration(DnsDefaultServer)
 @dynamic defaultDohIpv4Servers;
 @dynamic defaultDohIpv6Servers;
 @dynamic defaultUdpDnsIpv4Servers;

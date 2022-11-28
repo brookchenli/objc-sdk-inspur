@@ -6,7 +6,7 @@
 //  Copyright © 2021 Qiniu. All rights reserved.
 //
 
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurUpProgress.h"
 
 @interface InspurUpProgress()

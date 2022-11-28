@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSMutableURLRequest(QNRequest)
 
 /// 请求domain【内部使用】
-@property(nonatomic, strong, nullable)NSString *qn_domain;
+@property(nonatomic, strong, nullable)NSString *inspur_domain;
 /// 请求ip【内部使用】
 @property(nonatomic, strong, nullable)NSString *qn_ip;
 

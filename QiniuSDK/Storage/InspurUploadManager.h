@@ -29,8 +29,8 @@
  */
 typedef void (^QNUpCompletionHandler)(InspurResponseInfo *info, NSString *key, NSDictionary *resp);
 
-typedef void (^QNUpSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
-typedef void (^QNUpSignatureHandler)(NSString *contentNeedSignature, QNUpSignatureResultHandler result);
+typedef void (^InspurUpSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
+typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurUpSignatureResultHandler result);
 
 
 /**
@@ -96,7 +96,7 @@ typedef void (^QNUpSignatureHandler)(NSString *contentNeedSignature, QNUpSignatu
         bucket:(NSString *)bucket
             key:(NSString *)key
       accessKey:(NSString *)accessKey
-signatureHanlder:(QNUpSignatureHandler)signatureHandler
+signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
 
@@ -141,7 +141,7 @@ signatureHanlder:(QNUpSignatureHandler)signatureHandler
          bucket:(NSString *)bucket
             key:(NSString *)key
       accessKey:(NSString *)accessKey
-signatureHanlder:(QNUpSignatureHandler)signatureHandler
+signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(QNUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
 

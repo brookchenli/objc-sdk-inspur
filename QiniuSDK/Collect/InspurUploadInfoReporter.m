@@ -5,7 +5,7 @@
 //  Created by WorkSpace_Sun on 2019/6/24.
 //  Copyright © 2019 Qiniu. All rights reserved.
 //
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurZoneInfo.h"
 #import "InspurUploadInfoReporter.h"
 #import "InspurResponseInfo.h"
@@ -13,8 +13,8 @@
 #import "InspurFile.h"
 #import "InspurUpToken.h"
 #import "InspurUserAgent.h"
-#import "QNAsyncRun.h"
-#import "QNVersion.h"
+#import "InspurAsyncRun.h"
+#import "InspurVersion.h"
 #import "InspurReportConfig.h"
 #import "NSData+InspurGZip.h"
 #import "InspurTransactionManager.h"

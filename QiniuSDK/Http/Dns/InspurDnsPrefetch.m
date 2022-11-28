@@ -12,11 +12,11 @@
 #import "InspurDnsCacheInfo.h"
 #import "InspurZoneInfo.h"
 
-#import "QNDefine.h"
+#import "InspurDefine.h"
 #import "InspurConfig.h"
 #import "InspurDnsCacheFile.h"
 #import "InspurUtils.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurFixedZone.h"
 #import "InspurAutoZone.h"
 #import <HappyDNS/HappyDNS.h>
@@ -174,18 +174,18 @@
 }
 @end
 
-@interface QNInternalDns : NSObject
+@interface InspurInternalDns : NSObject
 @property(nonatomic, strong)id<InspurDnsDelegate> dns;
 @property(nonatomic, strong)id<QNResolverDelegate> resolver;
 @end
-@implementation QNInternalDns
+@implementation InspurInternalDns
 + (instancetype)dnsWithDns:(id<InspurDnsDelegate>)dns {
-    QNInternalDns *interDns = [[QNInternalDns alloc] init];
+    InspurInternalDns *interDns = [[InspurInternalDns alloc] init];
     interDns.dns = dns;
     return interDns;
 }
 + (instancetype)dnsWithResolver:(id<QNResolverDelegate>)resolver {
-    QNInternalDns *interDns = [[QNInternalDns alloc] init];
+    InspurInternalDns *interDns = [[InspurInternalDns alloc] init];
     interDns.resolver = resolver;
     return interDns;
 }
@@ -225,9 +225,9 @@
 /// DNS信息本地缓存key
 @property(nonatomic, strong)InspurDnsCacheInfo *dnsCacheInfo;
 // 用户定制 dns
-@property(nonatomic, strong)QNInternalDns *customDns;
+@property(nonatomic, strong)InspurInternalDns *customDns;
 // 系统 dns
-@property(nonatomic, strong)QNInternalDns *systemDns;
+@property(nonatomic, strong)InspurInternalDns *systemDns;
 /// prefetch hosts
 @property(nonatomic, strong)NSMutableSet *prefetchHosts;
 /// 缓存DNS解析结果
@@ -393,7 +393,7 @@
     }
     
     QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-    QNInternalDns *doh = [QNInternalDns dnsWithResolver:dohResolver];
+    InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
     nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:&err];
     if (nextFetchHosts.count == 0) {
         return [self getInetAddressByHost:host].firstObject.sourceValue;
@@ -404,7 +404,7 @@
     
     if ([QNIP isIpV6FullySupported]) {
         QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-        QNInternalDns *doh = [QNInternalDns dnsWithResolver:dohResolver];
+        InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
         nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:&err];
         if (error != nil && err) {
             *error = err;
@@ -463,7 +463,7 @@
     // doh
     if (kQNGlobalConfiguration.dohEnable) {
         QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-        QNInternalDns *doh = [QNInternalDns dnsWithResolver:dohResolver];
+        InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
         nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:error];
         if (nextFetchHosts.count == 0) {
             return;
@@ -471,7 +471,7 @@
         
         if ([QNIP isIpV6FullySupported]) {
             QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-            QNInternalDns *doh = [QNInternalDns dnsWithResolver:dohResolver];
+            InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
             nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:error];
             if (nextFetchHosts.count == 0) {
                 return;
@@ -482,18 +482,18 @@
     // udp
     if (kQNGlobalConfiguration.udpDnsEnable) {
         QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kQNGlobalConfiguration.udpDnsIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-        QNInternalDns *udpDns = [QNInternalDns dnsWithResolver:udpDnsResolver];
+        InspurInternalDns *udpDns = [InspurInternalDns dnsWithResolver:udpDnsResolver];
         [self preFetchHosts:nextFetchHosts dns:udpDns error:error];
         
         if ([QNIP isIpV6FullySupported]) {
             QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kQNGlobalConfiguration.udpDnsIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
-            QNInternalDns *udpDns = [QNInternalDns dnsWithResolver:udpDnsResolver];
+            InspurInternalDns *udpDns = [InspurInternalDns dnsWithResolver:udpDnsResolver];
             [self preFetchHosts:nextFetchHosts dns:udpDns error:error];
         }
     }
 }
 
-- (NSArray *)preFetchHosts:(NSArray <NSString *> *)preHosts dns:(QNInternalDns *)dns error:(NSError **)error {
+- (NSArray *)preFetchHosts:(NSArray <NSString *> *)preHosts dns:(InspurInternalDns *)dns error:(NSError **)error {
 
     if (!preHosts || preHosts.count == 0) {
         return nil;
@@ -524,7 +524,7 @@
     return [failHosts copy];
 }
 
-- (BOOL)preFetchHost:(NSString *)preHost dns:(QNInternalDns *)dns error:(NSError **)error {
+- (BOOL)preFetchHost:(NSString *)preHost dns:(InspurInternalDns *)dns error:(NSError **)error {
     
     if (!preHost || preHost.length == 0) {
         return NO;
@@ -683,7 +683,7 @@
     }];
     dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     
-    QNZonesInfo *autoZonesInfo = [currentZone getZonesInfoWithToken:token];
+    InspurZonesInfo *autoZonesInfo = [currentZone getZonesInfoWithToken:token];
     NSMutableArray *autoHosts = [NSMutableArray array];
     NSArray *zoneInfoList = autoZonesInfo.zonesInfo;
     for (InspurZoneInfo *info in zoneInfoList) {
@@ -731,16 +731,16 @@
     return _diskCache;
 }
 
-- (QNInternalDns *)customDns {
+- (InspurInternalDns *)customDns {
     if (_customDns == nil && kQNGlobalConfiguration.dns) {
-        _customDns = [QNInternalDns dnsWithDns:kQNGlobalConfiguration.dns];
+        _customDns = [InspurInternalDns dnsWithDns:kQNGlobalConfiguration.dns];
     }
     return _customDns;
 }
 
-- (QNInternalDns *)systemDns {
+- (InspurInternalDns *)systemDns {
     if (_systemDns == nil) {
-        _systemDns = [QNInternalDns dnsWithResolver:[[QNResolver alloc] initWithAddress:nil timeout:self.dnsPrefetchTimeout]];
+        _systemDns = [InspurInternalDns dnsWithResolver:[[QNResolver alloc] initWithAddress:nil timeout:self.dnsPrefetchTimeout]];
     }
     return _systemDns;
 }

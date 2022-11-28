@@ -12,7 +12,7 @@
 #endif
 
 
-#define kQNReporter [InspurUploadInfoReporter sharedInstance]
+#define kInspurReporter [InspurUploadInfoReporter sharedInstance]
 @interface InspurUploadInfoReporter : NSObject
 
 - (id)init __attribute__((unavailable("Use sharedInstance: instead.")));

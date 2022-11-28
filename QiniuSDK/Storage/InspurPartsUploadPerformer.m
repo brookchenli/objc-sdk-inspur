@@ -7,7 +7,7 @@
 //
 
 #import "InspurLogUtil.h"
-#import "QNAsyncRun.h"
+#import "InspurAsyncRun.h"
 #import "InspurUpToken.h"
 #import "InspurZoneInfo.h"
 #import "InspurUploadOption.h"

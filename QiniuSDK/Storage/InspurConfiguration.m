@@ -73,18 +73,18 @@ const UInt32 kQNDefaultDnsCacheTime = 2 * 60;
 
 @end
 
-@interface QNGlobalConfiguration()
+@interface InspurGlobalConfiguration()
 @property(nonatomic, strong)NSArray *defaultDohIpv4Servers;
 @property(nonatomic, strong)NSArray *defaultDohIpv6Servers;
 @property(nonatomic, strong)NSArray *defaultUdpDnsIpv4Servers;
 @property(nonatomic, strong)NSArray *defaultUdpDnsIpv6Servers;
 @end
-@implementation QNGlobalConfiguration
+@implementation InspurGlobalConfiguration
 + (instancetype)shared{
-    static QNGlobalConfiguration *config = nil;
+    static InspurGlobalConfiguration *config = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        config = [[QNGlobalConfiguration alloc] init];
+        config = [[InspurGlobalConfiguration alloc] init];
         [config setupData];
     });
     return config;
