@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kQNDnsPrefetch [InspurDnsPrefetch shared]
+#define kInspurDnsPrefetch [InspurDnsPrefetch shared]
 @interface InspurDnsPrefetch : NSObject
 
 /// 最近一次预取错误信息
@@ -49,17 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define kQNDnsSourceDoh @"doh"
-#define kQNDnsSourceUdp @"dns"
-#define kQNDnsSourceDnspod @"dnspod"
-#define kQNDnsSourceSystem @"system"
-#define kQNDnsSourceCustom @"customized"
-#define kQNDnsSourceNone @"none"
+#define kInspurDnsSourceDoh @"doh"
+#define kInspurDnsSourceUdp @"dns"
+#define kInspurDnsSourceDnspod @"dnspod"
+#define kInspurDnsSourceSystem @"system"
+#define kInspurDnsSourceCustom @"customized"
+#define kInspurDnsSourceNone @"none"
 
-BOOL kQNIsDnsSourceDoh(NSString * _Nullable source);
-BOOL kQNIsDnsSourceUdp(NSString * _Nullable source);
-BOOL kQNIsDnsSourceDnsPod(NSString * _Nullable source);
-BOOL kQNIsDnsSourceSystem(NSString * _Nullable source);
-BOOL kQNIsDnsSourceCustom(NSString * _Nullable source);
+BOOL kInspurIsDnsSourceDoh(NSString * _Nullable source);
+BOOL kInspurIsDnsSourceUdp(NSString * _Nullable source);
+BOOL kInspurIsDnsSourceDnsPod(NSString * _Nullable source);
+BOOL kInspurIsDnsSourceSystem(NSString * _Nullable source);
+BOOL kInspurIsDnsSourceCustom(NSString * _Nullable source);
 
 NS_ASSUME_NONNULL_END

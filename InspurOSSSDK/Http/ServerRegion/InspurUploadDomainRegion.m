@@ -130,7 +130,7 @@
         }
         
         // get address List of host
-        NSArray *inetAddresses = [kQNDnsPrefetch getInetAddressByHost:self.host];
+        NSArray *inetAddresses = [kInspurDnsPrefetch getInetAddressByHost:self.host];
         if (!inetAddresses || inetAddresses.count == 0) {
             return;
         }
@@ -337,7 +337,7 @@
     if (kQNIsHttp3(freezeServer.httpVersion)) {
         if (responseInfo.isNotQiniu) {
             self.hasFreezeHost = YES;
-            [self.partialHttp3Freezer freezeType:frozenType frozenTime:kQNGlobalConfiguration.partialHostFrozenTime];
+            [self.partialHttp3Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.partialHostFrozenTime];
         }
         
         if (!responseInfo.canConnectToHost || responseInfo.isHostUnavailable) {
@@ -352,14 +352,14 @@
     if (responseInfo.isNotQiniu || !responseInfo.canConnectToHost || responseInfo.isHostUnavailable) {
         QNLogInfo(@"partial freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
         self.hasFreezeHost = YES;
-        [self.partialHttp2Freezer freezeType:frozenType frozenTime:kQNGlobalConfiguration.partialHostFrozenTime];
+        [self.partialHttp2Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.partialHostFrozenTime];
     }
     
     // 2.2 Host不可用，全局冻结
     if (responseInfo.isHostUnavailable) {
         QNLogInfo(@"global freeze server host:%@ ip:%@", freezeServer.host, freezeServer.ip);
         self.hasFreezeHost = YES;
-        [kQNUploadGlobalHttp2Freezer freezeType:frozenType frozenTime:kQNGlobalConfiguration.globalHostFrozenTime];
+        [kQNUploadGlobalHttp2Freezer freezeType:frozenType frozenTime:kInspurGlobalConfiguration.globalHostFrozenTime];
     }
 }
 

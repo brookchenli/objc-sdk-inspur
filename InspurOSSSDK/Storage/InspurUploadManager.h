@@ -27,10 +27,10 @@
  *    @param key  上传时指定的key，原样返回
  *    @param resp 上传成功会返回文件信息，失败为nil; 可以通过此值是否为nil 判断上传结果
  */
-typedef void (^InspurUpCompletionHandler)(InspurResponseInfo *info, NSString *key, NSDictionary *resp);
+typedef void (^InspurUpCompletionHandler)(InspurResponseInfo * _Nullable info, NSString *_Nullable key, NSDictionary * _Nullable resp);
 
-typedef void (^InspurUpSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
-typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurUpSignatureResultHandler result);
+typedef void (^InspurUpSignatureResultHandler)(NSString * _Nullable signture, NSError  * _Nullable error);
+typedef void (^InspurUpSignatureHandler)(NSString * _Nullable contentNeedSignature, InspurUpSignatureResultHandler _Nullable result);
 
 
 /**
@@ -88,7 +88,7 @@ typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurU
  *
  *    @param data              待上传的数据
  *    @param key               上传到云存储的key，为nil时表示是由七牛生成
- *    @param token             上传需要的token, 由服务器生成
+ *    @param bucket             bucket名称
  *    @param completionHandler 上传完成后的回调函数
  *    @param option            上传时传入的可选参数
  */
@@ -99,28 +99,6 @@ typedef void (^InspurUpSignatureHandler)(NSString *contentNeedSignature, InspurU
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
-
-
-/**
- *    上传数据流
- *
- *    @param inputStream 数据流
- *    @param sourceId 数据 id; 用于断点续传的标识
- *    @param size 流大小，主要用来计算上传进度，不能预知大小传 -1
- *    @param fileName 文件名
- *    @param key 上传到云存储的key，为nil时表示是由七牛生成
- *    @param token 上传需要的token, 由服务器生成
- *    @param completionHandler 上传完成后的回调函数
- *    @param option 上传时传入的可选参数
- */
-- (void)putInputStream:(NSInputStream *)inputStream
-              sourceId:(NSString *)sourceId
-                  size:(long long)size
-              fileName:(NSString *)fileName
-                   key:(NSString *)key
-                 token:(NSString *)token
-              complete:(InspurUpCompletionHandler)completionHandler
-                option:(InspurUploadOption *)option;
 
 /**
  *    上传文件

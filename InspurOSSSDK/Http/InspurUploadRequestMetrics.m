@@ -90,11 +90,11 @@
 }
 
 - (BOOL)isForsureHijacked {
-    return [self.hijacked isEqualToString:kQNMetricsRequestHijacked];
+    return [self.hijacked isEqualToString:kInspurMetricsRequestHijacked];
 }
 
 - (BOOL)isMaybeHijacked {
-    return [self.hijacked isEqualToString:kQNMetricsRequestMaybeHijacked];
+    return [self.hijacked isEqualToString:kInspurMetricsRequestMaybeHijacked];
 }
 
 - (NSNumber *)totalElapsedTime{

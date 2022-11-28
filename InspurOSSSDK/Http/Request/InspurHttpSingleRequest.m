@@ -149,12 +149,12 @@
         responseDic = responseInfo.responseDictionary;
         
         /*
-        BOOL isSafeDnsSource = kQNIsDnsSourceCustom(server.source) || kQNIsDnsSourceDoh(server.source) || kQNIsDnsSourceDnsPod(server.source);
+        BOOL isSafeDnsSource = kInspurIsDnsSourceCustom(server.source) || kInspurIsDnsSourceDoh(server.source) || kInspurIsDnsSourceDnsPod(server.source);
         BOOL hijacked = responseInfo.isNotQiniu && !isSafeDnsSource;
         if (hijacked) {
-            metrics.hijacked = kQNMetricsRequestHijacked;
+            metrics.hijacked = kInspurMetricsRequestHijacked;
             NSError *err = nil;
-            metrics.syncDnsSource = [kQNDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
+            metrics.syncDnsSource = [kInspurDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
             metrics.syncDnsError = err;
         }
         */
@@ -168,9 +168,9 @@
                 NSString *message = [NSString stringWithFormat:@"check origin statusCode:%d error:%@", responseInfo.statusCode, responseInfo.error];
                 responseInfo = [QNResponseInfo errorResponseInfo:NSURLErrorNotConnectedToInternet errorDesc:message];
             } else if (!isSafeDnsSource) {
-                metrics.hijacked = kQNMetricsRequestMaybeHijacked;
+                metrics.hijacked = kInspurMetricsRequestMaybeHijacked;
                 NSError *err = nil;
-                [kQNDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
+                [kInspurDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
                 metrics.syncDnsError = err;
             }
         }
@@ -193,7 +193,7 @@
 }
 
 - (BOOL)shouldCheckConnect:(InspurResponseInfo *)responseInfo {
-    if (!kQNGlobalConfiguration.connectCheckEnable) {
+    if (!kInspurGlobalConfiguration.connectCheckEnable) {
         return NO;
     }
     
@@ -298,11 +298,11 @@
         NSInteger prefetchTime = currentTimestamp/1000 - [server.ipPrefetchedTime integerValue];
         [item setReportValue:@(prefetchTime) forKey:InspurReportRequestKeyPrefetchedBefore];
     }
-    [item setReportValue:kQNDnsPrefetch.lastPrefetchedErrorMessage forKey:InspurReportRequestKeyPrefetchedErrorMessage];
+    [item setReportValue:kInspurDnsPrefetch.lastPrefetchedErrorMessage forKey:InspurReportRequestKeyPrefetchedErrorMessage];
     
     [item setReportValue:requestMetricsP.httpVersion forKey:InspurReportRequestKeyHttpVersion];
 
-    if (!kQNGlobalConfiguration.connectCheckEnable) {
+    if (!kInspurGlobalConfiguration.connectCheckEnable) {
         [item setReportValue:@"disable" forKey:InspurReportRequestKeyNetworkMeasuring];
     } else if (requestMetricsP.connectCheckMetrics) {
         InspurUploadSingleRequestMetrics *metrics = requestMetricsP.connectCheckMetrics;

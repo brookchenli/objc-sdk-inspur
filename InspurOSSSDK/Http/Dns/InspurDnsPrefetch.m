@@ -75,7 +75,7 @@
         if ([address respondsToSelector:@selector(sourceValue)] && [address sourceValue]) {
             dic[@"sourceValue"] = [address sourceValue];
         } else {
-            dic[@"sourceValue"] = kQNDnsSourceCustom;
+            dic[@"sourceValue"] = kInspurDnsSourceCustom;
         }
         if ([address respondsToSelector:@selector(timestampValue)] && [address timestampValue]) {
             dic[@"timestampValue"] = [address timestampValue];
@@ -107,7 +107,7 @@
         return NO;
     }
     NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
-    return currentTimestamp < (self.timestampValue.doubleValue + kQNGlobalConfiguration.dnsCacheMaxTTL);
+    return currentTimestamp < (self.timestampValue.doubleValue + kInspurGlobalConfiguration.dnsCacheMaxTTL);
 }
 
 - (NSString *)toJsonInfo{
@@ -159,17 +159,17 @@
 }
 - (NSString *)sourceValue{
     if (self.source == QNRecordSourceSystem) {
-        return kQNDnsSourceSystem;
+        return kInspurDnsSourceSystem;
     } else if (self.source == QNRecordSourceDoh) {
-        return [NSString stringWithFormat:@"%@<%@>", kQNDnsSourceDoh, self.server];
+        return [NSString stringWithFormat:@"%@<%@>", kInspurDnsSourceDoh, self.server];
     } else if (self.source == QNRecordSourceUdp) {
-        return [NSString stringWithFormat:@"%@<%@>", kQNDnsSourceUdp, self.server];
+        return [NSString stringWithFormat:@"%@<%@>", kInspurDnsSourceUdp, self.server];
     } else if (self.source == QNRecordSourceDnspodEnterprise) {
-        return kQNDnsSourceDnspod;
+        return kInspurDnsSourceDnspod;
     } else if (self.ipValue == nil || self.ipValue.length == 0) {
-        return kQNDnsSourceNone;
+        return kInspurDnsSourceNone;
     } else {
-        return kQNDnsSourceCustom;
+        return kInspurDnsSourceCustom;
     }
 }
 @end
@@ -262,7 +262,7 @@
     id <InspurRecorderDelegate> recorder = nil;
     
     NSError *error;
-    recorder = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
+    recorder = [InspurDnsCacheFile dnsCacheFile:kInspurGlobalConfiguration.dnsCacheDir
                                       error:&error];
     if (error) {
         return YES;
@@ -385,14 +385,14 @@
         return [self getInetAddressByHost:host].firstObject.sourceValue;
     }
     
-    if (!kQNGlobalConfiguration.dohEnable) {
+    if (!kInspurGlobalConfiguration.dohEnable) {
         if (error != nil && err) {
             *error = err;
         }
         return nil;
     }
     
-    QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+    QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kInspurGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
     InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
     nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:&err];
     if (nextFetchHosts.count == 0) {
@@ -403,7 +403,7 @@
     }
     
     if ([QNIP isIpV6FullySupported]) {
-        QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+        QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kInspurGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
         InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
         nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:&err];
         if (error != nil && err) {
@@ -461,8 +461,8 @@
     }
     
     // doh
-    if (kQNGlobalConfiguration.dohEnable) {
-        QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+    if (kInspurGlobalConfiguration.dohEnable) {
+        QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kInspurGlobalConfiguration.dohIpv4Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
         InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
         nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:error];
         if (nextFetchHosts.count == 0) {
@@ -470,7 +470,7 @@
         }
         
         if ([QNIP isIpV6FullySupported]) {
-            QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kQNGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+            QNDohResolver *dohResolver = [QNDohResolver resolverWithServers:kInspurGlobalConfiguration.dohIpv6Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
             InspurInternalDns *doh = [InspurInternalDns dnsWithResolver:dohResolver];
             nextFetchHosts = [self preFetchHosts:nextFetchHosts dns:doh error:error];
             if (nextFetchHosts.count == 0) {
@@ -480,13 +480,13 @@
     }
     
     // udp
-    if (kQNGlobalConfiguration.udpDnsEnable) {
-        QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kQNGlobalConfiguration.udpDnsIpv4Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+    if (kInspurGlobalConfiguration.udpDnsEnable) {
+        QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kInspurGlobalConfiguration.udpDnsIpv4Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
         InspurInternalDns *udpDns = [InspurInternalDns dnsWithResolver:udpDnsResolver];
         [self preFetchHosts:nextFetchHosts dns:udpDns error:error];
         
         if ([QNIP isIpV6FullySupported]) {
-            QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kQNGlobalConfiguration.udpDnsIpv6Servers recordType:kQNTypeA timeout:kQNGlobalConfiguration.dnsResolveTimeout];
+            QNDnsUdpResolver *udpDnsResolver = [QNDnsUdpResolver resolverWithServerIPs:kInspurGlobalConfiguration.udpDnsIpv6Servers recordType:kQNTypeA timeout:kInspurGlobalConfiguration.dnsResolveTimeout];
             InspurInternalDns *udpDns = [InspurInternalDns dnsWithResolver:udpDnsResolver];
             [self preFetchHosts:nextFetchHosts dns:udpDns error:error];
         }
@@ -503,7 +503,7 @@
         return [preHosts copy];
     }
     
-    int dnsRepreHostNum = kQNGlobalConfiguration.dnsRepreHostNum;
+    int dnsRepreHostNum = kInspurGlobalConfiguration.dnsRepreHostNum;
     NSMutableArray *failHosts = [NSMutableArray array];
     for (NSString *host in preHosts) {
         int rePreNum = 0;
@@ -607,7 +607,7 @@
     }
 
     NSError *error;
-    id <InspurRecorderDelegate> recorder = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir
+    id <InspurRecorderDelegate> recorder = [InspurDnsCacheFile dnsCacheFile:kInspurGlobalConfiguration.dnsCacheDir
                                                              error:&error];
     if (error) {
         return NO;
@@ -697,7 +697,7 @@
 
 //MARK: --
 - (BOOL)isDnsOpen{
-    return [kQNGlobalConfiguration isDnsOpen];
+    return [kInspurGlobalConfiguration isDnsOpen];
 }
 
 - (InspurDnsCacheInfo *)dnsCacheInfo{
@@ -723,7 +723,7 @@
 - (InspurDnsCacheFile *)diskCache {
     if (!_diskCache) {
         NSError *error;
-        InspurDnsCacheFile *cache = [InspurDnsCacheFile dnsCacheFile:kQNGlobalConfiguration.dnsCacheDir error:&error];
+        InspurDnsCacheFile *cache = [InspurDnsCacheFile dnsCacheFile:kInspurGlobalConfiguration.dnsCacheDir error:&error];
         if (!error) {
             _diskCache = cache;
         }
@@ -732,8 +732,8 @@
 }
 
 - (InspurInternalDns *)customDns {
-    if (_customDns == nil && kQNGlobalConfiguration.dns) {
-        _customDns = [InspurInternalDns dnsWithDns:kQNGlobalConfiguration.dns];
+    if (_customDns == nil && kInspurGlobalConfiguration.dns) {
+        _customDns = [InspurInternalDns dnsWithDns:kInspurGlobalConfiguration.dns];
     }
     return _customDns;
 }
@@ -762,7 +762,7 @@
 
 - (void)addDnsLocalLoadTransaction{
     
-    if ([kQNDnsPrefetch isDnsOpen] == NO) {
+    if ([kInspurDnsPrefetch isDnsOpen] == NO) {
         return;
     }
 
@@ -771,8 +771,8 @@
         
         InspurTransaction *transaction = [InspurTransaction transaction:kQNLoadLocalDnsTransactionName after:0 action:^{
             
-            [kQNDnsPrefetch recoverCache];
-            [kQNDnsPrefetch localFetch];
+            [kInspurDnsPrefetch recoverCache];
+            [kInspurDnsPrefetch localFetch];
         }];
         [[InspurTransactionManager shared] addTransaction:transaction];
         [self setDnsCheckWhetherCachedValidTransactionAction];
@@ -784,19 +784,19 @@
         return NO;
     }
     
-    if ([kQNDnsPrefetch isDnsOpen] == NO) {
+    if ([kInspurDnsPrefetch isDnsOpen] == NO) {
         return NO;
     }
     
     BOOL ret = NO;
-    @synchronized (kQNDnsPrefetch) {
+    @synchronized (kInspurDnsPrefetch) {
         
         InspurTransactionManager *transactionManager = [InspurTransactionManager shared];
         
         if (![transactionManager existTransactionsForName:token.token]) {
             InspurTransaction *transaction = [InspurTransaction transaction:token.token after:0 action:^{
                
-                [kQNDnsPrefetch checkAndPrefetchDnsIfNeed:currentZone token:token];
+                [kInspurDnsPrefetch checkAndPrefetchDnsIfNeed:currentZone token:token];
             }];
             [transactionManager addTransaction:transaction];
             
@@ -808,11 +808,11 @@
 
 - (void)setDnsCheckWhetherCachedValidTransactionAction{
 
-    if ([kQNDnsPrefetch isDnsOpen] == NO) {
+    if ([kInspurDnsPrefetch isDnsOpen] == NO) {
         return;
     }
     
-    @synchronized (kQNDnsPrefetch) {
+    @synchronized (kInspurDnsPrefetch) {
         
         InspurTransactionManager *transactionManager = [InspurTransactionManager shared];
         InspurTransaction *transaction = [transactionManager transactionsForName:kQNDnsCheckAndPrefetchTransactionName].firstObject;
@@ -823,7 +823,7 @@
                                                                   after:10
                                                                interval:120
                                                                  action:^{
-                [kQNDnsPrefetch checkWhetherCachedDnsValid];
+                [kInspurDnsPrefetch checkWhetherCachedDnsValid];
             }];
             [transactionManager addTransaction:transaction];
         } else {
@@ -834,22 +834,22 @@
 
 @end
 
-BOOL kQNIsDnsSourceDoh(NSString * _Nullable source) {
-    return [source containsString:kQNDnsSourceDoh];
+BOOL kInspurIsDnsSourceDoh(NSString * _Nullable source) {
+    return [source containsString:kInspurDnsSourceDoh];
 }
 
-BOOL kQNIsDnsSourceUdp(NSString * _Nullable source) {
-    return [source containsString:kQNDnsSourceUdp];
+BOOL kInspurIsDnsSourceUdp(NSString * _Nullable source) {
+    return [source containsString:kInspurDnsSourceUdp];
 }
 
-BOOL kQNIsDnsSourceDnsPod(NSString * _Nullable source) {
-    return [source containsString:kQNDnsSourceDnspod];
+BOOL kInspurIsDnsSourceDnsPod(NSString * _Nullable source) {
+    return [source containsString:kInspurDnsSourceDnspod];
 }
 
-BOOL kQNIsDnsSourceSystem(NSString * _Nullable source) {
-    return [source containsString:kQNDnsSourceSystem];
+BOOL kInspurIsDnsSourceSystem(NSString * _Nullable source) {
+    return [source containsString:kInspurDnsSourceSystem];
 }
 
-BOOL kQNIsDnsSourceCustom(NSString * _Nullable source) {
-    return [source containsString:kQNDnsSourceCustom];
+BOOL kInspurIsDnsSourceCustom(NSString * _Nullable source) {
+    return [source containsString:kInspurDnsSourceCustom];
 }

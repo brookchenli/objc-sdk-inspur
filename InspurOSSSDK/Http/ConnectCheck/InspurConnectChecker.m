@@ -75,7 +75,7 @@
     __block int completeCount = 0;
     __block BOOL isCompleted = false;
     kInspurWeakSelf;
-    NSArray *allHosts = [kQNGlobalConfiguration.connectCheckURLStrings copy];
+    NSArray *allHosts = [kInspurGlobalConfiguration.connectCheckURLStrings copy];
     for (NSString *host in allHosts) {
         [self checkHost:host complete:^(InspurUploadSingleRequestMetrics *metrics) {
             kInspurStrongSelf;
@@ -107,7 +107,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     request.URL = [NSURL URLWithString:host];
     request.HTTPMethod = @"HEAD";
-    request.timeoutInterval = kQNGlobalConfiguration.connectCheckTimeout;
+    request.timeoutInterval = kInspurGlobalConfiguration.connectCheckTimeout;
     
     __block BOOL hasCallback = false;
     
@@ -126,7 +126,7 @@
         complete(metrics);
     }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * kQNGlobalConfiguration.connectCheckTimeout), [self checkQueue], ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * kInspurGlobalConfiguration.connectCheckTimeout), [self checkQueue], ^{
         @synchronized (self) {
             if (hasCallback) {
                 return;

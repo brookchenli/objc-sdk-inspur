@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-#define kQNMetricsRequestHijacked @"forsure"
-#define kQNMetricsRequestMaybeHijacked @"maybe"
+#define kInspurMetricsRequestHijacked @"forsure"
+#define kInspurMetricsRequestMaybeHijacked @"maybe"
 
 @interface InspurUploadSingleRequestMetrics : InspurUploadMetrics
 

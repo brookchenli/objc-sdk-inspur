@@ -144,7 +144,7 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 @end
 
 
-#define kQNGlobalConfiguration [InspurGlobalConfiguration shared]
+#define kInspurGlobalConfiguration [InspurGlobalConfiguration shared]
 @interface InspurGlobalConfiguration : NSObject
 
 /**

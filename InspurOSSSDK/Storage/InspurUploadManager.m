@@ -169,25 +169,6 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     });
 }
 
-
-- (void)putInputStream:(NSInputStream *)inputStream
-              sourceId:(NSString *)sourceId
-                  size:(long long)size
-              fileName:(NSString *)fileName
-                   key:(NSString *)key
-                 token:(NSString *)token
-              complete:(InspurUpCompletionHandler)completionHandler
-                option:(InspurUploadOption *)option {
-    
-    if ([InspurUploadManager checkAndNotifyError:key token:token input:inputStream complete:completionHandler]) {
-        return;
-    }
-
-    @autoreleasepool {
-        //QNUploadSourceStream *source = [QNUploadSourceStream stream:inputStream sourceId:sourceId size:size fileName:fileName];
-        //[self putInternal:source key:key token:token complete:completionHandler option:option];
-    }
-}
 - (void)putFile:(NSString *)filePath
          bucket:(NSString *)bucket
             key:(NSString *)key

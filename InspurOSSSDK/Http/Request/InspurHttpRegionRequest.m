@@ -164,7 +164,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
         [self.requestMetrics addMetricsList:metrics];
         
         BOOL hijacked = metrics.lastObject.isMaybeHijacked || metrics.lastObject.isForsureHijacked;
-        BOOL isSafeDnsSource = kQNIsDnsSourceCustom(metrics.lastObject.syncDnsSource) || kQNIsDnsSourceDoh(metrics.lastObject.syncDnsSource) || kQNIsDnsSourceDnsPod(metrics.lastObject.syncDnsSource);
+        BOOL isSafeDnsSource = kInspurIsDnsSourceCustom(metrics.lastObject.syncDnsSource) || kInspurIsDnsSourceDoh(metrics.lastObject.syncDnsSource) || kInspurIsDnsSourceDnsPod(metrics.lastObject.syncDnsSource);
         BOOL hijackedAndNeedRetry = hijacked && isSafeDnsSource;
         if (hijackedAndNeedRetry) {
             [self.region updateIpListFormHost:server.host];

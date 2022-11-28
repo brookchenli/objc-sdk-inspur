@@ -160,7 +160,7 @@
     // dns 配置
     if (config.dnsConfig.enable) {
         QNLogDebug(@"server config: dns enable %@", config.dnsConfig.enable);
-        kQNGlobalConfiguration.isDnsOpen = [config.dnsConfig.enable boolValue];
+        kInspurGlobalConfiguration.isDnsOpen = [config.dnsConfig.enable boolValue];
     }
     
     // 清理 dns 缓存
@@ -168,40 +168,40 @@
         config.dnsConfig.clearId > self.cache.config.dnsConfig.clearId &&
         config.dnsConfig.clearCache) {
         QNLogDebug(@"server config: clear dns cache");
-        [kQNDnsPrefetch clearDnsCache:nil];
+        [kInspurDnsPrefetch clearDnsCache:nil];
     }
     
     // udp 配置
     if (config.dnsConfig.udpConfig.enable) {
         QNLogDebug(@"server config: udp enable %@", config.dnsConfig.udpConfig.enable);
-        kQNGlobalConfiguration.udpDnsEnable = [config.dnsConfig.udpConfig.enable boolValue];
+        kInspurGlobalConfiguration.udpDnsEnable = [config.dnsConfig.udpConfig.enable boolValue];
     }
     
     if (config.dnsConfig.udpConfig.ipv4Server.isOverride &&
         [config.dnsConfig.udpConfig.ipv4Server.servers isKindOfClass:[NSArray class]]) {
         QNLogDebug(@"server config: udp config ipv4Server %@", config.dnsConfig.udpConfig.ipv4Server.servers);
-        kQNGlobalConfiguration.defaultUdpDnsIpv4Servers = [config.dnsConfig.udpConfig.ipv4Server.servers copy];
+        kInspurGlobalConfiguration.defaultUdpDnsIpv4Servers = [config.dnsConfig.udpConfig.ipv4Server.servers copy];
     }
     if (config.dnsConfig.udpConfig.ipv6Server.isOverride &&
         [config.dnsConfig.udpConfig.ipv6Server.servers isKindOfClass:[NSArray class]]) {
         QNLogDebug(@"server config: udp config ipv6Server %@", config.dnsConfig.udpConfig.ipv6Server.servers);
-        kQNGlobalConfiguration.defaultUdpDnsIpv6Servers = [config.dnsConfig.udpConfig.ipv6Server.servers copy];
+        kInspurGlobalConfiguration.defaultUdpDnsIpv6Servers = [config.dnsConfig.udpConfig.ipv6Server.servers copy];
     }
     
     // doh 配置
     if (config.dnsConfig.dohConfig.enable) {
-        kQNGlobalConfiguration.dohEnable = [config.dnsConfig.dohConfig.enable boolValue];
+        kInspurGlobalConfiguration.dohEnable = [config.dnsConfig.dohConfig.enable boolValue];
         QNLogDebug(@"server config: doh enable %@", config.dnsConfig.dohConfig.enable);
     }
     if (config.dnsConfig.dohConfig.ipv4Server.isOverride &&
         [config.dnsConfig.dohConfig.ipv4Server.servers isKindOfClass:[NSArray class]]) {
         QNLogDebug(@"server config: doh config ipv4Server %@", config.dnsConfig.dohConfig.ipv4Server.servers);
-        kQNGlobalConfiguration.defaultDohIpv4Servers = [config.dnsConfig.dohConfig.ipv4Server.servers copy];
+        kInspurGlobalConfiguration.defaultDohIpv4Servers = [config.dnsConfig.dohConfig.ipv4Server.servers copy];
     }
     if (config.dnsConfig.dohConfig.ipv6Server.isOverride &&
         [config.dnsConfig.dohConfig.ipv6Server.servers isKindOfClass:[NSArray class]]) {
         QNLogDebug(@"server config: doh config ipv6Server %@", config.dnsConfig.dohConfig.ipv6Server.servers);
-        kQNGlobalConfiguration.defaultDohIpv6Servers = [config.dnsConfig.dohConfig.ipv6Server.servers copy];
+        kInspurGlobalConfiguration.defaultDohIpv6Servers = [config.dnsConfig.dohConfig.ipv6Server.servers copy];
     }
 }
 
@@ -211,7 +211,7 @@
     }
     if (config.networkCheckEnable) {
         QNLogDebug(@"server config: connect check enable %@", config.networkCheckEnable);
-        kQNGlobalConfiguration.connectCheckEnable = [config.networkCheckEnable boolValue];
+        kInspurGlobalConfiguration.connectCheckEnable = [config.networkCheckEnable boolValue];
     }
 }
 
