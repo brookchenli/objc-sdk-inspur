@@ -23,7 +23,7 @@
 
 
 //MARK: -- 缓存模型
-@interface QNDnsNetworkAddress : NSObject<InspurIDnsNetworkAddress>
+@interface InspurDnsNetworkAddress : NSObject<InspurIDnsNetworkAddress>
 
 @property(nonatomic,   copy)NSString *hostValue;
 @property(nonatomic,   copy)NSString *ipValue;
@@ -44,7 +44,7 @@
 - (NSDictionary *)toDictionary;
 
 @end
-@implementation QNDnsNetworkAddress
+@implementation InspurDnsNetworkAddress
 
 + (instancetype)inetAddress:(id)addressInfo{
     
@@ -84,7 +84,7 @@
     }
     
     if (addressDic) {
-        QNDnsNetworkAddress *address = [[QNDnsNetworkAddress alloc] init];
+        InspurDnsNetworkAddress *address = [[InspurDnsNetworkAddress alloc] init];
         [address setValuesForKeysWithDictionary:addressDic];
         return address;
     } else {
@@ -142,9 +142,9 @@
 
 
 //MARK: -- HappyDNS 适配
-@interface QNRecord(DNS)<InspurIDnsNetworkAddress>
+@interface QNRecord(InspurDNS)<InspurIDnsNetworkAddress>
 @end
-@implementation QNRecord(DNS)
+@implementation QNRecord(InspurDNS)
 - (NSString *)hostValue{
     return nil;
 }
@@ -232,7 +232,7 @@
 @property(nonatomic, strong)NSMutableSet *prefetchHosts;
 /// 缓存DNS解析结果
 /// 线程安全：内部方法均是在同一线程执行，读写不必加锁，对外开放接口读操作 需要和内部写操作枷锁
-@property(nonatomic, strong)NSMutableDictionary <NSString *, NSArray<QNDnsNetworkAddress *>*> *addressDictionary;
+@property(nonatomic, strong)NSMutableDictionary <NSString *, NSArray<InspurDnsNetworkAddress *>*> *addressDictionary;
 @property(nonatomic, strong)InspurDnsCacheFile *diskCache;
 
 @end
@@ -343,7 +343,7 @@
     
     [self clearDnsCacheIfNeeded];
     
-    NSArray <QNDnsNetworkAddress *> *addressList = nil;
+    NSArray <InspurDnsNetworkAddress *> *addressList = nil;
     @synchronized (self) {
         addressList = self.addressDictionary[host];
     }
@@ -534,7 +534,7 @@
     @synchronized (self) {
         addressDictionary = [self.addressDictionary copy];
     }
-    NSArray<QNDnsNetworkAddress *>* preAddressList = addressDictionary[preHost];
+    NSArray<InspurDnsNetworkAddress *>* preAddressList = addressDictionary[preHost];
     if (preAddressList && ![preAddressList.firstObject needRefresh]) {
         return YES;
     }
@@ -543,7 +543,7 @@
     if (addressList && addressList.count > 0) {
         NSMutableArray *addressListP = [NSMutableArray array];
         for (id <InspurIDnsNetworkAddress>inetAddress in addressList) {
-            QNDnsNetworkAddress *address = [QNDnsNetworkAddress inetAddress:inetAddress];
+            InspurDnsNetworkAddress *address = [InspurDnsNetworkAddress inetAddress:inetAddress];
             if (address) {
                 address.hostValue = preHost;
                 if (!address.ttlValue) {
@@ -576,11 +576,11 @@
         NSArray *ips = dataDic[key];
         if ([ips isKindOfClass:[NSArray class]]) {
             
-            NSMutableArray <QNDnsNetworkAddress *> * addressList = [NSMutableArray array];
+            NSMutableArray <InspurDnsNetworkAddress *> * addressList = [NSMutableArray array];
             
             for (NSDictionary *ipInfo in ips) {
                 if ([ipInfo isKindOfClass:[NSDictionary class]]) {
-                    QNDnsNetworkAddress *address = [QNDnsNetworkAddress inetAddress:ipInfo];
+                    InspurDnsNetworkAddress *address = [InspurDnsNetworkAddress inetAddress:ipInfo];
                     if (address) {
                         [addressList addObject:address];
                     }
@@ -623,7 +623,7 @@
         NSArray *addressModelList = addressDictionary[key];
         NSMutableArray * addressDicList = [NSMutableArray array];
 
-        for (QNDnsNetworkAddress *ipInfo in addressModelList) {
+        for (InspurDnsNetworkAddress *ipInfo in addressModelList) {
             NSDictionary *addressDic = [ipInfo toDictionary];
             if (addressDic) {
                 [addressDicList addObject:addressDic];
@@ -706,7 +706,7 @@
     }
     return _dnsCacheInfo;
 }
-- (NSMutableDictionary<NSString *,NSArray<QNDnsNetworkAddress *> *> *)addressDictionary{
+- (NSMutableDictionary<NSString *,NSArray<InspurDnsNetworkAddress *> *> *)addressDictionary{
     if (_addressDictionary == nil) {
         _addressDictionary = [NSMutableDictionary dictionary];
     }

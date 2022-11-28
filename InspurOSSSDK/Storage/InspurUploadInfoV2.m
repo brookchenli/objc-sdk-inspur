@@ -286,7 +286,7 @@
         return nil;
     }
 
-    NSString *md5 = [dataBytes qn_md5];
+    NSString *md5 = [dataBytes inspur_md5];
     // 判断当前 block 的数据是否和实际数据吻合，不吻合则之前 block 被抛弃，重新创建 block
     if (dataBytes.length != data.size || data.md5 == nil || ![data.md5 isEqualToString:md5]) {
         data = [[InspurUploadData alloc] initWithOffset:data.offset dataSize:dataBytes.length index:data.index];
@@ -295,9 +295,9 @@
 
     if (data.etag == nil || data.etag.length == 0) {
         data.data = dataBytes;
-        data.state = QNUploadStateWaitToUpload;
+        data.state = InspurUploadStateWaitToUpload;
     } else {
-        data.state = QNUploadStateComplete;
+        data.state = InspurUploadStateComplete;
     }
 
     return data;
@@ -310,7 +310,7 @@
     
     NSMutableArray *infoArray = [NSMutableArray array];
     [self.dataList enumerateObjectsUsingBlock:^(InspurUploadData *data, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (data.state == QNUploadStateComplete && data.etag != nil) {
+        if (data.state == InspurUploadStateComplete && data.etag != nil) {
             [infoArray addObject:@{@"etag" : data.etag,
                                    @"partNumber" : @([self getPartIndexOfData:data])}];
         }

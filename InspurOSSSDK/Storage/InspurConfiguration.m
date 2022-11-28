@@ -156,7 +156,6 @@ const UInt32 kInspurDefaultDnsCacheTime = 2 * 60;
 
 - (instancetype)init {
     if (self = [super init]) {
-        //_zone = [[QNAutoZone alloc] init];
         _zone = [InspurFixedZone north3];
         _chunkSize = 5 * 1024 * 1024;
         _putThreshold = 5 * 1024 * 1024;

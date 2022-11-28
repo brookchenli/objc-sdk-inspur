@@ -69,7 +69,7 @@
 }
 
 - (instancetype)initWithRecorder:(id<InspurRecorderDelegate>)recorder
-            recorderKeyGenerator:(QNRecorderKeyGenerator)recorderKeyGenerator {
+            recorderKeyGenerator:(InspurRecorderKeyGenerator)recorderKeyGenerator {
     InspurConfiguration *config = [InspurConfiguration build:^(InspurConfigurationBuilder *builder) {
         builder.recorder = recorder;
         builder.recorderKeyGen = recorderKeyGenerator;
@@ -127,7 +127,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     InspurUpToken *t = [[InspurUpToken alloc] initBucket:bucket
                                         deadLine:deadLine
                                        accessKey:accessKey];
-    t.signatureHandler = ^(NSString *contentNeedSignature, QNUpTokenSignatureResultHandler result) {
+    t.signatureHandler = ^(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result) {
         signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
             result(signature, error);
         });
@@ -148,7 +148,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     InspurServerConfigMonitor.token = [t toString];
     [[InspurTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
     
-    QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
+    InspurUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
         [InspurUploadManager complete:[t toString]
                               key:key
                            source:data
@@ -320,7 +320,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
         InspurUpToken *t = [[InspurUpToken alloc] initBucket:bucket
                                             deadLine:deadLine
                                            accessKey:accessKey];
-        t.signatureHandler = ^(NSString *contentNeedSignature, QNUpTokenSignatureResultHandler result) {
+        t.signatureHandler = ^(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result) {
             signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
                 result(signature, error);
             });
@@ -339,7 +339,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
         }
 
 
-        QNUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
+        InspurUpTaskCompletionHandler complete = ^(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp) {
             [InspurUploadManager complete:[t toString]
                                   key:key
                                source:source
@@ -348,9 +348,6 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                           taskMetrics:metrics
                              complete:completionHandler];
         };
-
-        //QNServerConfigMonitor.token = [t toString];
-        //[[QNTransactionManager shared] addDnsCheckAndPrefetchTransaction:self.config.zone token:t];
 
         long long sourceSize = [source getSize];
         if (sourceSize > 0 && sourceSize <= self.config.putThreshold) {
@@ -439,11 +436,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     } else if ([input isKindOfClass:[NSData class]] && [(NSData *)input length] == 0) {
         info = [InspurResponseInfo responseInfoOfZeroData:@"no input data"];
     }
-    /*
-    else if (token == nil || [token isEqual:[NSNull null]] || [token isEqualToString:@""]) {
-        info = [QNResponseInfo responseInfoWithInvalidToken:@"no token"];
-    }
-     */
+    
     if (info != nil) {
         [InspurUploadManager complete:token
                               key:key
@@ -465,8 +458,6 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
         response:(NSDictionary *)response
      taskMetrics:(InspurUploadTaskMetrics *)taskMetrics
         complete:(InspurUpCompletionHandler)completionHandler {
-    
-    //[QNUploadManager reportQuality:key source:source responseInfo:responseInfo taskMetrics:taskMetrics token:token];
     
     InspurAsyncRunInMain(^{
         if (completionHandler) {

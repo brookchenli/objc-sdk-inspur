@@ -66,7 +66,7 @@
     InspurUploadData *data = nil;
     @synchronized (self) {
         data = [uploadInfo nextUploadData:&error];
-        data.state = QNUploadStateUploading;
+        data.state = InspurUploadStateUploading;
     }
     
     if (error) {
@@ -111,11 +111,11 @@
         etag = [etag stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         if (responseInfo.isOK && etag) {
             data.etag = etag;
-            data.state = QNUploadStateComplete;
+            data.state = InspurUploadStateComplete;
             [self recordUploadInfo];
             [self notifyProgress:false];
         } else {
-            data.state = QNUploadStateWaitToUpload;
+            data.state = InspurUploadStateWaitToUpload;
         }
         completeHandler(NO, responseInfo, metrics, response);
         [self destroyUploadRequestTransaction:transaction];

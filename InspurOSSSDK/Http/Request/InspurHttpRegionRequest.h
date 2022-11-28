@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, InspurUploadRegionRequestMetrics;
 
-typedef void(^QNRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
+typedef void(^InspurRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response);
 
 @interface InspurHttpRegionRequest : NSObject
 
@@ -34,14 +34,14 @@ typedef void(^QNRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable res
 - (void)get:(NSString * _Nullable)action
     headers:(NSDictionary * _Nullable)headers
 shouldRetry:(BOOL(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))shouldRetry
-   complete:(QNRegionRequestCompleteHandler)complete;
+   complete:(InspurRegionRequestCompleteHandler)complete;
 
 - (void)post:(NSString * _Nullable)action
      headers:(NSDictionary * _Nullable)headers
         body:(NSData * _Nullable)body
  shouldRetry:(BOOL(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))shouldRetry
     progress:(void(^_Nullable)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-    complete:(QNRegionRequestCompleteHandler)complete;
+    complete:(InspurRegionRequestCompleteHandler)complete;
 
 
 - (void)put:(NSString *)action
@@ -49,7 +49,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary *
        body:(NSData * _Nullable)body
 shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
    progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-   complete:(QNRegionRequestCompleteHandler)complete;
+   complete:(InspurRegionRequestCompleteHandler)complete;
 
 @end
 

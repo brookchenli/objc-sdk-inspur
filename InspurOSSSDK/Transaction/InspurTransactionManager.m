@@ -10,14 +10,14 @@
 #import "InspurTransactionManager.h"
 
 //MARK: -- 事务对象
-typedef NS_ENUM(NSInteger, QNTransactionType){
-    QNTransactionTypeNormal, // 普通类型事务，事务体仅会执行一次
-    QNTransactionTypeTime, // 定时事务，事务体会定时执行
+typedef NS_ENUM(NSInteger, InspurTransactionType){
+    InspurTransactionTypeNormal, // 普通类型事务，事务体仅会执行一次
+    InspurTransactionTypeTime, // 定时事务，事务体会定时执行
 };
 
 @interface InspurTransaction()
 // 事务类型
-@property(nonatomic, assign)QNTransactionType type;
+@property(nonatomic, assign)InspurTransactionType type;
 // 定时任务执行时间间隔
 @property(nonatomic, assign)NSInteger interval;
 // 事务延后时间 单位：秒
@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
                       after:(NSInteger)after
                      action:(void (^)(void))action{
     InspurTransaction *transaction = [[InspurTransaction alloc] init];
-    transaction.type = QNTransactionTypeNormal;
+    transaction.type = InspurTransactionTypeNormal;
     transaction.after = after;
     transaction.name = name;
     transaction.action = action;
@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
                        interval:(NSInteger)interval
                          action:(void (^)(void))action{
     InspurTransaction *transaction = [[InspurTransaction alloc] init];
-    transaction.type = QNTransactionTypeTime;
+    transaction.type = InspurTransactionTypeTime;
     transaction.after = after;
     transaction.name = name;
     transaction.interval = interval;
@@ -71,9 +71,9 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 
 - (BOOL)shouldAction {
     double currentTime = [[NSDate date] timeIntervalSince1970];
-    if (self.type == QNTransactionTypeNormal) {
+    if (self.type == InspurTransactionTypeNormal) {
         return self.executedCount < 1 && currentTime >= self.nextExecutionTime;
-    } else if (self.type == QNTransactionTypeTime) {
+    } else if (self.type == InspurTransactionTypeTime) {
         return currentTime >= self.nextExecutionTime;
     } else {
         return NO;
@@ -81,9 +81,9 @@ typedef NS_ENUM(NSInteger, QNTransactionType){
 }
 
 - (BOOL)maybeCompleted {
-    if (self.type == QNTransactionTypeNormal) {
+    if (self.type == InspurTransactionTypeNormal) {
         return self.executedCount > 0;
-    } else if (self.type == QNTransactionTypeTime) {
+    } else if (self.type == InspurTransactionTypeTime) {
         return false;
     } else {
         return false;

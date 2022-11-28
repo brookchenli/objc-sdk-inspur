@@ -46,7 +46,7 @@
     @synchronized (self) {
         block = [uploadInfo nextUploadBlock:&error];
         chunk = [uploadInfo nextUploadData:block];
-        chunk.state = QNUploadStateUploading;
+        chunk.state = InspurUploadStateUploading;
     }
 
     if (error) {
@@ -91,11 +91,11 @@
         if (responseInfo.isOK && blockContext && expiredAt) {
             block.context = blockContext;
             block.expiredAt = expiredAt;
-            chunk.state = QNUploadStateComplete;
+            chunk.state = InspurUploadStateComplete;
             [self recordUploadInfo];
             [self notifyProgress:false];
         } else {
-            chunk.state = QNUploadStateWaitToUpload;
+            chunk.state = InspurUploadStateWaitToUpload;
         }
         completeHandler(NO, responseInfo, metrics, response);
     };

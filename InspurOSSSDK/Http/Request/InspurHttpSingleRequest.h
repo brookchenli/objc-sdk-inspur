@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class InspurUploadRequestState, InspurResponseInfo, InspurConfiguration, InspurUploadOption, InspurUpToken, InspurUploadSingleRequestMetrics;
 
-typedef void(^QNSingleRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, NSArray <InspurUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response);
+typedef void(^InspurSingleRequestCompleteHandler)(InspurResponseInfo * _Nullable responseInfo, NSArray <InspurUploadSingleRequestMetrics *> * _Nullable metrics, NSDictionary * _Nullable response);
 
 @interface InspurHttpSingleRequest : NSObject
 
@@ -35,7 +35,7 @@ typedef void(^QNSingleRequestCompleteHandler)(InspurResponseInfo * _Nullable res
          server:(id <InspurUploadServer>)server
     shouldRetry:(BOOL(^)(InspurResponseInfo * _Nullable responseInfo, NSDictionary * _Nullable response))shouldRetry
        progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-       complete:(QNSingleRequestCompleteHandler)complete;
+       complete:(InspurSingleRequestCompleteHandler)complete;
 
 @end
 

@@ -17,7 +17,7 @@
 @property(nonatomic, strong)NSURLSessionDataTask *uploadTask;
 @property(nonatomic, strong)NSMutableData *responseData;
 @property(nonatomic,  copy)void(^progress)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
-@property(nonatomic,  copy)QNRequestClientCompleteHandler complete;
+@property(nonatomic,  copy)InspurRequestClientCompleteHandler complete;
 
 @end
 @implementation InspurUploadSystemClient
@@ -30,10 +30,10 @@
          server:(id <InspurUploadServer>)server
 connectionProxy:(NSDictionary *)connectionProxy
        progress:(void (^)(long long, long long))progress
-       complete:(QNRequestClientCompleteHandler)complete {
+       complete:(InspurRequestClientCompleteHandler)complete {
     
     // 非 https 方可使用 IP
-    if (!request.qn_isHttps && server && server.ip.length > 0 && server.host.length > 0) {
+    if (!request.inspur_isHttps && server && server.ip.length > 0 && server.host.length > 0) {
         NSString *urlString = request.URL.absoluteString;
         urlString = [urlString stringByReplacingOccurrencesOfString:server.host withString:server.ip];
         NSMutableURLRequest *requestNew = [request mutableCopy];
@@ -45,8 +45,8 @@ connectionProxy:(NSDictionary *)connectionProxy
     }
 
     self.requestMetrics = [InspurUploadSingleRequestMetrics emptyMetrics];
-    self.requestMetrics.remoteAddress = self.request.qn_isHttps ? nil : server.ip;
-    self.requestMetrics.remotePort = self.request.qn_isHttps ? @443 : @80;
+    self.requestMetrics.remoteAddress = self.request.inspur_isHttps ? nil : server.ip;
+    self.requestMetrics.remotePort = self.request.inspur_isHttps ? @443 : @80;
     [self.requestMetrics start];
     
     self.responseData = [NSMutableData data];

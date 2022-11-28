@@ -17,7 +17,7 @@
 #import "InspurUserAgent.h"
 #import "InspurUtils.h"
 
-static NSString *qn_clientId(void) {
+static NSString *inspur_clientId(void) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
     NSString *s = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     if (s == nil) {
@@ -31,7 +31,7 @@ static NSString *qn_clientId(void) {
 #endif
 }
 
-static NSString *qn_userAgent(NSString *id, NSString *ak) {
+static NSString *inspur_userAgent(NSString *id, NSString *ak) {
     NSString *addition = @"";
 #if DEBUG
     addition = @"_Debug";
@@ -40,7 +40,7 @@ static NSString *qn_userAgent(NSString *id, NSString *ak) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
     return [NSString stringWithFormat:@"QiniuObject-C%@/%@ (%@; iOS %@; %@; %@)", addition, [InspurUtils sdkVersion], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], id, ak];
 #else
-    return [NSString stringWithFormat:@"QiniuObject-C%@/%@ (Mac OS X %@; %@; %@)", addition, [QNUtils sdkVersion], [[NSProcessInfo processInfo] operatingSystemVersionString], id, ak];
+    return [NSString stringWithFormat:@"QiniuObject-C%@/%@ (Mac OS X %@; %@; %@)", addition, [InspurUtils sdkVersion], [[NSProcessInfo processInfo] operatingSystemVersionString], id, ak];
 #endif
 }
 
@@ -56,7 +56,7 @@ static NSString *qn_userAgent(NSString *id, NSString *ak) {
 
 - (instancetype)init {
     if (self = [super init]) {
-        _id = qn_clientId();
+        _id = inspur_clientId();
     }
     return self;
 }
@@ -71,7 +71,7 @@ static NSString *qn_userAgent(NSString *id, NSString *ak) {
     } else {
         ak = access;
     }
-    return qn_userAgent(_id, ak);
+    return inspur_userAgent(_id, ak);
 }
 
 /**

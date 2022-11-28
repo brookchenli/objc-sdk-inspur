@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^QNUpTokenSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
-typedef void (^QNUpTokenSignatureHandler)(NSString *contentNeedSignature, QNUpTokenSignatureResultHandler result);
+typedef void (^InspurUpTokenSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
+typedef void (^InspurUpTokenSignatureHandler)(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result);
 
 
 @interface InspurUpToken : NSObject
@@ -25,7 +25,7 @@ typedef void (^QNUpTokenSignatureHandler)(NSString *contentNeedSignature, QNUpTo
 @property (copy  , nonatomic, readonly) NSString *bucket;
 @property (copy  , nonatomic, readonly) NSString *token;
 
-@property (copy  , nonatomic) QNUpTokenSignatureHandler signatureHandler;
+@property (copy  , nonatomic) InspurUpTokenSignatureHandler signatureHandler;
 
 @property (readonly) BOOL isValid;
 @property (readonly) BOOL hasReturnUrl;

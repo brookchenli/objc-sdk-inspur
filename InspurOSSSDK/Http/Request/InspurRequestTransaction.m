@@ -107,9 +107,9 @@
 }
 
 //MARK: -- uc query
-- (void)queryUploadHosts:(QNRequestTransactionCompleteHandler)complete{
+- (void)queryUploadHosts:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeUCQuery;
+    self.requestInfo.requestType = InspurUploadRequestTypeUCQuery;
     
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)!responseInfo.isOK;
@@ -126,7 +126,7 @@
 - (void)putData:(NSData *)data
        fileName:(NSString *)fileName
        progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-       complete:(QNRequestTransactionCompleteHandler)complete {
+       complete:(InspurRequestTransactionCompleteHandler)complete {
     NSMutableString *action = [NSMutableString stringWithFormat:@"/%@", self.token.bucket];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     if (self.key) {
@@ -162,9 +162,9 @@
 - (void)uploadFormData:(NSData *)data
               fileName:(NSString *)fileName
               progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-              complete:(QNRequestTransactionCompleteHandler)complete{
+              complete:(InspurRequestTransactionCompleteHandler)complete{
 
-    self.requestInfo.requestType = QNUploadRequestTypeForm;
+    self.requestInfo.requestType = InspurUploadRequestTypeForm;
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (self.uploadOption.params) {
@@ -238,9 +238,9 @@
         blockSize:(long long)blockSize
    firstChunkData:(NSData *)firstChunkData
          progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-         complete:(QNRequestTransactionCompleteHandler)complete{
+         complete:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeMkblk;
+    self.requestInfo.requestType = InspurUploadRequestTypeMkblk;
     self.requestInfo.fileOffset = @(blockOffset);
     
     NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
@@ -275,9 +275,9 @@
           chunkData:(NSData *)chunkData
         chunkOffset:(long long)chunkOffset
            progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-           complete:(QNRequestTransactionCompleteHandler)complete{
+           complete:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeBput;
+    self.requestInfo.requestType = InspurUploadRequestTypeBput;
     self.requestInfo.fileOffset = @(blockOffset + chunkOffset);
     
     NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
@@ -310,9 +310,9 @@
 - (void)makeFile:(long long)fileSize
         fileName:(NSString *)fileName
    blockContexts:(NSArray <NSString *> *)blockContexts
-        complete:(QNRequestTransactionCompleteHandler)complete{
+        complete:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeMkfile;
+    self.requestInfo.requestType = InspurUploadRequestTypeMkfile;
     
     NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
@@ -358,9 +358,9 @@
 }
 
 
-- (void)initPart:(QNRequestTransactionCompleteHandler)complete{
+- (void)initPart:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeInitParts;
+    self.requestInfo.requestType = InspurUploadRequestTypeInitParts;
     
     NSMutableString *action = [NSMutableString stringWithFormat:@"/%@", self.token.bucket];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
@@ -398,27 +398,10 @@
          partIndex:(NSInteger)partIndex
           partData:(NSData *)partData
           progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-          complete:(QNRequestTransactionCompleteHandler)complete{
+          complete:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeUploadPart;
+    self.requestInfo.requestType = InspurUploadRequestTypeUploadPart;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    /*
-    NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
-    header[@"Authorization"] = token;
-    header[@"Content-Type"] = @"application/octet-stream";
-    header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
-    if (self.uploadOption.checkCrc) {
-        NSString *md5 = [[partData qn_md5] lowercaseString];
-        if (md5) {
-            header[@"Content-MD5"] = md5;
-        }
-    }
-    NSString *buckets = [[NSString alloc] initWithFormat:@"/buckets/%@", self.token.bucket];
-    NSString *objects = [[NSString alloc] initWithFormat:@"/objects/%@", [self resumeV2EncodeKey:self.key]];;
-    NSString *uploads = [[NSString alloc] initWithFormat:@"/uploads/%@", uploadId];
-    NSString *partNumber = [[NSString alloc] initWithFormat:@"/%ld", (long)partIndex];
-    NSString *action = [[NSString alloc] initWithFormat:@"%@%@%@%@", buckets, objects, uploads, partNumber];
-     */
     NSString *partNumber = [[NSString alloc] initWithFormat:@"%ld", (long)partIndex];
     NSString *action = [NSString stringWithFormat:@"/%@/%@?partNumber=%@&uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, self.key, @(partIndex), uploadId, self.token.access, @(self.token.deadline)];
    
@@ -449,9 +432,9 @@
 - (void)completeParts:(NSString *)fileName
              uploadId:(NSString *)uploadId
         partInfoArray:(NSArray <NSDictionary *> *)partInfoArray
-             complete:(QNRequestTransactionCompleteHandler)complete{
+             complete:(InspurRequestTransactionCompleteHandler)complete{
     
-    self.requestInfo.requestType = QNUploadRequestTypeCompletePart;
+    self.requestInfo.requestType = InspurUploadRequestTypeCompletePart;
     
     if (!partInfoArray || partInfoArray.count == 0) {
         InspurResponseInfo *responseInfo = [InspurResponseInfo responseInfoWithInvalidArgument:@"partInfoArray"];
@@ -504,9 +487,9 @@
 
 - (void)reportLog:(NSData *)logData
       logClientId:(NSString *)logClientId
-         complete:(QNRequestTransactionCompleteHandler)complete {
+         complete:(InspurRequestTransactionCompleteHandler)complete {
     
-    self.requestInfo.requestType = QNUploadRequestTypeUpLog;
+    self.requestInfo.requestType = InspurUploadRequestTypeUpLog;
     NSString *token = [NSString stringWithFormat:@"UpToken %@", self.token.token];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"Authorization"] = token;
@@ -534,9 +517,9 @@
     }];
 }
 
-- (void)serverConfig:(QNRequestTransactionCompleteHandler)complete {
+- (void)serverConfig:(InspurRequestTransactionCompleteHandler)complete {
     
-    self.requestInfo.requestType = QNUploadRequestTypeServerConfig;
+    self.requestInfo.requestType = InspurUploadRequestTypeServerConfig;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     
@@ -557,9 +540,9 @@
     }];
 }
 
-- (void)serverUserConfig:(QNRequestTransactionCompleteHandler)complete {
+- (void)serverUserConfig:(InspurRequestTransactionCompleteHandler)complete {
     
-    self.requestInfo.requestType = QNUploadRequestTypeServerUserConfig;
+    self.requestInfo.requestType = InspurUploadRequestTypeServerUserConfig;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     header[@"User-Agent"] = [kInspurUserAgent getUserAgent:self.token.token];
     

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^QNRequestClientCompleteHandler)(NSURLResponse * _Nullable, InspurUploadSingleRequestMetrics * _Nullable, NSData * _Nullable, NSError * _Nullable);
+typedef void (^InspurRequestClientCompleteHandler)(NSURLResponse * _Nullable, InspurUploadSingleRequestMetrics * _Nullable, NSData * _Nullable, NSError * _Nullable);
 
 @protocol InspurRequestClient <NSObject>
 
@@ -21,7 +21,7 @@ typedef void (^QNRequestClientCompleteHandler)(NSURLResponse * _Nullable, Inspur
          server:(_Nullable id <InspurUploadServer>)server
 connectionProxy:(NSDictionary * _Nullable)connectionProxy
        progress:(void(^ _Nullable)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-       complete:(_Nullable QNRequestClientCompleteHandler)complete;
+       complete:(_Nullable InspurRequestClientCompleteHandler)complete;
 
 - (void)cancel;
 

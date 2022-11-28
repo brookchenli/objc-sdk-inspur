@@ -11,10 +11,10 @@
 #define kInspurBackgroundQueue dispatch_get_global_queue(0, 0)
 #define kInspurMainQueue dispatch_get_main_queue()
 
-typedef void (^QNRun)(void);
+typedef void (^InspurRun)(void);
 
-void InspurAsyncRun(QNRun run);
+void InspurAsyncRun(InspurRun run);
 
-void InspurAsyncRunInMain(QNRun run);
+void InspurAsyncRunInMain(InspurRun run);
 
-void InspurAsyncRunAfter(NSTimeInterval time, dispatch_queue_t queue, QNRun run);
+void InspurAsyncRunAfter(NSTimeInterval time, dispatch_queue_t queue, InspurRun run);

@@ -10,7 +10,7 @@
 #import "InspurSingleFlight.h"
 
 @interface InspurSingleFlightTask : NSObject
-@property(nonatomic,  copy)QNSingleFlightComplete complete;
+@property(nonatomic,  copy)InspurSingleFlightComplete complete;
 @end
 @implementation InspurSingleFlightTask
 @end
@@ -30,8 +30,8 @@
 @implementation InspurSingleFlight
 
 - (void)perform:(NSString * _Nullable)key
-         action:(QNSingleFlightAction _Nonnull)action
-       complete:(QNSingleFlightComplete _Nullable)complete {
+         action:(InspurSingleFlightAction _Nonnull)action
+       complete:(InspurSingleFlightComplete _Nullable)complete {
     if (!action) {
         return;
     }

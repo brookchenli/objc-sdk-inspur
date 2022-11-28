@@ -55,7 +55,7 @@
     InspurSingleFlight *singleFlight = [self singleFlight];
     
     kInspurWeakSelf;
-    [singleFlight perform:@"connect_check" action:^(QNSingleFlightComplete  _Nonnull singleFlightComplete) {
+    [singleFlight perform:@"connect_check" action:^(InspurSingleFlightComplete  _Nonnull singleFlightComplete) {
         kInspurStrongSelf;
         
         [self checkAllHosts:^(InspurUploadSingleRequestMetrics *metrics) {

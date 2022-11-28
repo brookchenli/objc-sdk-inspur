@@ -1,5 +1,5 @@
 //
-//  NSData+QNGZip.m
+//  NSData+InspurGZip.m
 //  GZipTest
 //
 //  Created by Brook on 2020/8/12.
@@ -13,9 +13,9 @@
 
 @implementation NSData(InspurGZip)
 
-+ (NSData *)qn_gZip:(NSData *)data{
++ (NSData *)inspur_gZip:(NSData *)data{
     
-    if (data.length == 0 || [self qn_isGzippedData:data]){
+    if (data.length == 0 || [self inspur_isGzippedData:data]){
         return data;
     }
 
@@ -49,8 +49,8 @@
     return gzippedData;
 }
 
-+ (NSData *)qn_gUnzip:(NSData *)data{
-    if (data.length == 0 || ![self qn_isGzippedData:data]){
++ (NSData *)inspur_gUnzip:(NSData *)data{
+    if (data.length == 0 || ![self inspur_isGzippedData:data]){
         return data;
     }
 
@@ -84,7 +84,7 @@
     return gunzippedData;
 }
 
-+ (BOOL)qn_isGzippedData:(NSData *)data{
++ (BOOL)inspur_isGzippedData:(NSData *)data{
     if (!data || data.length == 0) {
         return false;
     }

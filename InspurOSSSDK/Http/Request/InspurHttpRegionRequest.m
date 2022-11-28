@@ -60,7 +60,7 @@
 - (void)get:(NSString *)action
     headers:(NSDictionary *)headers
 shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
-   complete:(QNRegionRequestCompleteHandler)complete{
+   complete:(InspurRegionRequestCompleteHandler)complete{
     
     self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
@@ -79,7 +79,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
         body:(NSData *)body
  shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
     progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-    complete:(QNRegionRequestCompleteHandler)complete{
+    complete:(InspurRegionRequestCompleteHandler)complete{
     
     self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
@@ -99,7 +99,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
        body:(NSData *)body
 shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
    progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-   complete:(QNRegionRequestCompleteHandler)complete{
+   complete:(InspurRegionRequestCompleteHandler)complete{
     
     self.requestMetrics = [[InspurUploadRegionRequestMetrics alloc] initWithRegion:self.region];
     [self.requestMetrics start];
@@ -121,7 +121,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
                   body:(NSData *)body
            shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
               progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-              complete:(QNRegionRequestCompleteHandler)complete{
+              complete:(InspurRegionRequestCompleteHandler)complete{
     
     if (!server.host || server.host.length == 0) {
         InspurResponseInfo *responseInfo = [InspurResponseInfo responseInfoWithSDKInteriorError:@"server error"];
@@ -197,7 +197,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
 
 - (void)complete:(InspurResponseInfo *)responseInfo
         response:(NSDictionary *)response
-        complete:(QNRegionRequestCompleteHandler)completionHandler {
+        complete:(InspurRegionRequestCompleteHandler)completionHandler {
     [self.requestMetrics end];
     
     if (completionHandler) {

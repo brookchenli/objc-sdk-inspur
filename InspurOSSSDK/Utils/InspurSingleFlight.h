@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^QNSingleFlightComplete)(id _Nullable value, NSError * _Nullable error);
-typedef void(^QNSingleFlightAction)(QNSingleFlightComplete _Nonnull complete);
+typedef void(^InspurSingleFlightComplete)(id _Nullable value, NSError * _Nullable error);
+typedef void(^InspurSingleFlightAction)(InspurSingleFlightComplete _Nonnull complete);
 
 @interface InspurSingleFlight : NSObject
 
@@ -22,8 +22,8 @@ typedef void(^QNSingleFlightAction)(QNSingleFlightComplete _Nonnull complete);
  * @param completeHandler  single flight 执行 actionHandler 后的完成回调
  */
 - (void)perform:(NSString * _Nullable)key
-         action:(QNSingleFlightAction _Nonnull)action
-       complete:(QNSingleFlightComplete _Nullable)complete;
+         action:(InspurSingleFlightAction _Nonnull)action
+       complete:(InspurSingleFlightComplete _Nullable)complete;
 
 @end
 

@@ -316,9 +316,9 @@
         sourceType = [self.uploadSource sourceType];
     }
     if (self.config.resumeUploadVersion == InspurResumeUploadVersionV1) {
-        return [NSString stringWithFormat:@"%@<%@>",QNUploadUpTypeResumableV1, sourceType];
+        return [NSString stringWithFormat:@"%@<%@>",InspurUploadUpTypeResumableV1, sourceType];
     } else {
-        return [NSString stringWithFormat:@"%@<%@>",QNUploadUpTypeResumableV2, sourceType];
+        return [NSString stringWithFormat:@"%@<%@>",InspurUploadUpTypeResumableV2, sourceType];
     }
 }
 

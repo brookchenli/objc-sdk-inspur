@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSData(InspurMD5)
 
-- (NSString *)qn_md5;
+- (NSString *)inspur_md5;
 
 @end
 

@@ -25,7 +25,7 @@
 @property(nonatomic, strong)InspurUploadSingleRequestMetrics *requestMetrics;
 @property(nonatomic, strong)NSMutableData *responseData;
 @property(nonatomic,  copy)void(^progress)(long long totalBytesWritten, long long totalBytesExpectedToWrite);
-@property(nonatomic,  copy)QNRequestClientCompleteHandler complete;
+@property(nonatomic,  copy)InspurRequestClientCompleteHandler complete;
 
 @property(nonatomic, strong)InspurCFHttpClientInner *httpClient;
 @property(nonatomic, strong)InspurCFHttpThread *thread;
@@ -51,7 +51,7 @@
          server:(id <InspurUploadServer>)server
 connectionProxy:(NSDictionary *)connectionProxy
        progress:(void (^)(long long, long long))progress
-       complete:(QNRequestClientCompleteHandler)complete {
+       complete:(InspurRequestClientCompleteHandler)complete {
     
     [[InspurCFHttpThreadPool shared] addOperationCountOfThread:self.thread];
     
@@ -72,8 +72,8 @@ connectionProxy:(NSDictionary *)connectionProxy
     self.complete = complete;
     self.requestMetrics = [InspurUploadSingleRequestMetrics emptyMetrics];
     self.requestMetrics.request = self.request;
-    self.requestMetrics.remoteAddress = self.request.qn_ip;
-    self.requestMetrics.remotePort = self.request.qn_isHttps ? @443 : @80;
+    self.requestMetrics.remoteAddress = self.request.inspur_ip;
+    self.requestMetrics.remotePort = self.request.inspur_isHttps ? @443 : @80;
     [self.requestMetrics start];
     
     self.responseData = [NSMutableData data];

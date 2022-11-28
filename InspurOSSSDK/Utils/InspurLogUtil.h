@@ -36,17 +36,17 @@ typedef NS_ENUM(NSInteger, InspurLogLevel){
 
 @end
 
-#define QNLog(level, fmt, ...) \
+#define InspurLog(level, fmt, ...) \
     [InspurLogUtil log:level \
               file:__FILE__ \
           function:__FUNCTION__  \
               line:__LINE__ \
               format:(fmt), ##__VA_ARGS__]
 
-#define QNLogError(format, ...)   QNLog(InspurLogLevelError, format, ##__VA_ARGS__)
-#define QNLogWarn(format, ...)    QNLog(InspurLogLevelWarn, format, ##__VA_ARGS__)
-#define InspurLogInfo(format, ...)    QNLog(InspurLogLevelInfo, format, ##__VA_ARGS__)
-#define InspurLogDebug(format, ...)   QNLog(InspurLogLevelDebug, format, ##__VA_ARGS__)
-#define QNLogVerbose(format, ...) QNLog(InspurLogLevelVerbose, format, ##__VA_ARGS__)
+#define InspurLogError(format, ...)   InspurLog(InspurLogLevelError, format, ##__VA_ARGS__)
+#define InspurLogWarn(format, ...)    InspurLog(InspurLogLevelWarn, format, ##__VA_ARGS__)
+#define InspurLogInfo(format, ...)    InspurLog(InspurLogLevelInfo, format, ##__VA_ARGS__)
+#define InspurLogDebug(format, ...)   InspurLog(InspurLogLevelDebug, format, ##__VA_ARGS__)
+#define InspurLogVerbose(format, ...) InspurLog(InspurLogLevelVerbose, format, ##__VA_ARGS__)
 
 NS_ASSUME_NONNULL_END

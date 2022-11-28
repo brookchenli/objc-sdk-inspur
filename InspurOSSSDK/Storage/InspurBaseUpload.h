@@ -19,11 +19,11 @@
 #import "InspurUploadSource.h"
 #import "InspurUploadRequestMetrics.h"
 
-extern NSString *const QNUploadUpTypeForm;
-extern NSString *const QNUploadUpTypeResumableV1;
-extern NSString *const QNUploadUpTypeResumableV2;
+extern NSString *const InspurUploadUpTypeForm;
+extern NSString *const InspurUploadUpTypeResumableV1;
+extern NSString *const InspurUploadUpTypeResumableV2;
 
-typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp);
+typedef void (^InspurUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *key, InspurUploadTaskMetrics *metrics, NSDictionary *resp);
 
 @interface InspurBaseUpload : NSObject
 
@@ -37,7 +37,7 @@ typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *ke
 @property (nonatomic, strong, readonly) InspurConfiguration *config;
 @property (nonatomic, strong, readonly) id <InspurRecorderDelegate> recorder;
 @property (nonatomic,   copy, readonly) NSString *recorderKey;
-@property (nonatomic, strong, readonly) QNUpTaskCompletionHandler completionHandler;
+@property (nonatomic, strong, readonly) InspurUpTaskCompletionHandler completionHandler;
 
 @property (nonatomic, strong, readonly) InspurUploadRegionRequestMetrics *currentRegionRequestMetrics;
 @property (nonatomic, strong, readonly) InspurUploadTaskMetrics *metrics;
@@ -61,7 +61,7 @@ typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *ke
                  configuration:(InspurConfiguration *)config
                       recorder:(id<InspurRecorderDelegate>)recorder
                    recorderKey:(NSString *)recorderKey
-             completionHandler:(QNUpTaskCompletionHandler)completionHandler;
+             completionHandler:(InspurUpTaskCompletionHandler)completionHandler;
 
 /// data 构造函数
 /// @param data 上传data流
@@ -77,7 +77,7 @@ typedef void (^QNUpTaskCompletionHandler)(InspurResponseInfo *info, NSString *ke
                        token:(InspurUpToken *)token
                       option:(InspurUploadOption *)option
                configuration:(InspurConfiguration *)config
-           completionHandler:(QNUpTaskCompletionHandler)completionHandler;
+           completionHandler:(InspurUpTaskCompletionHandler)completionHandler;
 
 /// 初始化数据
 - (void)initData;

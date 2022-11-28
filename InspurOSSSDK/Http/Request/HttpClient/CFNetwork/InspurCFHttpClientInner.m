@@ -56,7 +56,7 @@
     }
     
     NSString *host = [self.request inspur_domain];
-    if ([self.request qn_isHttps]) {
+    if ([self.request inspur_isHttps]) {
        [self setInputStreamSNI:self.inputStream sni:host];
     }
     
@@ -89,14 +89,14 @@
                                                               kCFHTTPVersion1_1);
         CFRelease(url);
 
-        NSDictionary *headFieldInfo = self.request.qn_allHTTPHeaderFields;
+        NSDictionary *headFieldInfo = self.request.inspur_allHTTPHeaderFields;
         for (NSString *headerField in headFieldInfo) {
             CFStringRef headerFieldP = (__bridge CFStringRef)headerField;
             CFStringRef headerFieldValueP = (__bridge CFStringRef)(headFieldInfo[headerField]);
             CFHTTPMessageSetHeaderFieldValue(request, headerFieldP, headerFieldValueP);
         }
         
-        NSData *httpBody = [self.request qn_getHttpBody];
+        NSData *httpBody = [self.request inspur_getHttpBody];
         if (httpBody) {
             CFDataRef bodyData = (__bridge CFDataRef) httpBody;
             CFHTTPMessageSetBody(request, bodyData);
@@ -151,7 +151,7 @@
 }
 
 - (BOOL)shouldEvaluateInputStreamServerTrust{
-    if (![self.request qn_isHttps] || self.isInputStreamEvaluated) {
+    if (![self.request inspur_isHttps] || self.isInputStreamEvaluated) {
         return NO;
     } else {
         return YES;
@@ -322,7 +322,7 @@
 
 //MARK: -- progress and timer action
 - (void)setupProgress{
-    self.totalBytesExpectedToSend = [self.request.qn_getHttpBody length];
+    self.totalBytesExpectedToSend = [self.request.inspur_getHttpBody length];
 }
 
 - (void)startProgress{

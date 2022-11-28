@@ -160,7 +160,7 @@
     
     kInspurWeakSelf;
     InspurSingleFlight *singleFlight = [InspurAutoZone UCQuerySingleFlight];
-    [singleFlight perform:token.index action:^(QNSingleFlightComplete  _Nonnull complete) {
+    [singleFlight perform:token.index action:^(InspurSingleFlightComplete  _Nonnull complete) {
         kInspurStrongSelf;
         InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
         

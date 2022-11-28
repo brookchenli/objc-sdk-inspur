@@ -1,5 +1,5 @@
 //
-//  NSObject+QNSwizzle.h
+//  NSObject+InspurSwizzle.h
 //  HappyDNS
 //
 //  Created by Brook on 2020/4/13.
@@ -14,13 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// swizzle 两个对象方法
 /// @param selectorA 方法a的sel
 /// @param selectorB 方法b的sel
-+ (BOOL)qn_swizzleInstanceMethodsOfSelectorA:(SEL)selectorA
++ (BOOL)inspur_swizzleInstanceMethodsOfSelectorA:(SEL)selectorA
                                    selectorB:(SEL)selectorB;
 
 /// swizzle 两个类方法
 /// @param selectorA 方法a的sel
 /// @param selectorB 方法b的sel
-+ (BOOL)qn_swizzleClassMethodsOfSelectorA:(SEL)selectorA
++ (BOOL)inspur_swizzleClassMethodsOfSelectorA:(SEL)selectorA
                                 selectorB:(SEL)selectorB;
 
 @end

@@ -13,7 +13,7 @@
  */
 @interface InspurResponseInfo : NSObject
 
-/// 状态码，具体见 QNErrorCode.h
+/// 状态码，具体见 InspurErrorCode.h
 @property (readonly) int statusCode;
 /// response 信息
 @property (nonatomic, copy, readonly) NSDictionary *responseDictionary;

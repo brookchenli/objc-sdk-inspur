@@ -11,7 +11,7 @@
 
 @implementation NSData(InspurMD5)
 
-- (NSString *)qn_md5{
+- (NSString *)inspur_md5{
     
     CC_MD5_CTX md5;
     CC_MD5_Init(&md5);

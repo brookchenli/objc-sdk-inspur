@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface InspurUpProgress : NSObject
 
-+ (instancetype)progress:(QNUpProgressHandler)progress byteProgress:(QNUpByteProgressHandler)byteProgress;
++ (instancetype)progress:(InspurUpProgressHandler)progress byteProgress:(InspurUpByteProgressHandler)byteProgress;
 
 - (void)progress:(NSString *)key uploadBytes:(long long)uploadBytes totalBytes:(long long)totalBytes;
 

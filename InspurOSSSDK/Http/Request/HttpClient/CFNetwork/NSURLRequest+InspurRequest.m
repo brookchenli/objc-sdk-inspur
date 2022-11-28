@@ -16,11 +16,11 @@
 #define kInspurURLRequestIPKey @"QNURLRequestIP"
 #define kInspurURLRequestIdentifierKey @"QNURLRequestIdentifier"
 
-- (NSString *)qn_identifier{
+- (NSString *)inspur_identifier{
     return self.allHTTPHeaderFields[kInspurURLRequestIdentifierKey];
 }
 
-- (NSString *)qn_domain{
+- (NSString *)inspur_domain{
     NSString *host = self.allHTTPHeaderFields[kInspurURLRequestHostKey];
     if (host == nil) {
         host = self.URL.host;
@@ -28,11 +28,11 @@
     return host;
 }
 
-- (NSString *)qn_ip{
+- (NSString *)inspur_ip{
     return self.allHTTPHeaderFields[kInspurURLRequestIPKey];
 }
 
-- (NSDictionary *)qn_allHTTPHeaderFields{
+- (NSDictionary *)inspur_allHTTPHeaderFields{
     NSDictionary *headerFields = [self.allHTTPHeaderFields copy];
     NSMutableDictionary *headerFieldsNew = [NSMutableDictionary dictionary];
     for (NSString *key in headerFields) {
@@ -43,14 +43,14 @@
     return [headerFieldsNew copy];
 }
 
-+ (instancetype)qn_requestWithURL:(NSURL *)url{
++ (instancetype)inspur_requestWithURL:(NSURL *)url{
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:url.host forHTTPHeaderField:kInspurURLRequestHostKey];
     return request;
 }
 
 
-- (NSData *)qn_getHttpBody{
+- (NSData *)inspur_getHttpBody{
     
     if (self.HTTPBody ||
         (![self.HTTPMethod isEqualToString:@"POST"] && ![self.HTTPMethod isEqualToString:@"PUT"])) {
@@ -81,7 +81,7 @@
     return [data copy];
 }
 
-- (BOOL)qn_isHttps{
+- (BOOL)inspur_isHttps{
     if ([self.URL.absoluteString rangeOfString:@"https://"].location != NSNotFound) {
         return YES;
     } else {
@@ -91,30 +91,30 @@
 @end
 
 
-@implementation NSMutableURLRequest(QNRequest)
+@implementation NSMutableURLRequest(InspurRequest)
 
-- (void)setInspur_domain:(NSString *)qn_domain{
-    if (qn_domain) {
-        [self addValue:qn_domain forHTTPHeaderField:kInspurURLRequestHostKey];
+- (void)setInspur_domain:(NSString *)inspur_domain{
+    if (inspur_domain) {
+        [self addValue:inspur_domain forHTTPHeaderField:kInspurURLRequestHostKey];
     } else {
         [self setValue:nil forHTTPHeaderField:kInspurURLRequestHostKey];
     }
 
-    NSString *identifier = [NSString stringWithFormat:@"%p-%@", &self, qn_domain];
-    [self setQn_identifier:identifier];
+    NSString *identifier = [NSString stringWithFormat:@"%p-%@", &self, inspur_domain];
+    [self setInspur_identifier:identifier];
 }
 
-- (void)setQn_ip:(NSString *)qn_ip{
-    if (qn_ip) {
-        [self addValue:qn_ip forHTTPHeaderField:kInspurURLRequestIPKey];
+- (void)setInspur_ip:(NSString *)inspur_ip{
+    if (inspur_ip) {
+        [self addValue:inspur_ip forHTTPHeaderField:kInspurURLRequestIPKey];
     } else {
         [self setValue:nil forHTTPHeaderField:kInspurURLRequestIPKey];
     }
 }
 
-- (void)setQn_identifier:(NSString *)qn_identifier{
-    if (qn_identifier) {
-        [self addValue:qn_identifier forHTTPHeaderField:kInspurURLRequestIdentifierKey];
+- (void)setInspur_identifier:(NSString *)inspur_identifier{
+    if (inspur_identifier) {
+        [self addValue:inspur_identifier forHTTPHeaderField:kInspurURLRequestIdentifierKey];
     } else {
         [self setValue:nil forHTTPHeaderField:kInspurURLRequestIdentifierKey];
     }

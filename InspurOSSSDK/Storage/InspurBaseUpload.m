@@ -12,9 +12,9 @@
 #import "InspurBaseUpload.h"
 #import "InspurUploadDomainRegion.h"
 
-NSString *const QNUploadUpTypeForm = @"form";
-NSString *const QNUploadUpTypeResumableV1 = @"resumable_v1";
-NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
+NSString *const InspurUploadUpTypeForm = @"form";
+NSString *const InspurUploadUpTypeResumableV1 = @"resumable_v1";
+NSString *const InspurUploadUpTypeResumableV2 = @"resumable_v2";
 
 @interface InspurBaseUpload ()
 
@@ -30,7 +30,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 @property (nonatomic, strong) InspurConfiguration *config;
 @property (nonatomic, strong) id <InspurRecorderDelegate> recorder;
 @property (nonatomic,   copy) NSString *recorderKey;
-@property (nonatomic, strong) QNUpTaskCompletionHandler completionHandler;
+@property (nonatomic, strong) InspurUpTaskCompletionHandler completionHandler;
 
 @property (nonatomic, assign)NSInteger currentRegionIndex;
 @property (nonatomic, strong)NSMutableArray <id <InspurUploadRegion> > *regions;
@@ -49,7 +49,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
                  configuration:(InspurConfiguration *)config
                       recorder:(id<InspurRecorderDelegate>)recorder
                    recorderKey:(NSString *)recorderKey
-             completionHandler:(QNUpTaskCompletionHandler)completionHandler{
+             completionHandler:(InspurUpTaskCompletionHandler)completionHandler{
     return [self initWithSource:uploadSource data:nil fileName:[uploadSource getFileName] key:key token:token option:option configuration:config recorder:recorder recorderKey:recorderKey completionHandler:completionHandler];
 }
 
@@ -59,7 +59,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
                        token:(InspurUpToken *)token
                       option:(InspurUploadOption *)option
                configuration:(InspurConfiguration *)config
-           completionHandler:(QNUpTaskCompletionHandler)completionHandler{
+           completionHandler:(InspurUpTaskCompletionHandler)completionHandler{
     return [self initWithSource:nil data:data fileName:fileName key:key token:token option:option configuration:config recorder:nil recorderKey:nil completionHandler:completionHandler];
 }
 
@@ -72,7 +72,7 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
                  configuration:(InspurConfiguration *)config
                       recorder:(id<InspurRecorderDelegate>)recorder
                    recorderKey:(NSString *)recorderKey
-             completionHandler:(QNUpTaskCompletionHandler)completionHandler{
+             completionHandler:(InspurUpTaskCompletionHandler)completionHandler{
     if (self = [super init]) {
         _uploadSource = uploadSource;
         _data = data;
@@ -200,11 +200,11 @@ NSString *const QNUploadUpTypeResumableV2 = @"resumable_v2";
 }
 
 - (InspurActionType)actionType {
-    if ([self.upType containsString:QNUploadUpTypeForm]) {
+    if ([self.upType containsString:InspurUploadUpTypeForm]) {
         return InspurActionTypeUploadByForm;
-    } else if ([self.upType containsString:QNUploadUpTypeResumableV1]) {
+    } else if ([self.upType containsString:InspurUploadUpTypeResumableV1]) {
         return InspurActionTypeUploadByResumeV1;
-    } else if ([self.upType containsString:QNUploadUpTypeResumableV2]) {
+    } else if ([self.upType containsString:InspurUploadUpTypeResumableV2]) {
         return InspurActionTypeUploadByResumeV2;
     } else {
         return InspurActionTypeNone;

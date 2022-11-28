@@ -68,7 +68,7 @@
     newRequest.allHTTPHeaderFields = request.allHTTPHeaderFields;
     
     self.countOfRequestHeaderBytes = [NSString stringWithFormat:@"%@", request.allHTTPHeaderFields].length;
-    self.countOfRequestBodyBytes = [request.qn_getHttpBody length];
+    self.countOfRequestBodyBytes = [request.inspur_getHttpBody length];
     _totalBytes = @(self.countOfRequestHeaderBytes + self.countOfRequestBodyBytes);
     _request = [newRequest copy];
 }

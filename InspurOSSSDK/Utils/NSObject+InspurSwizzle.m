@@ -1,5 +1,5 @@
 //
-//  NSObject+QNSwizzle.m
+//  NSObject+InspurSwizzle.m
 //  HappyDNS
 //
 //  Created by Brook on 2020/4/13.
@@ -10,7 +10,7 @@
 
 @implementation NSObject(InspurSwizzle)
 
-+ (BOOL)qn_swizzleInstanceMethodsOfSelectorA:(SEL)selectorA
++ (BOOL)inspur_swizzleInstanceMethodsOfSelectorA:(SEL)selectorA
                                    selectorB:(SEL)selectorB{
     
     Method methodA = class_getInstanceMethod(self, selectorA);
@@ -35,7 +35,7 @@
     return YES;
 }
 
-+ (BOOL)qn_swizzleClassMethodsOfSelectorA:(SEL)selectorA
++ (BOOL)inspur_swizzleClassMethodsOfSelectorA:(SEL)selectorA
                                 selectorB:(SEL)selectorB{
     
     Method methodA = class_getInstanceMethod(object_getClass(self), selectorA);

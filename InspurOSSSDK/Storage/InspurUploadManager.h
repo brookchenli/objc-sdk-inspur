@@ -63,7 +63,7 @@ typedef void (^InspurUpSignatureHandler)(NSString * _Nullable contentNeedSignatu
  *    @return 上传管理类实例
  */
 - (instancetype)initWithRecorder:(id<InspurRecorderDelegate>)recorder
-            recorderKeyGenerator:(QNRecorderKeyGenerator)recorderKeyGenerator;
+            recorderKeyGenerator:(InspurRecorderKeyGenerator)recorderKeyGenerator;
 
 /**
  *    使用配置信息生成上传实例

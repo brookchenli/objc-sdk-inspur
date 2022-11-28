@@ -53,19 +53,19 @@ static NSString *mime(NSString *mimeType) {
 }
 
 
-- (instancetype)initWithProgressHandler:(QNUpProgressHandler)progress {
+- (instancetype)initWithProgressHandler:(InspurUpProgressHandler)progress {
     return [self initWithMime:nil progressHandler:progress params:nil checkCrc:NO cancellationSignal:nil];
 }
 
-- (instancetype)initWithByteProgressHandler:(QNUpByteProgressHandler)progress {
+- (instancetype)initWithByteProgressHandler:(InspurUpByteProgressHandler)progress {
     return [self initWithMime:nil byteProgressHandler:progress params:nil checkCrc:NO cancellationSignal:nil];
 }
 
 - (instancetype)initWithMime:(NSString *)mimeType
-             progressHandler:(QNUpProgressHandler)progress
+             progressHandler:(InspurUpProgressHandler)progress
                       params:(NSDictionary *)params
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancel {
+          cancellationSignal:(InspurUpCancellationSignal)cancel {
     return [self initWithMime:mimeType
               progressHandler:progress
                        params:params
@@ -75,10 +75,10 @@ static NSString *mime(NSString *mimeType) {
 }
 
 - (instancetype)initWithMime:(NSString *)mimeType
-         byteProgressHandler:(QNUpByteProgressHandler)progress
+         byteProgressHandler:(InspurUpByteProgressHandler)progress
                       params:(NSDictionary *)params
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation {
+          cancellationSignal:(InspurUpCancellationSignal)cancellation {
     return [self initWithMime:mimeType
           byteProgressHandler:progress
                        params:params
@@ -88,11 +88,11 @@ static NSString *mime(NSString *mimeType) {
 }
 
 - (instancetype)initWithMime:(NSString *)mimeType
-             progressHandler:(QNUpProgressHandler)progress
+             progressHandler:(InspurUpProgressHandler)progress
                       params:(NSDictionary *)params
               metaDataParams:(NSDictionary *)metaDataParams
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation{
+          cancellationSignal:(InspurUpCancellationSignal)cancellation{
     if (self = [super init]) {
         _mimeType = mime(mimeType);
         _progressHandler = progress != nil ? progress : ^(NSString *key, float percent) {};
@@ -108,11 +108,11 @@ static NSString *mime(NSString *mimeType) {
 }
 
 - (instancetype)initWithMime:(NSString *)mimeType
-         byteProgressHandler:(QNUpByteProgressHandler)progress
+         byteProgressHandler:(InspurUpByteProgressHandler)progress
                       params:(NSDictionary *)params
               metaDataParams:(NSDictionary *)metaDataParams
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation {
+          cancellationSignal:(InspurUpCancellationSignal)cancellation {
     if (self = [super init]) {
         _mimeType = mime(mimeType);
         _byteProgressHandler = progress != nil ? progress : ^(NSString *key, long long uploadBytes, long long totalBytes) {};

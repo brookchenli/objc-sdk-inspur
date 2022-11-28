@@ -13,36 +13,36 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSURLRequest(InspurRequest)
 
 /// 请求id【内部使用】
-/// 只有通过设置qn_domain才会有效
-@property(nonatomic, strong, nullable, readonly)NSString *qn_identifier;
+/// 只有通过设置inspur_domain才会有效
+@property(nonatomic, strong, nullable, readonly)NSString *inspur_identifier;
 
 /// 请求domain【内部使用】
 /// 只有通过NSMutableURLRequest设置才会有效
-@property(nonatomic, strong, nullable, readonly)NSString *qn_domain;
+@property(nonatomic, strong, nullable, readonly)NSString *inspur_domain;
 
 /// 请求ip【内部使用】
 /// 只有通过NSMutableURLRequest设置才会有效
-@property(nonatomic, strong, nullable, readonly)NSString *qn_ip;
+@property(nonatomic, strong, nullable, readonly)NSString *inspur_ip;
 
 /// 请求头信息 去除七牛内部标记占位
-@property(nonatomic, strong, nullable, readonly)NSDictionary *qn_allHTTPHeaderFields;
+@property(nonatomic, strong, nullable, readonly)NSDictionary *inspur_allHTTPHeaderFields;
 
-+ (instancetype)qn_requestWithURL:(NSURL *)url;
++ (instancetype)inspur_requestWithURL:(NSURL *)url;
 
 /// 获取请求体
-- (NSData *)qn_getHttpBody;
+- (NSData *)inspur_getHttpBody;
 
-- (BOOL)qn_isHttps;
+- (BOOL)inspur_isHttps;
 
 @end
 
 
-@interface NSMutableURLRequest(QNRequest)
+@interface NSMutableURLRequest(InspurRequest)
 
 /// 请求domain【内部使用】
 @property(nonatomic, strong, nullable)NSString *inspur_domain;
 /// 请求ip【内部使用】
-@property(nonatomic, strong, nullable)NSString *qn_ip;
+@property(nonatomic, strong, nullable)NSString *inspur_ip;
 
 @end
 

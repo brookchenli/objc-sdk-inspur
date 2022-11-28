@@ -14,7 +14,7 @@
  *    @param key     上传时指定的存储key
  *    @param percent 进度百分比
  */
-typedef void (^QNUpProgressHandler)(NSString *key, float percent);
+typedef void (^InspurUpProgressHandler)(NSString *key, float percent);
 
 /**
  * 上传进度回调函数
@@ -23,14 +23,14 @@ typedef void (^QNUpProgressHandler)(NSString *key, float percent);
  * @param uploadBytes 已上传大小
  * @param totalBytes  总大小；无法获取大小时为 -1
  */
-typedef void (^QNUpByteProgressHandler)(NSString *key, long long uploadBytes, long long totalBytes);
+typedef void (^InspurUpByteProgressHandler)(NSString *key, long long uploadBytes, long long totalBytes);
 
 /**
  *    上传中途取消函数
  *
  *    @return 如果想取消，返回True, 否则返回No
  */
-typedef BOOL (^QNUpCancellationSignal)(void);
+typedef BOOL (^InspurUpCancellationSignal)(void);
 
 /**
  *    可选参数集合，此类初始化后sdk上传使用时 不会对此进行改变；如果参数没有变化以及没有使用依赖，可以重复使用。
@@ -38,12 +38,12 @@ typedef BOOL (^QNUpCancellationSignal)(void);
 @interface InspurUploadOption : NSObject
 
 /**
- *    用于服务器上传回调通知的自定义参数，参数的key必须以x: 开头  eg: x:foo
+ *    用于服务器上传回调通知的自定义参数
  */
 @property (copy, nonatomic, readonly) NSDictionary *params;
 
 /**
- *    用于设置meta数据，参数的key必须以x-qn-meta- 开头  eg: x-qn-meta-key
+ *    用于设置meta数据
  */
 @property (copy, nonatomic, readonly) NSDictionary *metaDataParam;
 
@@ -60,19 +60,19 @@ typedef BOOL (^QNUpCancellationSignal)(void);
 /**
  *    进度回调函数
  */
-@property (copy, readonly) QNUpProgressHandler progressHandler;
+@property (copy, readonly) InspurUpProgressHandler progressHandler;
 
 /**
  *    进度回调函数
  *    注：
  *      使用此接口，progressHandler 会无效
  */
-@property (copy, readonly) QNUpByteProgressHandler byteProgressHandler;
+@property (copy, readonly) InspurUpByteProgressHandler byteProgressHandler;
 
 /**
  *    中途取消函数
  */
-@property (copy, readwrite) QNUpCancellationSignal cancellationSignal;
+@property (copy, readwrite) InspurUpCancellationSignal cancellationSignal;
 
 /**
  *    可选参数的初始化方法
@@ -86,16 +86,16 @@ typedef BOOL (^QNUpCancellationSignal)(void);
  *    @return 可选参数类实例
  */
 - (instancetype)initWithMime:(NSString *)mimeType
-             progressHandler:(QNUpProgressHandler)progress
+             progressHandler:(InspurUpProgressHandler)progress
                       params:(NSDictionary *)params
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation;
+          cancellationSignal:(InspurUpCancellationSignal)cancellation;
 
 - (instancetype)initWithMime:(NSString *)mimeType
-         byteProgressHandler:(QNUpByteProgressHandler)progress
+         byteProgressHandler:(InspurUpByteProgressHandler)progress
                       params:(NSDictionary *)params
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation;
+          cancellationSignal:(InspurUpCancellationSignal)cancellation;
 
 
 /**
@@ -111,22 +111,22 @@ typedef BOOL (^QNUpCancellationSignal)(void);
  *    @return 可选参数类实例
  */
 - (instancetype)initWithMime:(NSString *)mimeType
-             progressHandler:(QNUpProgressHandler)progress
+             progressHandler:(InspurUpProgressHandler)progress
                       params:(NSDictionary *)params
               metaDataParams:(NSDictionary *)metaDataParams
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation;
+          cancellationSignal:(InspurUpCancellationSignal)cancellation;
 
 - (instancetype)initWithMime:(NSString *)mimeType
-         byteProgressHandler:(QNUpByteProgressHandler)progress
+         byteProgressHandler:(InspurUpByteProgressHandler)progress
                       params:(NSDictionary *)params
               metaDataParams:(NSDictionary *)metaDataParams
                     checkCrc:(BOOL)check
-          cancellationSignal:(QNUpCancellationSignal)cancellation;
+          cancellationSignal:(InspurUpCancellationSignal)cancellation;
 
-- (instancetype)initWithProgressHandler:(QNUpProgressHandler)progress;
+- (instancetype)initWithProgressHandler:(InspurUpProgressHandler)progress;
 
-- (instancetype)initWithByteProgressHandler:(QNUpByteProgressHandler)progress;
+- (instancetype)initWithByteProgressHandler:(InspurUpByteProgressHandler)progress;
 
 /**
  *    内部使用，默认的参数实例

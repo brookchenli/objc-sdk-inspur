@@ -30,16 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-extern NSString *const QNUploadRequestTypeUCQuery;
-extern NSString *const QNUploadRequestTypeForm;
-extern NSString *const QNUploadRequestTypeMkblk;
-extern NSString *const QNUploadRequestTypeBput;
-extern NSString *const QNUploadRequestTypeMkfile;
-extern NSString *const QNUploadRequestTypeInitParts;
-extern NSString *const QNUploadRequestTypeUploadPart;
-extern NSString *const QNUploadRequestTypeCompletePart;
-extern NSString *const QNUploadRequestTypeServerConfig;
-extern NSString *const QNUploadRequestTypeServerUserConfig;
-extern NSString *const QNUploadRequestTypeUpLog;
+extern NSString *const InspurUploadRequestTypeUCQuery;
+extern NSString *const InspurUploadRequestTypeForm;
+extern NSString *const InspurUploadRequestTypeMkblk;
+extern NSString *const InspurUploadRequestTypeBput;
+extern NSString *const InspurUploadRequestTypeMkfile;
+extern NSString *const InspurUploadRequestTypeInitParts;
+extern NSString *const InspurUploadRequestTypeUploadPart;
+extern NSString *const InspurUploadRequestTypeCompletePart;
+extern NSString *const InspurUploadRequestTypeServerConfig;
+extern NSString *const InspurUploadRequestTypeServerUserConfig;
+extern NSString *const InspurUploadRequestTypeUpLog;
 
 NS_ASSUME_NONNULL_END

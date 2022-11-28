@@ -265,7 +265,7 @@
     // 已经加载过 block 数据
     // 没有需要上传的片 或者 有需要上传片但是已加载过片数据
     InspurUploadData *nextUploadData = [block nextUploadDataWithoutCheckData];
-    if (nextUploadData.state == QNUploadStateWaitToUpload && nextUploadData.data != nil) {
+    if (nextUploadData.state == InspurUploadStateWaitToUpload && nextUploadData.data != nil) {
         return block;
     }
     
@@ -282,7 +282,7 @@
         return nil;
     }
 
-    NSString *md5 = [blockBytes qn_md5];
+    NSString *md5 = [blockBytes inspur_md5];
     // 判断当前 block 的数据是否和实际数据吻合，不吻合则之前 block 被抛弃，重新创建 block
     if (blockBytes.length != block.size || block.md5 == nil || ![block.md5 isEqualToString:md5]) {
         block = [[InspurUploadBlock alloc] initWithOffset:block.offset blockSize:blockBytes.length dataSize:self.dataSize index:block.index];
@@ -290,13 +290,13 @@
     }
 
     for (InspurUploadData *data in block.uploadDataList) {
-        if (data.state != QNUploadStateComplete) {
+        if (data.state != InspurUploadStateComplete) {
             // 还未上传的
             data.data = [blockBytes subdataWithRange:NSMakeRange((NSUInteger)data.offset, (NSUInteger)data.size)];
-            data.state = QNUploadStateWaitToUpload;
+            data.state = InspurUploadStateWaitToUpload;
         } else {
             // 已经上传的
-            data.state = QNUploadStateComplete;
+            data.state = InspurUploadStateComplete;
         }
     }
 

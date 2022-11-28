@@ -6,8 +6,8 @@
 //  Copyright © 2015年 Inspur. All rights reserved.
 //
 
-#ifndef QNSystem_h
-#define QNSystem_h
+#ifndef InspurSystem_h
+#define InspurSystem_h
 
 BOOL hasNSURLSession(void);
 
@@ -17,4 +17,4 @@ BOOL allowsArbitraryLoads(void);
 
 BOOL isIpV6FullySupported(void);
 
-#endif /* QNSystem_h */
+#endif /* InspurSystem_h */

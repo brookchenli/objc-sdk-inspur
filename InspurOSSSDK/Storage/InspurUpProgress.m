@@ -13,13 +13,13 @@
 
 @property(nonatomic, assign)long long maxProgressUploadBytes;
 @property(nonatomic, assign)long long previousUploadBytes;
-@property(nonatomic,  copy)QNUpProgressHandler progress;
-@property(nonatomic,  copy)QNUpByteProgressHandler byteProgress;
+@property(nonatomic,  copy)InspurUpProgressHandler progress;
+@property(nonatomic,  copy)InspurUpByteProgressHandler byteProgress;
 
 @end
 @implementation InspurUpProgress
 
-+ (instancetype)progress:(QNUpProgressHandler)progress byteProgress:(QNUpByteProgressHandler)byteProgress {
++ (instancetype)progress:(InspurUpProgressHandler)progress byteProgress:(InspurUpByteProgressHandler)byteProgress {
     InspurUpProgress *upProgress = [[InspurUpProgress alloc] init];
     upProgress.maxProgressUploadBytes = -1;
     upProgress.previousUploadBytes = 0;

@@ -149,7 +149,7 @@ static const char kWebSafeBase64DecodeChars[] = {
 //   YES if the character is a whitespace character.
 //   NO if the character is not a whitespace character.
 //
-BOOL QN_IsSpace(unsigned char c) {
+BOOL Inspur_IsSpace(unsigned char c) {
     // we use our own mapping here because we don't want anything w/ locale
     // support.
     static BOOL kSpaces[256] = {
@@ -188,7 +188,7 @@ BOOL QN_IsSpace(unsigned char c) {
 // Returns:
 //   The guessed encoded length for a source length
 //
-NSUInteger QN_CalcEncodedLength(NSUInteger srcLen, BOOL padded) {
+NSUInteger Inspur_CalcEncodedLength(NSUInteger srcLen, BOOL padded) {
     NSUInteger intermediate_result = 8 * srcLen + 5;
     NSUInteger len = intermediate_result / 6;
     if (padded) {
@@ -204,7 +204,7 @@ NSUInteger QN_CalcEncodedLength(NSUInteger srcLen, BOOL padded) {
 // Returns:
 //   The guessed decoded length for a source length
 //
-NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
+NSUInteger Inspur_GuessDecodedLength(NSUInteger srcLen) {
     return (srcLen + 3) / 4 * 3;
 }
 
@@ -409,7 +409,7 @@ NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
                charset:(const char *)charset
                 padded:(BOOL)padded {
     // how big could it be?
-    NSUInteger maxLength = QN_CalcEncodedLength(length, padded);
+    NSUInteger maxLength = Inspur_CalcEncodedLength(length, padded);
     // make space
     NSMutableData *result = [NSMutableData data];
     [result setLength:maxLength];
@@ -445,7 +445,7 @@ NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
                charset:(const char *)charset
         requirePadding:(BOOL)requirePadding {
     // could try to calculate what it will end up as
-    NSUInteger maxLength = QN_GuessDecodedLength(length);
+    NSUInteger maxLength = Inspur_GuessDecodedLength(length);
     // make space
     NSMutableData *result = [NSMutableData data];
     [result setLength:maxLength];
@@ -575,7 +575,7 @@ NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
     int state = 0;
     char ch = 0;
     while (srcLen-- && (ch = *srcBytes++) != 0) {
-        if (QN_IsSpace(ch)) // Skip whitespace
+        if (Inspur_IsSpace(ch)) // Skip whitespace
             continue;
 
         if (ch == kBase64PaddingChar)
@@ -648,7 +648,7 @@ NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
         } else {
             if (state == 2) { // need another '='
                 while ((ch = *srcBytes++) && (srcLen-- > 0)) {
-                    if (!QN_IsSpace(ch))
+                    if (!Inspur_IsSpace(ch))
                         break;
                 }
                 if (ch != kBase64PaddingChar) {
@@ -657,7 +657,7 @@ NSUInteger QN_GuessDecodedLength(NSUInteger srcLen) {
             }
             // state = 1 or 2, check if all remain padding is space
             while ((ch = *srcBytes++) && (srcLen-- > 0)) {
-                if (!QN_IsSpace(ch)) {
+                if (!Inspur_IsSpace(ch)) {
                     return 0;
                 }
             }

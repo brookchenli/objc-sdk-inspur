@@ -67,7 +67,7 @@
          server:(id <InspurUploadServer>)server
     shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
        progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-       complete:(QNSingleRequestCompleteHandler)complete{
+       complete:(InspurSingleRequestCompleteHandler)complete{
     
     _currentRetryTime = 0;
     _requestMetricsList = [NSMutableArray array];
@@ -78,7 +78,7 @@
               server:(id <InspurUploadServer>)server
          shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))shouldRetry
             progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
-            complete:(QNSingleRequestCompleteHandler)complete{
+            complete:(InspurSingleRequestCompleteHandler)complete{
     
     if (kInspurIsHttp3(server.httpVersion)) {
         self.client = [[InspurUploadSystemClient alloc] init];
@@ -130,54 +130,12 @@
         }
         
         NSDictionary *responseDic = nil;
-        /*
-        if (responseData) {
-            responseDic = [NSJSONSerialization JSONObjectWithData:responseData
-                                                          options:NSJSONReadingMutableLeaves
-                                                            error:nil];
-        }
-       
-        
-        responseInfo = [[QNResponseInfo alloc] initWithResponseInfoHost:request.qn_domain
-                                                               response:(NSHTTPURLResponse *)response
-                                                                   body:responseData
-                                                                  error:error];
-         
-         */
+
         
         responseInfo = [[InspurResponseInfo alloc] initWithResponse:(NSHTTPURLResponse *)response body:responseData error:error];
         responseDic = responseInfo.responseDictionary;
         
-        /*
-        BOOL isSafeDnsSource = kInspurIsDnsSourceCustom(server.source) || kInspurIsDnsSourceDoh(server.source) || kInspurIsDnsSourceDnsPod(server.source);
-        BOOL hijacked = responseInfo.isNotQiniu && !isSafeDnsSource;
-        if (hijacked) {
-            metrics.hijacked = kInspurMetricsRequestHijacked;
-            NSError *err = nil;
-            metrics.syncDnsSource = [kInspurDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
-            metrics.syncDnsError = err;
-        }
-        */
-        
-        /*
-        if (!hijacked && [self shouldCheckConnect:responseInfo]) {
-            // 网络状态检测
-            QNUploadSingleRequestMetrics *connectCheckMetrics = [QNConnectChecker check];
-            metrics.connectCheckMetrics = connectCheckMetrics;
-            if (![QNConnectChecker isConnected:connectCheckMetrics]) {
-                NSString *message = [NSString stringWithFormat:@"check origin statusCode:%d error:%@", responseInfo.statusCode, responseInfo.error];
-                responseInfo = [QNResponseInfo errorResponseInfo:NSURLErrorNotConnectedToInternet errorDesc:message];
-            } else if (!isSafeDnsSource) {
-                metrics.hijacked = kInspurMetricsRequestMaybeHijacked;
-                NSError *err = nil;
-                [kInspurDnsPrefetch prefetchHostBySafeDns:server.host error:&err];
-                metrics.syncDnsError = err;
-            }
-        }
-        
-        [self reportRequest:responseInfo server:server requestMetrics:metrics];
-        */
-        
+    
         InspurLogInfo(@"key:%@ response:%@", self.requestInfo.key, responseInfo);
         if (shouldRetry(responseInfo, responseDic)
             && self.currentRetryTime < self.config.retryMax) {
@@ -214,7 +172,7 @@
             server:(id<InspurUploadServer>)server
           response:(NSDictionary *)response
     requestMetrics:(InspurUploadSingleRequestMetrics *)requestMetrics
-          complete:(QNSingleRequestCompleteHandler)complete {
+          complete:(InspurSingleRequestCompleteHandler)complete {
     [self updateHostNetworkStatus:responseInfo server:server requestMetrics:requestMetrics];
     if (complete) {
         complete(responseInfo, [self.requestMetricsList copy], response);
@@ -222,7 +180,7 @@
 }
 
 - (BOOL)shouldUseCFClient:(NSURLRequest *)request server:(id <InspurUploadServer>)server {
-    if (request.qn_isHttps && server.host.length > 0 && server.ip.length > 0) {
+    if (request.inspur_isHttps && server.host.length > 0 && server.ip.length > 0) {
         return YES;
     } else {
         return NO;
@@ -261,7 +219,7 @@
     [item setReportValue:@(currentTimestamp/1000) forKey:InspurReportRequestKeyUpTime];
     [item setReportValue:info.requestReportStatusCode forKey:InspurReportRequestKeyStatusCode];
     [item setReportValue:info.reqId forKey:InspurReportRequestKeyRequestId];
-    [item setReportValue:requestMetricsP.request.qn_domain forKey:InspurReportRequestKeyHost];
+    [item setReportValue:requestMetricsP.request.inspur_domain forKey:InspurReportRequestKeyHost];
     [item setReportValue:requestMetricsP.remoteAddress forKey:InspurReportRequestKeyRemoteIp];
     [item setReportValue:requestMetricsP.remotePort forKey:InspurReportRequestKeyPort];
     [item setReportValue:self.requestInfo.bucket forKey:InspurReportRequestKeyTargetBucket];

@@ -198,7 +198,7 @@
     }
     
     self.isReporting = YES;
-    logData = [NSData qn_gZip:logData];
+    logData = [NSData inspur_gZip:logData];
     InspurRequestTransaction *transaction = [self createUploadRequestTransaction:token];
     [transaction reportLog:logData logClientId:self.X_Log_Client_Id complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
         if (responseInfo.isOK) {

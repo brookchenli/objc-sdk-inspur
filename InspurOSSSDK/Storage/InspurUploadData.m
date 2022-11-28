@@ -40,7 +40,7 @@
         _index = index;
         _etag = @"";
         _md5 = @"";
-        _state = QNUploadStateNeedToCheck;
+        _state = InspurUploadStateNeedToCheck;
     }
     return self;
 }
@@ -48,8 +48,8 @@
 - (BOOL)needToUpload {
     BOOL needToUpload = false;
     switch (self.state) {
-        case QNUploadStateNeedToCheck:
-        case QNUploadStateWaitToUpload:
+        case InspurUploadStateNeedToCheck:
+        case InspurUploadStateWaitToUpload:
             needToUpload = true;
             break;
         default:
@@ -59,14 +59,14 @@
 }
 
 - (BOOL)isUploaded {
-    return self.state == QNUploadStateComplete;
+    return self.state == InspurUploadStateComplete;
 }
 
-- (void)setState:(QNUploadState)state {
+- (void)setState:(InspurUploadState)state {
     switch (state) {
-        case QNUploadStateNeedToCheck:
-        case QNUploadStateWaitToUpload:
-        case QNUploadStateUploading:
+        case InspurUploadStateNeedToCheck:
+        case InspurUploadStateWaitToUpload:
+        case InspurUploadStateUploading:
             self.uploadSize = 0;
             self.etag = @"";
             break;
@@ -78,7 +78,7 @@
 }
 
 - (long long)uploadSize {
-    if (self.state == QNUploadStateComplete) {
+    if (self.state == InspurUploadStateComplete) {
         return _size;
     } else {
         return _uploadSize;
@@ -86,14 +86,14 @@
 }
 
 - (void)clearUploadState{
-    self.state = QNUploadStateNeedToCheck;
+    self.state = InspurUploadStateNeedToCheck;
     self.etag = nil;
     self.md5 = nil;
 }
 
 - (void)checkStateAndUpdate {
-    if ((self.state == QNUploadStateWaitToUpload || self.state == QNUploadStateUploading) && self.data == nil) {
-        self.state = QNUploadStateNeedToCheck;
+    if ((self.state == InspurUploadStateWaitToUpload || self.state == InspurUploadStateUploading) && self.data == nil) {
+        self.state = InspurUploadStateNeedToCheck;
     }
 }
 

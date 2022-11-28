@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_ENUM(NSInteger, QNUploadState) {
-    QNUploadStateNeedToCheck, // 需要检测数据
-    QNUploadStateWaitToUpload, // 等待上传
-    QNUploadStateUploading, // 正在上传
-    QNUploadStateComplete, // 上传结束
+typedef NS_ENUM(NSInteger, InspurUploadState) {
+    InspurUploadStateNeedToCheck, // 需要检测数据
+    InspurUploadStateWaitToUpload, // 等待上传
+    InspurUploadStateUploading, // 正在上传
+    InspurUploadStateComplete, // 上传结束
 };
 
 @interface InspurUploadData : NSObject
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, QNUploadState) {
 /// data md5
 @property(nonatomic, copy, nullable)NSString *md5;
 /// 上传状态
-@property(nonatomic, assign)QNUploadState state;
+@property(nonatomic, assign)InspurUploadState state;
 /// 上传进度 【不进行离线缓存】
 @property(nonatomic, assign)long long uploadSize;
 /// 上传数据 【不进行离线缓存】

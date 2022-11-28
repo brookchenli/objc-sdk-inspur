@@ -113,7 +113,7 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 /**
  *  为持久化上传记录，根据上传的key以及文件名 生成持久化的记录key
  */
-@property (nonatomic, readonly) QNRecorderKeyGenerator recorderKeyGen;
+@property (nonatomic, readonly) InspurRecorderKeyGenerator recorderKeyGen;
 
 /**
  *  上传请求代理配置信息
@@ -136,7 +136,7 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 + (instancetype)defaultConfiguration;
 
 /**
- *  使用 QNConfigurationBuilder 进行配置
+ *  使用 InspurConfigurationBuilder 进行配置
  *  @param block  配置block
  */
 + (instancetype)build:(InspurConfigurationBuilderBlock)block;
@@ -326,7 +326,7 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 /**
  *  为持久化上传记录，根据上传的key以及文件名 生成持久化的记录key
  */
-@property (nonatomic, strong) QNRecorderKeyGenerator recorderKeyGen;
+@property (nonatomic, strong) InspurRecorderKeyGenerator recorderKeyGen;
 
 /**
  *  上传请求代理配置信息
