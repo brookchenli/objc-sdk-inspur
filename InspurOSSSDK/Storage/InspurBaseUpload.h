@@ -123,4 +123,6 @@ typedef void (^InspurUpTaskCompletionHandler)(InspurResponseInfo *info, NSString
 // 一个上传流程可能会发起多个上传操作（如：上传多个分片），每个上传操作均是以一个Region的host做重试操作
 - (void)addRegionRequestMetricsOfOneFlow:(InspurUploadRegionRequestMetrics *)metrics;
 
+- (void)updateKeyIfNeeded:(InspurResponseInfo *)responseInfo;
+
 @end

@@ -29,8 +29,8 @@
  */
 typedef void (^InspurUpCompletionHandler)(InspurResponseInfo * _Nullable info, NSString *_Nullable key, NSDictionary * _Nullable resp);
 
-typedef void (^InspurUpSignatureResultHandler)(NSString * _Nullable signture, NSError  * _Nullable error);
-typedef void (^InspurUpSignatureHandler)(NSString * _Nullable contentNeedSignature, InspurUpSignatureResultHandler _Nullable result);
+typedef void (^InspurUpSignatureResultHandler)(NSArray <NSString *> * _Nullable signturedContents, NSError  * _Nullable error);
+typedef void (^InspurUpSignatureHandler)(NSArray <NSString *> * _Nullable contentNeedSignature, InspurUpSignatureResultHandler _Nullable result);
 
 
 /**
@@ -93,8 +93,10 @@ typedef void (^InspurUpSignatureHandler)(NSString * _Nullable contentNeedSignatu
  *    @param option            上传时传入的可选参数
  */
 - (void)putData:(NSData *)data
+          domin:(NSString *)domin
         bucket:(NSString *)bucket
             key:(NSString *)key
+       deadLine:(NSTimeInterval)deadLine
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
@@ -109,37 +111,16 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
  *    @param completionHandler 上传完成后的回调函数
  *    @param option            上传时传入的可选参数
  */
-- (void)putFile:(NSString *)filePath
-            key:(NSString *)key
-          token:(NSString *)token
-       complete:(InspurUpCompletionHandler)completionHandler
-         option:(InspurUploadOption *)option;
 
 - (void)putFile:(NSString *)filePath
+          domin:(NSString *)domin
          bucket:(NSString *)bucket
             key:(NSString *)key
+       deadLine:(NSTimeInterval)deadLine
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option;
-
-#if !TARGET_OS_MACCATALYST
-/**
- *    上传ALAsset文件
- *
- *    @param asset           ALAsset文件
- *    @param key               上传到云存储的key，为nil时表示是由七牛生成
- *    @param token             上传需要的token, 由服务器生成
- *    @param completionHandler 上传完成后的回调函数
- *    @param option            上传时传入的可选参数
- */
-- (void)putALAsset:(ALAsset *)asset
-               key:(NSString *)key
-             token:(NSString *)token
-          complete:(InspurUpCompletionHandler)completionHandler
-            option:(InspurUploadOption *)option API_UNAVAILABLE(macos, tvos);
-#endif
-
 /**
  *    上传PHAsset文件(IOS8 andLater)
  *
@@ -150,8 +131,12 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
  *    @param option            上传时传入的可选参数
  */
 - (void)putPHAsset:(PHAsset *)asset
+             domin:(NSString *)domin
+            bucket:(NSString *)bucket
                key:(NSString *)key
-             token:(NSString *)token
+          deadLine:(NSTimeInterval)deadLine
+         accessKey:(NSString *)key
+  signatureHanlder:(InspurUpSignatureHandler)signatureHandler
           complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option API_AVAILABLE(ios(9.1)) API_UNAVAILABLE(macos, tvos);
 
@@ -166,8 +151,12 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
  */
 
 - (void)putPHAssetResource:(PHAssetResource *)assetResource
-                       key:(NSString *)key
-                     token:(NSString *)token
+                     domin:(NSString *)domin
+                    bucket:(NSString * _Nonnull)bucket
+                       key:(NSString * _Nullable)key
+                  deadLine:(NSTimeInterval)deadLine
+                 accessKey:(NSString *)accessKey
+          signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                   complete:(InspurUpCompletionHandler)completionHandler
                     option:(InspurUploadOption *)option API_AVAILABLE(ios(9)) API_UNAVAILABLE(macos, tvos);
 

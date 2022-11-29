@@ -48,6 +48,8 @@
         
         [self addRegionRequestMetricsOfOneFlow:metrics];
         
+        
+        
         if (!responseInfo.isOK) {
             if (![self switchRegionAndUploadIfNeededWithErrorResponse:responseInfo]) {
                 [self complete:responseInfo response:response];
@@ -55,10 +57,12 @@
             return;
         }
         
+        [self updateKeyIfNeeded:responseInfo];
         [self.progress notifyDone:self.key totalBytes:self.data.length];
         [self complete:responseInfo response:response];
     }];
 }
+
 
 - (InspurUpProgress *)progress {
     if (_progress == nil) {

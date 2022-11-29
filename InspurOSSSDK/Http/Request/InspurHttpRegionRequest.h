@@ -21,6 +21,7 @@ typedef void(^InspurRegionRequestCompleteHandler)(InspurResponseInfo * _Nullable
 
 @property(nonatomic, strong, readonly)InspurConfiguration *config;
 @property(nonatomic, strong, readonly)InspurUploadOption *uploadOption;
+@property(nonatomic, strong) NSString *domin;
 
 
 - (instancetype)initWithConfig:(InspurConfiguration *)config

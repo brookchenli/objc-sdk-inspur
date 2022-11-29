@@ -17,10 +17,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) NSString *accessKey;
 
+@property (nonatomic, strong) NSString *safeKey;
+
 - (NSString *)putData;
 - (NSString *)partInit;
 - (NSString *)partUpload:(NSString *)uploadId partIndex:(NSString *)partIndex;
+- (NSArray <NSString *>*)partUpload:(NSString *)uploadId partIndex:(NSInteger)partIndex maxIndex:(int)maxIndex;
 - (NSString *)completeUpload:(NSString *)uploadId;
+
+- (NSString *)safeKey;
+
+- (void)updateKey:(NSString *)key;
 
 @end
 

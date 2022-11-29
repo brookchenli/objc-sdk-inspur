@@ -64,9 +64,6 @@ const UInt32 kInspurDefaultDnsCacheTime = 2 * 60;
         _useHttps = builder.useHttps;
 
         _allowBackupHost = builder.allowBackupHost;
-        
-        _signatureTimeoutInterval = builder.signatureTimeoutInterval;
-
     }
     return self;
 }
@@ -157,8 +154,8 @@ const UInt32 kInspurDefaultDnsCacheTime = 2 * 60;
 - (instancetype)init {
     if (self = [super init]) {
         _zone = [InspurFixedZone north3];
-        _chunkSize = 5 * 1024 * 1024;
-        _putThreshold = 5 * 1024 * 1024;
+        _chunkSize =  8 * 1024 * 1024;
+        _putThreshold = 8 * 1024 * 1024;
         _retryMax = 1;
         _timeoutInterval = 90;
         _retryInterval = 0.5;
@@ -173,9 +170,7 @@ const UInt32 kInspurDefaultDnsCacheTime = 2 * 60;
         _allowBackupHost = YES;
         _useConcurrentResumeUpload = NO;
         _resumeUploadVersion = InspurResumeUploadVersionV2;
-        _concurrentTaskCount = 3;
-        
-        _signatureTimeoutInterval = 24*3600;
+        _concurrentTaskCount = 3;        
     }
     return self;
 }

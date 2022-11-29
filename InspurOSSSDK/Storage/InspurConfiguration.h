@@ -126,11 +126,6 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 @property (nonatomic, readonly) InspurUrlConvert converter;
 
 /**
- *  签名有效时间
- */
-@property (nonatomic, assign) long signatureTimeoutInterval;
-
-/**
  *  默认配置
  */
 + (instancetype)defaultConfiguration;
@@ -268,8 +263,7 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
 
 /**
  *    断点上传时的分片大小
- *    分片 v1 最小为 1024，即 1K，建议用户配置 >= 512K
- *    分片 v2 最小为 1024 * 1024，即 1M
+ *    默认1M
  */
 @property (assign) UInt32 chunkSize;
 
@@ -337,9 +331,6 @@ typedef void (^InspurConfigurationBuilderBlock)(InspurConfigurationBuilder *buil
  *  上传URL转换，使url转换为用户需要的url
  */
 @property (nonatomic, strong) InspurUrlConvert converter;
-/**
- *  签名有效时间
- */
-@property (nonatomic, assign) long signatureTimeoutInterval;
+
 
 @end

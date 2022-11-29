@@ -82,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
                                 InspurUploadRegionRequestMetrics * _Nullable metrics,
                                 NSDictionary * _Nullable response))completeHandler;
 
+- (void)updateKeyIfNeeded:(InspurResponseInfo *)info;
+
 @end
 
 NS_ASSUME_NONNULL_END

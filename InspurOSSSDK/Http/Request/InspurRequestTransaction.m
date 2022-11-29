@@ -92,6 +92,7 @@
                                                               region:currentRegion
                                                          requestInfo:_requestInfo
                                                         requestState:_requestState];
+        _regionRequest.domin = self.token.domin;
         [self setupSignatureInfo];
     }
     return self;
@@ -132,19 +133,24 @@
     if (self.key) {
         [action appendFormat:@"/%@", self.key];
     } else {
-        [action appendFormat:@"/"];
-        header[@"random-object-name"] = @"true";
+        [action appendFormat:@"/%@", [self.signatureContentGenerator safeKey]];
     }
     [action appendFormat:@"?AccessKeyId=%@&Expires=%@", self.token.access, @(self.token.deadline)];
+    if (!self.key) {
+        [action appendString:@"&random-object-name=true"];
+    }
     
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)!responseInfo.isOK;
     };
     
     kInspurWeakSelf;
+    
     NSString *contentNeedSignature = [self.signatureContentGenerator putData];
-    self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
+    NSLog(@"contentNeedSignature:%@", contentNeedSignature);
+    self.token.signatureHandler(@[contentNeedSignature], ^(NSArray<NSString *> * _Nullable signaturedContents, NSError * _Nullable error) {
         kInspurStrongSelf;
+        NSString *signature = [NSString stringWithFormat:@"%@", signaturedContents.count > 0 ? signaturedContents.firstObject : @""];
         [action appendFormat:@"&Signature=%@", signature ?: @""];
         [self.regionRequest put:action
                         headers:header
@@ -357,45 +363,48 @@
                     complete:complete];
 }
 
-
 - (void)initPart:(InspurRequestTransactionCompleteHandler)complete{
     
     self.requestInfo.requestType = InspurUploadRequestTypeInitParts;
     
     NSMutableString *action = [NSMutableString stringWithFormat:@"/%@", self.token.bucket];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    if (self.key) {
-        [action appendFormat:@"/%@", self.key];
-    } else {
-       
-    }
+    [action appendFormat:@"/%@", [self.signatureContentGenerator safeKey]];
     [action appendFormat:@"?uploads&AccessKeyId=%@&Expires=%@", self.token.access, @(self.token.deadline)];
-    NSString *contentNeedSignature = [self.signatureContentGenerator partInit];
+    if (!self.key) {
+        //[action appendString:@"&random-object-name=true"];
+    }
     
+    NSString *contentNeedSignature = [self.signatureContentGenerator partInit];
+    NSLog(@"contentNeedSignature:%@", contentNeedSignature);
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
         return (BOOL)(!responseInfo.isOK);
     };
-    
+    NSString *key = self.key;
     kInspurWeakSelf;
-    self.token.signatureHandler(contentNeedSignature, ^(NSString *signature, NSError * _Nullable error) {
-        [action appendFormat:@"&Signature=%@", signature ?: @""];
+    self.token.signatureHandler(@[contentNeedSignature], ^(NSArray <NSString *> * _Nullable signaturedContents, NSError * _Nullable error) {
         kInspurStrongSelf;
+        NSString *signature = [NSString stringWithFormat:@"%@", signaturedContents.count > 0 ? signaturedContents.firstObject : @""];
+        [action appendFormat:@"&Signature=%@", signature ?: @""];
+        if (!key) {
+            [action appendString:@"&random-object-name=true"];
+        }
+        kInspurWeakSelf;
         [self.regionRequest post:action
                          headers:header
                             body:nil
                      shouldRetry:shouldRetry
                         progress:nil
                         complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
-
+            kInspurStrongSelf;
+            [self updateKeyIfNeeded:responseInfo];
             complete(responseInfo, metrics, response);
         }];
     });
 }
-
-
-
 - (void)uploadPart:(NSString *)uploadId
          partIndex:(NSInteger)partIndex
+          maxIndex:(NSInteger)maxPartNumber
           partData:(NSData *)partData
           progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
           complete:(InspurRequestTransactionCompleteHandler)complete{
@@ -403,7 +412,7 @@
     self.requestInfo.requestType = InspurUploadRequestTypeUploadPart;
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     NSString *partNumber = [[NSString alloc] initWithFormat:@"%ld", (long)partIndex];
-    NSString *action = [NSString stringWithFormat:@"/%@/%@?partNumber=%@&uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, self.key, @(partIndex), uploadId, self.token.access, @(self.token.deadline)];
+    NSString *action = [NSString stringWithFormat:@"/%@/%@?partNumber=%@&uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, [self.signatureContentGenerator safeKey], @(partIndex), uploadId, self.token.access, @(self.token.deadline)];
    
     BOOL (^shouldRetry)(InspurResponseInfo *, NSDictionary *) = ^(InspurResponseInfo * responseInfo, NSDictionary * response){
         //NSString *etag = [NSString stringWithFormat:@"%@", response[@"etag"]];
@@ -412,10 +421,12 @@
         return (BOOL)(!responseInfo.isOK );
     };
     NSString *contentNeedSignature = [self.signatureContentGenerator partUpload:uploadId partIndex:partNumber];
-    kInspurWeakSelf;
-    self.token.signatureHandler(contentNeedSignature, ^(NSString *signture, NSError * _Nullable error) {
-        kInspurStrongSelf;
-        [self.regionRequest put:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
+    NSArray <NSString *>*contents = [self.signatureContentGenerator partUpload:uploadId partIndex:partIndex maxIndex:(int)maxPartNumber];
+    NSString *cachedSignature = [self.signatureCache objectForKey:contentNeedSignature];
+    
+    if (cachedSignature.length > 0) {
+        NSString *action1 = [NSString stringWithFormat:@"%@&Signature=%@", action, cachedSignature ?: @""];
+        [self.regionRequest put:action1
                         headers:header
                            body:partData
                     shouldRetry:shouldRetry
@@ -424,9 +435,31 @@
 
             complete(responseInfo, metrics, response);
         }];
-    });
-    
-    ;
+    } else {
+        kInspurWeakSelf;
+        self.token.signatureHandler(contents, ^(NSArray<NSString *> * _Nullable signaturedContents, NSError * _Nullable error) {
+            kInspurStrongSelf;
+            //缓存
+            if (contents.count == signaturedContents.count && contents.count > 0) {
+                for (int i = 0; i < contents.count; i++ ) {
+                    NSString *content = [contents objectAtIndex:i];
+                    NSString *signature = [signaturedContents objectAtIndex:i];
+                    [self.signatureCache setValue:signature forKey:content];
+                }
+            }
+            NSString *signature = [self.signatureCache objectForKey:contentNeedSignature];
+            NSString *action1 = [NSString stringWithFormat:@"%@&Signature=%@", action, signature ?: @""];
+            [self.regionRequest put:action1
+                            headers:header
+                               body:partData
+                        shouldRetry:shouldRetry
+                           progress:progress
+                           complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {
+
+                complete(responseInfo, metrics, response);
+            }];
+        });
+    }
 }
 
 - (void)completeParts:(NSString *)fileName
@@ -454,7 +487,7 @@
     //NSString *uploads = [[NSString alloc] initWithFormat:@"/uploads/%@", uploadId];
     NSLog(@"infoArray:%@", partInfoArray);
     
-    NSString *action = [NSString stringWithFormat:@"/%@/%@?uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, self.key, uploadId, self.token.access, @(self.token.deadline)];
+    NSString *action = [NSString stringWithFormat:@"/%@/%@?uploadId=%@&AccessKeyId=%@&Expires=%@", self.token.bucket, [self.signatureContentGenerator safeKey], uploadId, self.token.access, @(self.token.deadline)];
 
     NSMutableArray *array = [NSMutableArray array];
     for (NSDictionary *value in partInfoArray) {
@@ -471,10 +504,11 @@
     
     NSString *contentNeedSignatue = [self.signatureContentGenerator completeUpload:uploadId];
     kInspurWeakSelf;
-    self.token.signatureHandler(contentNeedSignatue, ^(NSString *signture, NSError * _Nullable error) {
+    self.token.signatureHandler(@[contentNeedSignatue], ^(NSArray<NSString *> * _Nullable signaturedContents, NSError * _Nullable error) {
         kInspurStrongSelf;
-        
-        [self.regionRequest post:[NSString stringWithFormat:@"%@&Signature=%@", action, signture ?: @""]
+        NSString *signature = [NSString stringWithFormat:@"%@", signaturedContents.count > 0 ? signaturedContents.firstObject : @""];
+        NSString *action1 = [NSString stringWithFormat:@"%@&Signature=%@", action, signature ?: @""];
+        [self.regionRequest post:action1
                          headers:header
                             body:body
                      shouldRetry:shouldRetry
@@ -562,6 +596,16 @@
         complete(responseInfo, metrics, response);
     }];
 }
+
+- (void)updateKeyIfNeeded:(InspurResponseInfo *)responseInfo {
+    NSString *key = self.key;
+    NSString *objectName = responseInfo.responseHeader[@"object-name"];
+    if (!key && objectName.length > 0) {
+        _key = objectName;
+        [self.signatureContentGenerator updateKey:objectName];
+    }
+}
+
 
 - (NSString *)resumeV2EncodeKey:(NSString *)key{
     NSString *encodeKey = nil;

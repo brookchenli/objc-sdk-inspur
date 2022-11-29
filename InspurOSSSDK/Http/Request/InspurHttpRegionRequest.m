@@ -123,13 +123,15 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
               progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
               complete:(InspurRegionRequestCompleteHandler)complete{
     
+    /*
     if (!server.host || server.host.length == 0) {
         InspurResponseInfo *responseInfo = [InspurResponseInfo responseInfoWithSDKInteriorError:@"server error"];
         [self complete:responseInfo response:nil complete:complete];
         return;
     }
+    */
     
-    NSString *serverHost = server.host;
+    NSString *serverHost = self.domin;
     //NSString *serverIP = server.ip;
     /*
     if (self.config.converter) {
@@ -141,7 +143,7 @@ shouldRetry:(BOOL(^)(InspurResponseInfo *responseInfo, NSDictionary *response))s
     
     NSString *scheme = self.config.useHttps ? @"https://" : @"http://";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@.%@%@", scheme, self.region.zoneInfo.regionId, serverHost, action ?: @""];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@%@", scheme, serverHost, action ?: @""];
     request.URL = [NSURL URLWithString:urlString];
     request.HTTPMethod = method;
     [request setAllHTTPHeaderFields:headers];

@@ -42,6 +42,8 @@
 
 @property(nonatomic, strong) InspurUpProgress *progress;
 @property(nonatomic, strong) NSMutableArray <InspurRequestTransaction *> *uploadTransactions;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSString *> *signatureCache;
+
 
 @end
 @implementation InspurPartsUploadPerformer
@@ -62,7 +64,7 @@
         _config = config;
         _recorder = config.recorder;
         _recorderKey = recorderKey;
-        
+        _signatureCache = [NSMutableDictionary dictionary];
         [self initData];
     }
     return self;
@@ -189,6 +191,7 @@
                                                                        currentRegion:self.currentRegion
                                                                                  key:self.key
                                                                                token:self.token];
+    transaction.signatureCache = self.signatureCache;
     @synchronized (self) {
         [self.uploadTransactions addObject:transaction];
     }
@@ -223,6 +226,14 @@
 - (void)completeUpload:(void (^)(InspurResponseInfo * _Nullable,
                                  InspurUploadRegionRequestMetrics * _Nullable,
                                  NSDictionary * _Nullable))completeHandler {}
+
+- (void)updateKeyIfNeeded:(InspurResponseInfo *)responseInfo {
+    NSString *key = self.key;
+    NSString *objectName = responseInfo.responseHeader[@"object-name"];
+    if (!key && objectName.length > 0) {
+        self.key = objectName;
+    }
+}
 
 - (InspurUpProgress *)progress {
     if (_progress == nil) {

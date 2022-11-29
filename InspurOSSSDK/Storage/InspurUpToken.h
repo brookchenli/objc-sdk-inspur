@@ -8,15 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^InspurUpTokenSignatureResultHandler)(NSString *signture, NSError  * _Nullable error);
-typedef void (^InspurUpTokenSignatureHandler)(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result);
+typedef void (^InspurUpTokenSignatureResultHandler)(NSArray <NSString *> * _Nullable signaturedContents, NSError  * _Nullable error);
+typedef void (^InspurUpTokenSignatureHandler)(NSArray <NSString *> * _Nullable contentsNeedSignature, InspurUpTokenSignatureResultHandler _Nullable result);
 
 
 @interface InspurUpToken : NSObject
 
 - (instancetype)initBucket:(NSString *)bucket
                   deadLine:(long)deadLine
-                 accessKey:(NSString *)accessKey;
+                 accessKey:(NSString *)accessKey
+                     domin:(NSString *)domin;
 
 + (instancetype)parse:(NSString *)token;
 
@@ -24,6 +25,7 @@ typedef void (^InspurUpTokenSignatureHandler)(NSString *contentNeedSignature, In
 @property (copy  , nonatomic, readonly) NSString *access;
 @property (copy  , nonatomic, readonly) NSString *bucket;
 @property (copy  , nonatomic, readonly) NSString *token;
+@property (copy  , nonatomic, readonly) NSString *domin;
 
 @property (copy  , nonatomic) InspurUpTokenSignatureHandler signatureHandler;
 

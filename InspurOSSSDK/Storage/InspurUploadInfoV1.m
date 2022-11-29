@@ -11,7 +11,7 @@
 #import "InspurUploadInfoV1.h"
 
 #define kTypeValue @"UploadInfoV1"
-#define kBlockSize (4 * 1024 * 1024)
+#define kBlockSize (8 * 1024 * 1024)
 
 @interface InspurUploadInfoV1()
 

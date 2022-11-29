@@ -136,7 +136,8 @@
             }
             return;
         }
-        
+        [self updateKeyIfNeeded:responseInfo];
+        [self.uploadPerformer updateKeyIfNeeded:responseInfo];
         InspurLogInfo(@"key:%@ uploadRestData", self.key);
         
         // 2. 上传数据

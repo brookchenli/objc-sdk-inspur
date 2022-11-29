@@ -18,6 +18,8 @@ typedef void(^InspurRequestTransactionCompleteHandler)(InspurResponseInfo * _Nul
 // 单个对象只能执行一个事务，多个事务需要创建多个事务对象完成
 @interface InspurRequestTransaction : NSObject
 
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSString *>*signatureCache;
+
 //MARK:-- 构造方法
 - (instancetype)initWithHosts:(NSArray <NSString *> *)hosts
                      regionId:(NSString * _Nullable)regionId
@@ -72,6 +74,7 @@ typedef void(^InspurRequestTransactionCompleteHandler)(InspurResponseInfo * _Nul
 
 - (void)uploadPart:(NSString *)uploadId
          partIndex:(NSInteger)partIndex
+          maxIndex:(NSInteger)maxPartNumber
           partData:(NSData *)partData
           progress:(void(^)(long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
           complete:(InspurRequestTransactionCompleteHandler)complete;

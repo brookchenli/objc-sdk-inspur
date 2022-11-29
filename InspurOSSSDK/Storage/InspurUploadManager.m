@@ -102,19 +102,31 @@
 }
 
 - (void)putData:(NSData *)data
+          domin:(NSString *)domin
          bucket:(NSString *)bucket
             key:(NSString *)key
+       deadLine:(NSTimeInterval)deadLine
         accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
          option:(InspurUploadOption *)option {
-    [self putData:data bucket:bucket fileName:nil key:key accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
+    [self putData:data
+            domin:domin
+           bucket:bucket
+         fileName:nil
+              key:key
+         deadLine:deadLine
+        accessKey:accessKey
+ signatureHanlder:signatureHandler
+         complete:completionHandler option:option];
 }
 
 - (void)putData:(NSData *)data
+          domin:(NSString *)domin
          bucket:(NSString *)bucket
        fileName:(NSString *)fileName
             key:(NSString *)key
+       deadLine:(NSTimeInterval)deadLine
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
@@ -123,13 +135,16 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
     if ([InspurUploadManager checkAndNotifyError:key token:@"" input:data complete:completionHandler]) {
         return;
     }
-    long deadLine = [[NSDate date] timeIntervalSince1970] + self.config.signatureTimeoutInterval;
+    if (deadLine == 0 || deadLine < [[NSDate date] timeIntervalSince1970]) {
+        deadLine = [[NSDate date] timeIntervalSince1970] + 24*3600;
+    }
     InspurUpToken *t = [[InspurUpToken alloc] initBucket:bucket
                                         deadLine:deadLine
-                                       accessKey:accessKey];
-    t.signatureHandler = ^(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result) {
-        signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
-            result(signature, error);
+                                       accessKey:accessKey
+                                                   domin:domin];
+    t.signatureHandler = ^(NSArray<NSString *> * _Nullable contentsNeedSignature, InspurUpTokenSignatureResultHandler  _Nullable result) {
+        signatureHandler(contentsNeedSignature, ^(NSArray <NSString *>*signaturedContents, NSError *error){
+            result(signaturedContents, error);
         });
     };
     
@@ -170,8 +185,10 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 }
 
 - (void)putFile:(NSString *)filePath
+          domin:(NSString *)domin
          bucket:(NSString *)bucket
             key:(NSString *)key
+       deadLine:(NSTimeInterval)deadLine
       accessKey:(NSString *)accessKey
 signatureHanlder:(InspurUpSignatureHandler)signatureHandler
        complete:(InspurUpCompletionHandler)completionHandler
@@ -195,49 +212,31 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        [self putFileInternal:file key:key bucket:bucket accessKey:accessKey signatureHanlder:signatureHandler complete:completionHandler option:option];
+        [self putFileInternal:file
+                        domin:domin
+                          key:key
+                     deadLine:deadLine
+                       bucket:bucket
+                    accessKey:accessKey
+             signatureHanlder:signatureHandler
+                     complete:completionHandler option:option];
     }
 }
-
-#if !TARGET_OS_MACCATALYST
-- (void)putALAsset:(ALAsset *)asset
-               key:(NSString *)key
-             token:(NSString *)token
-          complete:(InspurUpCompletionHandler)completionHandler
-            option:(InspurUploadOption *)option {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
-    
-    if ([InspurUploadManager checkAndNotifyError:key token:token input:asset complete:completionHandler]) {
-        return;
-    }
-
-    @autoreleasepool {
-        NSError *error = nil;
-        __block InspurALAssetFile *file = [[InspurALAssetFile alloc] init:asset error:&error];
-        if (error) {
-            InspurResponseInfo *info = [InspurResponseInfo responseInfoWithFileError:error];
-            [InspurUploadManager complete:token
-                                  key:key
-                               source:nil
-                         responseInfo:info
-                             response:nil
-                          taskMetrics:nil
-                             complete:completionHandler];
-            return;
-        }
-        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
-    }
-#endif
-}
-#endif
 
 - (void)putPHAsset:(PHAsset *)asset
+             domin:(NSString *)domin
+            bucket:(NSString *)bucket
                key:(NSString *)key
-             token:(NSString *)token
+          deadLine:(NSTimeInterval)deadLine
+         accessKey:(NSString *)accessKey
+  signatureHanlder:(InspurUpSignatureHandler)signatureHandler
           complete:(InspurUpCompletionHandler)completionHandler
             option:(InspurUploadOption *)option {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90100)
-    
+    InspurUpToken *token = [[InspurUpToken alloc] initBucket:bucket
+                                        deadLine:deadLine
+                                       accessKey:accessKey
+                                                   domin:domin];
     if ([InspurUploadManager checkAndNotifyError:key token:token input:asset complete:completionHandler]) {
         return;
     }
@@ -247,7 +246,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
         __block InspurPHAssetFile *file = [[InspurPHAssetFile alloc] init:asset error:&error];
         if (error) {
             InspurResponseInfo *info = [InspurResponseInfo responseInfoWithFileError:error];
-            [InspurUploadManager complete:token
+            [InspurUploadManager complete:[token toString]
                                   key:key
                                source:nil
                          responseInfo:info
@@ -256,19 +255,30 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        [self putFileInternal:file
+                        domin:domin
+                          key:key
+                     deadLine:deadLine
+                       bucket:bucket
+                    accessKey:accessKey
+             signatureHanlder:signatureHandler
+                     complete:completionHandler option:option];
     }
 #endif
 }
 
 - (void)putPHAssetResource:(PHAssetResource *)assetResource
+                     domin:(NSString *)domin
+                    bucket:(NSString *)bucket
                        key:(NSString *)key
-                     token:(NSString *)token
+                  deadLine:(NSTimeInterval)deadLine
+                 accessKey:(NSString *)accessKey
+          signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                   complete:(InspurUpCompletionHandler)completionHandler
                     option:(InspurUploadOption *)option {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000)
-    
-    if ([InspurUploadManager checkAndNotifyError:key token:token input:assetResource complete:completionHandler]) {
+    InspurUpToken *token = [[InspurUpToken alloc] init];
+    if ([InspurUploadManager checkAndNotifyError:key token:[token toString] input:assetResource complete:completionHandler]) {
         return;
     }
     @autoreleasepool {
@@ -276,7 +286,7 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
         __block InspurPHAssetResource *file = [[InspurPHAssetResource alloc] init:assetResource error:&error];
         if (error) {
             InspurResponseInfo *info = [InspurResponseInfo responseInfoWithFileError:error];
-            [InspurUploadManager complete:token
+            [InspurUploadManager complete:[token toString]
                                   key:key
                                source:nil
                          responseInfo:info
@@ -285,20 +295,31 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                              complete:completionHandler];
             return;
         }
-        //[self putFileInternal:file key:key token:token complete:completionHandler option:option];
+        [self putFileInternal:file
+                        domin:domin
+                          key:key
+                     deadLine:deadLine
+                       bucket:bucket
+                    accessKey:accessKey
+             signatureHanlder:signatureHandler
+                     complete:completionHandler option:option];
     }
 #endif
 }
 
 - (void)putFileInternal:(id<InspurFileDelegate>)file
+                  domin:(NSString *)domin
                     key:(NSString *)key
+               deadLine:(NSTimeInterval)deadLine
                  bucket:(NSString *)bucket
               accessKey:(NSString *)accessKey
         signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                complete:(InspurUpCompletionHandler)completionHandler
                  option:(InspurUploadOption *)option {
     [self putInternal:[InspurUploadSourceFile file:file]
+                domin:domin
                   key:key
+             deadLine:deadLine
                bucket:bucket
             accessKey:accessKey
      signatureHanlder:signatureHandler
@@ -307,7 +328,9 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
 }
 
 - (void)putInternal:(id<InspurUploadSource>)source
+              domin:(NSString *)domin
                 key:(NSString *)key
+           deadLine:(NSTimeInterval)deadLine
              bucket:(NSString *)bucket
           accessKey:(NSString *)accessKey
     signatureHanlder:(InspurUpSignatureHandler)signatureHandler
@@ -315,14 +338,16 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
              option:(InspurUploadOption *)option {
     
     @autoreleasepool {
-        
-        long deadLine = [[NSDate date] timeIntervalSince1970] + self.config.signatureTimeoutInterval;
+        if (deadLine == 0 || deadLine < [[NSDate date] timeIntervalSince1970]) {
+            deadLine = [[NSDate date] timeIntervalSince1970] + 24 * 3600;
+        }
         InspurUpToken *t = [[InspurUpToken alloc] initBucket:bucket
                                             deadLine:deadLine
-                                           accessKey:accessKey];
-        t.signatureHandler = ^(NSString *contentNeedSignature, InspurUpTokenSignatureResultHandler result) {
-            signatureHandler(contentNeedSignature, ^(NSString *signature, NSError *error){
-                result(signature, error);
+                                           accessKey:accessKey
+                                                       domin:domin];
+        t.signatureHandler = ^(NSArray<NSString *> * _Nullable contentsNeedSignature, InspurUpTokenSignatureResultHandler  _Nullable result) {
+            signatureHandler(contentsNeedSignature, ^(NSArray <NSString *>*signaturedContents, NSError *error){
+                result(signaturedContents, error);
             });
         };
         
@@ -366,11 +391,13 @@ signatureHanlder:(InspurUpSignatureHandler)signatureHandler
                 return;
             }
             [self putData:data
-                   bucket:@""
+                    domin:domin
+                   bucket:bucket
                  fileName:[source getFileName]
                       key:key
-                accessKey:@""
-         signatureHanlder:nil
+                 deadLine:deadLine
+                accessKey:accessKey
+         signatureHanlder:signatureHandler
                  complete:completionHandler
                    option:option];
             /*

@@ -51,6 +51,9 @@
             uploadInfo.expireAt = expireAt;
             [self recordUploadInfo];
         }
+        
+        [self updateKeyIfNeeded:responseInfo];
+        
         completeHandler(responseInfo, metrics, response);
         [self destroyUploadRequestTransaction:transaction];
     }];
@@ -88,7 +91,14 @@
         completeHandler(YES, responseInfo, nil, nil);
         return;
     }
-    
+    long long sourceSize = uploadInfo.getSourceSize;
+    long long dataSize = data.size;
+    long long maxPartNumber = 0;
+    if (sourceSize >0 && dataSize > 0) {
+        BOOL mod = (sourceSize % dataSize) > 0;
+        long long count = (sourceSize / dataSize);
+        maxPartNumber = count + (mod ? 1 : 0);
+    }    
     kInspurWeakSelf;
     void (^progress)(long long, long long) = ^(long long totalBytesWritten, long long totalBytesExpectedToWrite){
         kInspurStrongSelf;
@@ -101,6 +111,7 @@
     kInspurWeakObj(transaction);
     [transaction uploadPart:uploadInfo.uploadId
                   partIndex:[uploadInfo getPartIndexOfData:data]
+                   maxIndex:maxPartNumber
                    partData:data.data
                    progress:progress
                    complete:^(InspurResponseInfo * _Nullable responseInfo, InspurUploadRegionRequestMetrics * _Nullable metrics, NSDictionary * _Nullable response) {

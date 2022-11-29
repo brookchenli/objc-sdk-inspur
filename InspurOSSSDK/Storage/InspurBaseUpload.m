@@ -281,6 +281,18 @@ NSString *const InspurUploadUpTypeResumableV2 = @"resumable_v2";
     [self.currentRegionRequestMetrics addMetrics:metrics];
 }
 
+- (void)replaceKeyWith:(NSString *)key {
+    _key = key;
+}
+
+- (void)updateKeyIfNeeded:(InspurResponseInfo *)responseInfo {
+    NSString *key = self.key;
+    NSString *objectName = responseInfo.responseHeader[@"object-name"];
+    if (!key && objectName.length > 0) {
+        [self replaceKeyWith:objectName];
+    }
+}
+
 - (InspurUploadTaskMetrics *)metrics {
     if (_metrics == nil) {
         _metrics = [InspurUploadTaskMetrics taskMetrics:self.upType];

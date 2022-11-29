@@ -28,12 +28,14 @@
 
 - (instancetype)initBucket:(NSString *)bucket
                   deadLine:(long)deadLine
-                 accessKey:(NSString *)accessKey {
+                 accessKey:(NSString *)accessKey
+                     domin:(NSString *)domin{
     if (self = [super init]) {
         _token = [NSString stringWithFormat:@"%@:%@:%@", bucket, accessKey,@(deadLine)];
         _access = accessKey;
         _bucket = bucket;
         _deadline = deadLine;
+        _domin = domin;
     }
     return self;
 }
@@ -82,7 +84,7 @@
     NSString *bucket = array[0];
     NSString *accessKey = array[1];
     long deadLine = [array[2] longValue];
-    return [[InspurUpToken alloc] initBucket:bucket deadLine:deadLine accessKey:accessKey];
+    return [[InspurUpToken alloc] initBucket:bucket deadLine:deadLine accessKey:accessKey domin:@""];
 }
 
 
@@ -131,6 +133,7 @@
 - (NSString *)toString {
     return _token;
 }
+
 
 
 @end
